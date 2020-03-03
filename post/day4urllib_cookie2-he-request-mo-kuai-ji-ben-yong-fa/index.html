@@ -1,0 +1,466 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Day4#urllib_cookie*2和request模块基本用法 - 温故而知新</title>
+<link rel="shortcut icon" href="https://zhanghaibin-a.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"> -->
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Day4#urllib_cookie*2和request模块基本用法 - 温故而知新 - Atom Feed" href="https://zhanghaibin-a.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="1、验证cookie的用处
+#coding=utf-8
+import ssl #正常请求的时候需要ssl证书验证
+import urllib.request
+import random
+ssl._create_default_https_c..." />
+  <meta property="og:title" content="Day4#urllib_cookie*2和request模块基本用法 - 温故而知新">
+  <meta property="og:description" content="1、验证cookie的用处
+#coding=utf-8
+import ssl #正常请求的时候需要ssl证书验证
+import urllib.request
+import random
+ssl._create_default_https_c..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://zhanghaibin-a.github.io/post/day4urllib_cookie2-he-request-mo-kuai-ji-ben-yong-fa/" />
+  <meta property="og:image" content="https://zhanghaibin-a.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="Day4#urllib_cookie*2和request模块基本用法 - 温故而知新">
+  <meta name="twitter:description" content="1、验证cookie的用处
+#coding=utf-8
+import ssl #正常请求的时候需要ssl证书验证
+import urllib.request
+import random
+ssl._create_default_https_c...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zhanghaibin-a.github.io/post/day4urllib_cookie2-he-request-mo-kuai-ji-ben-yong-fa/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://zhanghaibin-a.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      温故而知新
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          Day4#urllib_cookie*2和request模块基本用法
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-03-04 · 6 min read</div>
+          
+            <a href="https://zhanghaibin-a.github.io/tag/eeNrmL2aR/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              python爬虫30day
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <h3 id="1-验证cookie的用处">1、验证cookie的用处</h3>
+<pre><code class="language-python">#coding=utf-8
+import ssl #正常请求的时候需要ssl证书验证
+import urllib.request
+import random
+ssl._create_default_https_context = ssl._create_unverified_context #全局取消证书验证
+#请求的URL
+url=&quot;https://vip.xunlei.com/vip_service/myvip/index.html&quot;
+#添加请求头
+headers={&quot;User-Agent&quot;:&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36&quot;}
+#构建请求对象
+requests=urllib.request.Request(url=url,headers=headers)
+#发送请求数据
+pesponse=urllib.request.urlopen(requests)
+#保存响应信息
+data=pesponse.read().decode()
+with open(&quot;01cook.html&quot;,&quot;w&quot;) as i :
+    i.write(data)
+
+#if __name__==&quot;__main__&quot;:
+#    proxy_user()
+</code></pre>
+<h3 id="2-请求头添加cookie登陆">2、请求头添加cookie登陆</h3>
+<pre><code class="language-python">#coding=utf-8
+import ssl #正常请求的时候需要ssl证书验证
+import urllib.request
+import random
+ssl._create_default_https_context = ssl._create_unverified_context #全局取消证书验证
+#请求的URL
+url=&quot;https://i.xunlei.com/xluser/account/acc_safe.html&quot;
+#添加请求头
+headers={&quot;User-Agent&quot;:&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36&quot;,
+         &quot;Cookie&quot;:&quot;XLA_CI=133c6efb9fe8a8d1b193cf17e6a6a96a; deviceid=wdi10.ef3179f1469e3d52dbe3779097ac1aa6ca27cdd594e2325b44b6f56fcb5598b3; token=e7290d8cf2c54bf7574191fe1e236d27b8a5ff72731737546aad71965480824c505c91b99abc872802f4f1d5d6d389c2; error=success; errdesc=5pON5L2c5oiQ5Yqf; error_description=Success; order=422086; score=200; upgrade=; creditkey=ck0.jyoJPrPmkao_pjOSxcigTaMQtAYeCZEdQTJVIOb-9gyF5XVd1IVoiYPGr7UEUqQV44N1ykUBOYiomzrbzyLHtyZkfT6Bvh1avcsuz4cqjs6NwlfNHDCf4LUcfalQWG_X; usernick=159%2A%2A%2A%2A3937; isvip=0; userid=787932419; usertype=0; logintype=; usernewno=1622895537; usrname=; state=0; verify_type=; _x_t_=0; flowid=4b963a81-07ec-4124-8c0b-f445722b7505; Hm_lvt_eff9bb8c1851f3f4e2fb515943970a1d=1580629441,1580629520; Hm_lpvt_eff9bb8c1851f3f4e2fb515943970a1d=1580629520; page_source=; blankReferrer=https%3A//i.xunlei.com/xluser/account/acc_safe.html; track=%7B%22setpwdP%22%3A%22https%3A//i.xunlei.com/xluser/account/acc_safe.html%22%7D; codeinfo=%7B%22phone%22%3A%7B%22ukey%22%3A%22dca4cf3192efae41ef815df63fc64d3e1580629559SetLoginPwd-GetMobileVerifyCode%22%2C%22token%22%3A%22c66a37dfb4db16f32db14fbd0251f98ef24b5a7b430c4b17c03981f5df259b22e3a1a96a2ba5a47d94b6048b250b396e%22%7D%2C%22mail%22%3A%7B%22ukey%22%3A%22%22%2C%22token%22%3A%22%22%7D%7D; loginkey=lk10.e953d28f63c09153fa727b07f7c5c77f267227b0a57158651315b0583215521d91e121045ea2a5b200b160e9b7539ee4; version=1; sessionid=ws001.F89B471188CDC3B192E534B60DB7E15B; VERIFY_KEY=2A0DE723F7FD84B3026EF47BE2CEFF79; XLA_RFundefined=v_pc_hygw_ggong_hover_grxx; referfrom=v_pc_hygw_ggong_hover_grxx; appidstack=22003%2C101%2C22003%2C101%2C22003&quot;}
+#构建请求对象
+requests=urllib.request.Request(url=url,headers=headers)
+#发送请求数据
+print(requests.headers)
+pesponse=urllib.request.urlopen(requests)
+#保存响应信息
+data=pesponse.read().decode()
+with open(&quot;01cook.html&quot;,&quot;w&quot;) as i :
+    i.write(data)
+
+#if __name__==&quot;__main__&quot;:
+#    proxy_user()
+</code></pre>
+<h3 id="3-代码登陆获取cookie">3、代码登陆获取cookie</h3>
+<pre><code class="language-python">#coding=utf-8
+import ssl #正常请求的时候需要ssl证书验证
+import urllib.request
+from http import cookiejar
+from urllib import parse
+import time
+timestamp=str((time.time())*1000)
+ssl._create_default_https_context = ssl._create_unverified_context #全局取消证书验证
+&quot;&quot;&quot;
+获取个人中心的页面
+1、代码登陆 登陆成功 cookie(有效）
+2、自动带着cookie去请求个人中心
+&quot;&quot;&quot;
+#1、代码登陆：
+    #1.1登陆的网址
+url=&quot;https://www.yaozh.com/login/&quot;
+    #1.2登陆的参数
+loging_form_data={
+    &quot;username&quot;:&quot;qq1403586993&quot;,
+    &quot;pwd&quot;:&quot;zhanghaibin0.&quot;,
+    &quot;formhash&quot;:&quot;AF8818A924&quot;,
+    &quot;backurl&quot;:&quot;%2F%2Fwww.yaozh.com&quot;
+    }
+
+#1、参数需要转译
+login_str=parse.urlencode(loging_form_data).encode(&quot;utf-8&quot;)
+print(login_str)
+#发送post登陆请求
+cookie_jar=cookiejar.CookieJar()
+#定义有添加cook功能的处理器
+cook_hanlder=urllib.request.HTTPCookieProcessor(cookie_jar)
+#根据处理器生产opener
+opener=urllib.request.build_opener(cook_hanlder)
+#带着参数发送post请求
+headers = {&quot;User-Agent&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36&quot;}
+login_request=urllib.request.Request(url=url,headers=headers,data=login_str)
+#如歌登陆成功，cookjar自动保存cookie
+#1.2发送登陆请求
+a=opener.open(login_request)
+dataa=a.read().decode(&quot;utf-8&quot;)
+#2.带着cooke去访问个人中心
+center=&quot;https://www.yaozh.com/member/&quot;
+#2.1创建请求头
+center_request=urllib.request.Request(url=center,headers=headers)
+respones=opener.open(center_request)
+#2.2保存数据
+data=respones.read().decode(&quot;utf-8&quot;)
+with open(&quot;02cook.html&quot;,&quot;w&quot;)as f :
+    f.write(data)
+
+</code></pre>
+<h3 id="4-request模块基本用户">4、request模块基本用户</h3>
+<pre><code class="language-python">#coding=utf-8
+import requests
+url='http://www.baidu.com'
+response=requests.get(url)
+#content属性，返回的类型的是bytes
+data=response.content.decode('utf-8')
+#text属性 返回的类型是str
+data=response.text
+print(type(data)) #&lt;class 'str'&gt;
+
+</code></pre>
+<h3 id="5-requests_模块基本用户">5、requests_模块基本用户</h3>
+<pre><code class="language-python">#coding=utf-8
+import requests
+class RequstSpider(object):
+    def __init__(self):
+        url='https://www.baidu.com'
+        headers={
+            'User-Agent':&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 14_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36&quot;
+        }
+        self.response=requests.get(url,headers=headers)
+
+    def run(self):
+        data=self.response.content
+        #获取求情头
+        request_headers=self.response.request.headers
+        print(request_headers)
+        #获取响应头
+        response_headers=self.response.headers
+        print(response_headers)
+        #获取状态码
+        code=self.response.status_code
+        print(code)
+        #获取请求的cookie
+        request_cookie=self.response.request._cookies
+        print(request_cookie)
+        #获取响应的cookie
+        response_cookie=self.response.cookies
+        print(response_cookie)
+    
+if __name__=='__main__':
+    RequstSpider().run()
+</code></pre>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div id="vlaine-comment"></div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Powered by <a href="http://zhang-blog.github.io/" target="_blank">Gridea</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1-%E9%AA%8C%E8%AF%81cookie%E7%9A%84%E7%94%A8%E5%A4%84">1、验证cookie的用处</a></li>
+<li><a href="#2-%E8%AF%B7%E6%B1%82%E5%A4%B4%E6%B7%BB%E5%8A%A0cookie%E7%99%BB%E9%99%86">2、请求头添加cookie登陆</a></li>
+<li><a href="#3-%E4%BB%A3%E7%A0%81%E7%99%BB%E9%99%86%E8%8E%B7%E5%8F%96cookie">3、代码登陆获取cookie</a></li>
+<li><a href="#4-request%E6%A8%A1%E5%9D%97%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%88%B7">4、request模块基本用户</a></li>
+<li><a href="#5-requests_%E6%A8%A1%E5%9D%97%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%88%B7">5、requests_模块基本用户</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zhanghaibin-a.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://zhanghaibin-a.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  <script type="application/javascript" src="https://zhanghaibin-a.github.io/media/scripts/valine.min.js"></script>
+  <script type="application/javascript">
+  
+    // var valine = new Valine();
+    // valine.init({
+    //   el: '#vlaine-comment',
+    //   appId: '',
+    //   appKey: '',
+    //   notify: false,
+    //   avatar: 'mp',
+    //   verify: true,
+    //   placeholder: '来都来了，不妨评论一下',
+    //   visitor: false,
+    //   highlight: false,
+    //   recordIP: false,
+    // })
+  
+    var valine = new Valine();
+    valine.init({
+      el: '#vlaine-comment',
+      appId: '',
+      appKey: '',
+      notify: false,
+      verify: false,
+      visitor: true,
+      avatar: 'mp',
+      placeholder: '加入讨论...'
+    })
+  </script>
+</body>
+
+</html>
