@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zhanghaibin-a.github.io</id>
     <title>温故而知新</title>
-    <updated>2020-03-04T18:39:28.874Z</updated>
+    <updated>2020-03-05T15:33:01.864Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zhanghaibin-a.github.io"/>
     <link rel="self" href="https://zhanghaibin-a.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://zhanghaibin-a.github.io/images/avatar.png</logo>
     <icon>https://zhanghaibin-a.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 温故而知新</rights>
+    <entry>
+        <title type="html"><![CDATA[C 语言入门教程]]></title>
+        <id>https://zhanghaibin-a.github.io/post/c-yu-yan-ru-men-jiao-cheng/</id>
+        <link href="https://zhanghaibin-a.github.io/post/c-yu-yan-ru-men-jiao-cheng/">
+        </link>
+        <updated>2020-03-05T15:04:53.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Day7#beautiful_soup使用方法]]></title>
         <id>https://zhanghaibin-a.github.io/post/day7beautiful_soup-shi-yong-fang-fa/</id>

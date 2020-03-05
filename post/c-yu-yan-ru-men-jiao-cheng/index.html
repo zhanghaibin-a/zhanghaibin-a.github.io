@@ -1,0 +1,440 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>C 语言入门教程 - 温故而知新</title>
+<link rel="shortcut icon" href="https://zhanghaibin-a.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"> -->
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="C 语言入门教程 - 温故而知新 - Atom Feed" href="https://zhanghaibin-a.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="1、为什么是C#Hello World
+1、创建文件
+touch 1-1.c
+2、编写c程序
+#include&amp;lt;stdio.h&amp;gt; 
+
+int main()
+{
+    printf(&amp;quot;Hello World&amp;quot;..." />
+  <meta property="og:title" content="C 语言入门教程 - 温故而知新">
+  <meta property="og:description" content="1、为什么是C#Hello World
+1、创建文件
+touch 1-1.c
+2、编写c程序
+#include&amp;lt;stdio.h&amp;gt; 
+
+int main()
+{
+    printf(&amp;quot;Hello World&amp;quot;..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://zhanghaibin-a.github.io/post/c-yu-yan-ru-men-jiao-cheng/" />
+  <meta property="og:image" content="https://zhanghaibin-a.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="C 语言入门教程 - 温故而知新">
+  <meta name="twitter:description" content="1、为什么是C#Hello World
+1、创建文件
+touch 1-1.c
+2、编写c程序
+#include&amp;lt;stdio.h&amp;gt; 
+
+int main()
+{
+    printf(&amp;quot;Hello World&amp;quot;...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zhanghaibin-a.github.io/post/c-yu-yan-ru-men-jiao-cheng/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://zhanghaibin-a.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      温故而知新
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          C 语言入门教程
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-03-05 · 3 min read</div>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <h3 id="1-为什么是chello-world">1、为什么是C#Hello World</h3>
+<p>1、创建文件</p>
+<p>touch 1-1.c</p>
+<p>2、编写c程序</p>
+<pre><code class="language-C">#include&lt;stdio.h&gt; 
+
+int main()
+{
+    printf(&quot;Hello World&quot;);
+
+    return 0;
+}
+</code></pre>
+<p>3、编译程序</p>
+<pre><code class="language-bash">gcc -o 1-1 1-1.c
+</code></pre>
+<blockquote>
+<p>GCC 是由 GNU 开发的编程语言编译器，用来编译 C 语言程序。</p>
+<p><code>gcc -o 1-1 1-1.c</code> 命令调用编译器 GCC 对文件 <code>1-1.c</code> 进行编译，完成了 “预处理-编译-汇编-链接”，生成了可执行文件 <code>1-1</code>。</p>
+</blockquote>
+<p>4、运行编译程序</p>
+<pre><code class="language-bash">zhang$ ./1-1 
+Hello World
+</code></pre>
+<h3 id="2-开发环境和剖析第一个c语言">2、开发环境和剖析第一个C语言</h3>
+<h4 id="21-程序创建4步骤">2.1 程序创建4步骤</h4>
+<ol>
+<li>
+<p>编辑</p>
+<blockquote>
+<p>编辑过程就是创建和修改 C 程序的源代码，linux常用编辑器为vim</p>
+</blockquote>
+</li>
+<li>
+<p>编译</p>
+<blockquote>
+<p>编译器将源码转换机器语言，编译过查找错误并报告。编译输出结构为对象代码，存放文件为对象文件。linux扩展名为.0，windows为.obj“ <code>gcc -o 1-1 1-1.c</code> ”命令包含编译也包含链接，生成可执行文件1-1</p>
+</blockquote>
+</li>
+<li>
+<p>链接</p>
+<blockquote>
+<p>链接器将源代码文件中由编译器产生的各种对象模块组合起来，再从 C 语言提供的程序库中添加必要的代码模块，将它们组合成一个可执行文件。链接器也可以检测和报告错误，例如程序中引用了一个根本不存在的库组件。</p>
+</blockquote>
+</li>
+<li>
+<p>执行</p>
+<blockquote>
+<p>执行阶段就是成功完成了前述的三个过程后，运行程序。但是这个阶段可能会出现各种错误，包括输出错误，计算机什么也不做哦，甚至是计算机崩溃。</p>
+</blockquote>
+</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://doc.shiyanlou.com/c/2-11.png/wm" alt="2-3.1.4-1" loading="lazy"></figure>
+<h4 id="22语言的简单结构">2.2语言的简单结构</h4>
+<ol>
+<li>
+<p>预处理指令</p>
+<blockquote>
+<p>#include &lt;stdio.h&gt; C语言中的标准输入输出库，’#‘程序执行前预处理操作,编译器编译开始前预先处理指令(相当于加载模块 stdio.h)</p>
+</blockquote>
+</li>
+<li>
+<p>main(函数)</p>
+<blockquote>
+<p>main() 函数是“主函数”。每个 C 程序都由一个或多个函数组成，但每个 C 程序都必须有一个 main() 函数——因为每个程序总是从这个函数开始执行。</p>
+</blockquote>
+</li>
+<li>
+<p>程序框架</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+int main()
+{
+    XXXX 
+    return 0;
+}
+</code></pre>
+</li>
+<li>
+<p>printf()</p>
+<blockquote>
+<p><code>printf()</code> 是 C 编译系统提供的函数库中的输出函数。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="3-顺序程序设计-数据类型一">3、顺序程序设计-数据类型（一）</h3>
+<h3 id="4-顺序程序设计-数据类型二">4、顺序程序设计-数据类型（二）</h3>
+<h3 id="5-顺序程序设计-运算符和数据转换">5、顺序程序设计-运算符和数据转换</h3>
+<h3 id="55-摄氏度转华氏温度">5.5、摄氏度转华氏温度</h3>
+<h3 id="6-选择程序设计">6、选择程序设计</h3>
+<h3 id="7-循环程序设计">7、循环程序设计</h3>
+<h3 id="75-序列求和">7.5、序列求和</h3>
+<h3 id="8-c语言数组">8、C语言数组</h3>
+<h3 id="9-模块化程序设计">9、模块化程序设计</h3>
+<h3 id="10-指针一">10、指针（一）</h3>
+<h3 id="11-指针二">11、指针（二）</h3>
+<h3 id="115修复指针使用错误的bug">11.5修复指针使用错误的BUG</h3>
+<h3 id="12-文件和文件的输入与输出">12 、文件和文件的输入与输出</h3>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div id="vlaine-comment"></div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Powered by <a href="http://zhang-blog.github.io/" target="_blank">Gridea</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AFchello-world">1、为什么是C#Hello World</a></li>
+<li><a href="#2-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%92%8C%E5%89%96%E6%9E%90%E7%AC%AC%E4%B8%80%E4%B8%AAc%E8%AF%AD%E8%A8%80">2、开发环境和剖析第一个C语言</a>
+<ul>
+<li><a href="#21-%E7%A8%8B%E5%BA%8F%E5%88%9B%E5%BB%BA4%E6%AD%A5%E9%AA%A4">2.1 程序创建4步骤</a></li>
+<li><a href="#22%E8%AF%AD%E8%A8%80%E7%9A%84%E7%AE%80%E5%8D%95%E7%BB%93%E6%9E%84">2.2语言的简单结构</a></li>
+</ul>
+</li>
+<li><a href="#3-%E9%A1%BA%E5%BA%8F%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%80">3、顺序程序设计-数据类型（一）</a></li>
+<li><a href="#4-%E9%A1%BA%E5%BA%8F%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%BA%8C">4、顺序程序设计-数据类型（二）</a></li>
+<li><a href="#5-%E9%A1%BA%E5%BA%8F%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E8%BF%90%E7%AE%97%E7%AC%A6%E5%92%8C%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2">5、顺序程序设计-运算符和数据转换</a></li>
+<li><a href="#55-%E6%91%84%E6%B0%8F%E5%BA%A6%E8%BD%AC%E5%8D%8E%E6%B0%8F%E6%B8%A9%E5%BA%A6">5.5、摄氏度转华氏温度</a></li>
+<li><a href="#6-%E9%80%89%E6%8B%A9%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1">6、选择程序设计</a></li>
+<li><a href="#7-%E5%BE%AA%E7%8E%AF%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1">7、循环程序设计</a></li>
+<li><a href="#75-%E5%BA%8F%E5%88%97%E6%B1%82%E5%92%8C">7.5、序列求和</a></li>
+<li><a href="#8-c%E8%AF%AD%E8%A8%80%E6%95%B0%E7%BB%84">8、C语言数组</a></li>
+<li><a href="#9-%E6%A8%A1%E5%9D%97%E5%8C%96%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1">9、模块化程序设计</a></li>
+<li><a href="#10-%E6%8C%87%E9%92%88%E4%B8%80">10、指针（一）</a></li>
+<li><a href="#11-%E6%8C%87%E9%92%88%E4%BA%8C">11、指针（二）</a></li>
+<li><a href="#115%E4%BF%AE%E5%A4%8D%E6%8C%87%E9%92%88%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E7%9A%84bug">11.5修复指针使用错误的BUG</a></li>
+<li><a href="#12-%E6%96%87%E4%BB%B6%E5%92%8C%E6%96%87%E4%BB%B6%E7%9A%84%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA">12 、文件和文件的输入与输出</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zhanghaibin-a.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://zhanghaibin-a.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  <script type="application/javascript" src="https://zhanghaibin-a.github.io/media/scripts/valine.min.js"></script>
+  <script type="application/javascript">
+  
+    // var valine = new Valine();
+    // valine.init({
+    //   el: '#vlaine-comment',
+    //   appId: '',
+    //   appKey: '',
+    //   notify: false,
+    //   avatar: 'mp',
+    //   verify: true,
+    //   placeholder: '来都来了，不妨评论一下',
+    //   visitor: false,
+    //   highlight: false,
+    //   recordIP: false,
+    // })
+  
+    var valine = new Valine();
+    valine.init({
+      el: '#vlaine-comment',
+      appId: '',
+      appKey: '',
+      notify: false,
+      verify: false,
+      visitor: true,
+      avatar: 'mp',
+      placeholder: '加入讨论...'
+    })
+  </script>
+</body>
+
+</html>
