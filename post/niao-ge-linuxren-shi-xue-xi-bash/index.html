@@ -1,0 +1,592 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>鸟哥十章#认识学习BASH - 温故而知新</title>
+<link rel="shortcut icon" href="https://zhanghaibin-a.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"> -->
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="鸟哥十章#认识学习BASH - 温故而知新 - Atom Feed" href="https://zhanghaibin-a.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="认识学习BASH
+硬件、核心、与Shell
+
+必须要透过「Shell 」将我们输入的指令与Kernel 沟通，好让Kernel 可以控制硬件来正确无误的工作!
+
+为何要学文字接口shell
+
+远程管理:文字接口的传输速度较快,不容易出现断流..." />
+  <meta property="og:title" content="鸟哥十章#认识学习BASH - 温故而知新">
+  <meta property="og:description" content="认识学习BASH
+硬件、核心、与Shell
+
+必须要透过「Shell 」将我们输入的指令与Kernel 沟通，好让Kernel 可以控制硬件来正确无误的工作!
+
+为何要学文字接口shell
+
+远程管理:文字接口的传输速度较快,不容易出现断流..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://zhanghaibin-a.github.io/post/niao-ge-linuxren-shi-xue-xi-bash/" />
+  <meta property="og:image" content="https://zhanghaibin-a.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="鸟哥十章#认识学习BASH - 温故而知新">
+  <meta name="twitter:description" content="认识学习BASH
+硬件、核心、与Shell
+
+必须要透过「Shell 」将我们输入的指令与Kernel 沟通，好让Kernel 可以控制硬件来正确无误的工作!
+
+为何要学文字接口shell
+
+远程管理:文字接口的传输速度较快,不容易出现断流...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zhanghaibin-a.github.io/post/niao-ge-linuxren-shi-xue-xi-bash/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://zhanghaibin-a.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      温故而知新
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          鸟哥十章#认识学习BASH
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-03-11 · 8 min read</div>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <h3 id="认识学习bash">认识学习BASH</h3>
+<h4 id="硬件-核心-与shell">硬件、核心、与Shell</h4>
+<blockquote>
+<p>必须要透过「Shell 」将我们输入的指令与Kernel 沟通，好让Kernel 可以控制硬件来正确无误的工作!</p>
+</blockquote>
+<h4 id="为何要学文字接口shell">为何要学文字接口shell</h4>
+<blockquote>
+<p>远程管理:文字接口的传输速度较快,不容易出现断流情况</p>
+</blockquote>
+<h4 id="系统的合法shell与etcshells功能">系统的合法shell与/etc/shells功能</h4>
+<ol>
+<li>
+<p>常用的shell</p>
+<ul>
+<li>/bin/sh (已经被/bin/bash 所取代)</li>
+<li>/bin/bash (就是Linux 预设的shell)</li>
+<li>/bin/tcsh (整合C Shell，提供更多的功能)</li>
+<li>/bin/csh (已经被/bin/tcsh 所取代)</li>
+</ul>
+</li>
+<li>
+<p>/etc/shells</p>
+<blockquote>
+<p>系统某些服务在运行过程中，会去检查用户能够使用的 shells，而这些 shell 的查询就是借助 /etc/shells 这个文件</p>
+</blockquote>
+</li>
+<li>
+<p>用户定义的shell在哪里</p>
+<pre><code class="language-bash">[root@txtx_email ~]# vim /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+</code></pre>
+</li>
+</ol>
+<h4 id="bash-shell的功能">Bash shell的功能</h4>
+<h5 id="history命令编修能力">(history)命令编修能力</h5>
+<blockquote>
+<p>~/.bash_ history 记录的是前一.次登入以前所执行过的指令，而至于这一 次 登入所执行的指令都被暂存在内存中，当你成功的注销系统后，该指令记忆才会记录到.bash_ history 当中!</p>
+</blockquote>
+<h5 id="tab命令与文件补全功能">[tab]命令与文件补全功能</h5>
+<ul>
+<li>[Tab] 接在一一串指令的第- 一个字的后面，则为命令补全;</li>
+<li>[Tab]接在一串指令的第二个字以后时，则为「文件补齐」!</li>
+<li>若安装bash-compltion 软件，则在某些指令后面使用[tab] 按键时，可以进行I选项/参数的补齐」功能!</li>
+</ul>
+<h5 id="alias-命令别名设定功能">(alias) 命令别名设定功能</h5>
+<h5 id="工作控制-前台后台控制job-contrilforegroundbackground">工作控制、前台后台控制(job contril,foreground,background)</h5>
+<h5 id="程序化脚本shell-scripts">程序化脚本（shell scripts)</h5>
+<h5 id="通配符wildcard">通配符（Wildcard)</h5>
+<h4 id="type查询指令是否为bash-shell命令">type查询指令是否为bash shell命令</h4>
+<blockquote>
+<p>bash包含了内置指令如、cd \umask。利用type可以查看命令是bash内置还是外部指令</p>
+</blockquote>
+<pre><code class="language-bash">type  [- tpa ] name
+选项与参数:
+:不加任何选项与参数时，type 会显示出name 是外部指令还是bash 内建指令
+-t:当加入t参数时type会将name以底下这些字眼显示出他的意义:
+		file: 表示为外部指令:
+		alias :表示该指令为命令别名所设定的名称:
+		builtin :表示该指令为bash内建的指令功能;
+-p :如果后面接的name为外部指令时，才会显示完整文件名:
+-a :会由PATH变量定义的路径中，将所有含name  的指令都列出来，包含alias
+
+范例一:查询ls指令是否为bash 内置
+[root@txtx_email ~]# type ls
+ls is aliased to `ls --color=auto' #ls是alias
+
+[root@txtx_email ~]# type -t ls
+alias
+
+[root@txtx_email ~]# type -a ls
+ls is aliased to `ls --color=auto'
+ls is /usr/bin/ls  #ls所在路径
+
+范例二、cd 
+[root@txtx_email ~]#  type cd 
+cd is a shell builtin #内置命令
+</code></pre>
+<h4 id="指令下达的快速编辑按钮">指令下达的快速编辑按钮</h4>
+<pre><code class="language-bash">范例:如果指令串太长的话，如何使用两行来输出?
+[root@txtx_email ~]# cp /etc/sysconfig/network-scripts \
+&gt;  /home/zhang/ ##ctr+c取消命令
+#[Enter] 按键是紧接着反斜杠()的，两者中间没有其他字符。
+</code></pre>
+<h3 id="shell变量功能">Shell变量功能</h3>
+<h4 id="什么是变量">什么是变量</h4>
+<ol>
+<li>
+<p>变量的可变性和方便性</p>
+</li>
+<li>
+<p>影响bash环境操作的变量</p>
+<blockquote>
+<p>使用环境变量来存储系统相关数据，并允许将数据存储在内存中。</p>
+</blockquote>
+</li>
+<li>
+<p>程脚本程序设计(shell script)的好帮手</p>
+<blockquote>
+<p>[变量就是以- -组文字或符号等，来取代一些设定或者是一串保留的数据!」</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="变量的取用与设定echo变量设定规则unset">变量的取用与设定:echo,变量设定规则,unset</h4>
+<h5 id="变量的取用echo">变量的取用:echo</h5>
+<pre><code class="language-bash">#变量的两种取用格式
+[root@txtx_email ~]# echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
+[root@txtx_email ~]# echo ${PATH}
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
+#变量的设定和修改
+[root@txtx_email ~]# echo $myname
+			 #在bash 当中，当一个变量名称尚未被设定时，预设的内容是「空」的。
+[root@txtx_email ~]# myname=txtx
+[root@txtx_email ~]# echo $myname
+txtx
+[root@txtx_email ~]# myname=txss
+[root@txtx_email ~]# echo $myname
+txss
+
+</code></pre>
+<h5 id="变量的设定规则unset">变量的设定规则:unset</h5>
+<ol>
+<li>
+<p>变量与变量内容以一个等号「=」来连结</p>
+<pre><code class="language-bash">[root@txtx_email ~]#myname=txss
+</code></pre>
+</li>
+<li>
+<p>等号两边不能直接接空格符，</p>
+<pre><code class="language-bash">[root@txtx_email ~]# myname = txss
+-bash: myname: command not found
+</code></pre>
+</li>
+<li>
+<p>变量名称只能是英文字母与数字，但是开头字符不能是数字</p>
+</li>
+<li>
+<p>变量内容若有空格符可使用双引号「&quot;」或单引号「'」将变量内容结合起来，但</p>
+<p>​	<code>双引号内的特殊字符如$等，可以保有原本的特性，</code></p>
+<pre><code class="language-bash">[root@txtx_email ~]# myname=&quot;lan is $LANG&quot; 
+[root@txtx_email ~]# echo $myname
+lan is en_US.utf8
+</code></pre>
+<p>​	<code>单引号内的特殊字符则仅为一般字符(纯文本)</code></p>
+<pre><code class="language-bash">[root@txtx_email ~]# myname='lan is $LANG'
+[root@txtx_email ~]# echo $myname
+lan is $LANG
+</code></pre>
+</li>
+<li>
+<p>可用跳脱字符「\」将特殊符号(如[ [Enter ] 中,$，, 空格符, ‘  等)变成 一般字符</p>
+<pre><code class="language-bash">[root@txtx_email ~]# myname=asv\`\`ss
+[root@txtx_email ~]# echo $myname
+asv``ss
+</code></pre>
+</li>
+<li>
+<p>在一串指令的执行中，还需要藉由其他额外的指令所提供的信息时，可以使用反单引号「/`指令``」或「$(指令)」</p>
+<pre><code class="language-bash">[root@txtx_email ~]# version=$(uname -r)
+[root@txtx_email ~]# echo $version
+3.10.0-862.el7.x86_64
+[root@txtx_email ~]# version=`uname -r`
+[root@txtx_email ~]# echo $version
+3.10.0-862.el7.x86_64
+</code></pre>
+</li>
+<li>
+<p>若该变量为扩增变量内容时，则可用&quot;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">变</mi><mi mathvariant="normal">量</mi><mi mathvariant="normal">名</mi><mi mathvariant="normal">称</mi><mi mathvariant="normal">&quot;</mi><mi mathvariant="normal">或</mi></mrow><annotation encoding="application/x-tex">变量名称&quot;或</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord cjk_fallback">变</span><span class="mord cjk_fallback">量</span><span class="mord cjk_fallback">名</span><span class="mord cjk_fallback">称</span><span class="mord">&quot;</span><span class="mord cjk_fallback">或</span></span></span></span>{变量}累加内容</p>
+<pre><code class="language-bash">[root@txtx_email ~]# version=&quot;$version&quot;:+abc
+[root@txtx_email ~]# echo $version
+3.10.0-862.el7.x86_64:+abc
+[root@txtx_email ~]# version=${version}:+abc
+[root@txtx_email ~]# echo $version
+3.10.0-862.el7.x86_64:+abc:+abc
+</code></pre>
+</li>
+<li>
+<p>若该变量需要在其他子程序执行，则需要以export 来使变量变成环境变量</p>
+</li>
+<li>
+<p>通常大写字符为系统默认变量，自行设定变量可以使用小写字符，方便判断( 纯粹依照使用者兴趣与嗜好)</p>
+</li>
+<li>
+<p>取消变量的方法为使用unset :「unset 变量名称」</p>
+<pre><code class="language-bash">[root@txtx_email ~]# unset version 
+[root@txtx_email ~]# echo $version
+
+</code></pre>
+</li>
+</ol>
+<h4 id="环境变量的功能">环境变量的功能</h4>
+<blockquote>
+<p>环境变量可以帮我们达到很多功能~包括家目录的变换啊、提示字符的显示啊、执行文件搜寻的路径啊等等的，还有很多很多啦!</p>
+</blockquote>
+<h5 id="用env观察环境变量">用env观察环境变量</h5>
+<h5 id="用set观察所有变量">用set观察所有变量</h5>
+<h5 id="expire变量转换环境变量">expire：变量转换环境变量</h5>
+<pre><code class="language-bash">[root@txtx_email ~]# env
+XDG_SESSION_ID=107869  #会话ID
+HOSTNAME=txtx_email #主机名
+TERM=xterm #终端环境类型
+SHELL=/bin/bash #默认shell程序
+HISTSIZE=3000 #记录历史命令笔数
+SSH_CLIENT=117.29.43.15 31235 22 #ssh客户端信息
+SSH_TTY=/dev/pts/0 #使用哪个tty
+USER=root #使用者名称
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:xspf=01;36: #一些颜色指定
+MAIL=/var/spool/mail/root #用户所取用的mailox位置
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
+PWD=/root #目前用户所在工作目录(利用pwd取出)
+LANG=en_US.utf8 #语系
+SHLVL=1 #SHLVL 是记录多个 Bash 进程实例嵌套深度的累加器,
+HOME=/root #用户家目录
+LOGNAME=root #登陆的用户名
+SSH_CONNECTION=117.29.43.15 31235 172.17.0.16 22 ##ssh客户端和服务端信息
+LESSOPEN=||/usr/bin/lesspipe.sh %s #
+PROMPT_COMMAND=history -a; printf &quot;\033]0;%s@%s:%s\007&quot; &quot;${USER}&quot; &quot;${HOSTNAME%%.*}&quot; &quot;${PWD/#$HOME/~}&quot; #记录下出现提示符前面的命令，利用这个特性可以实现记录所有用户的操作记录。
+XDG_RUNTIME_DIR=/run/user/0
+HISTTIMEFORMAT=%F %T 
+_=/usr/bin/env #上一次使用的指令的最后一个参数
+</code></pre>
+<h4 id="变量的有效范围">变量的有效范围</h4>
+<h4 id="变量键盘读取">变量键盘读取</h4>
+<h4 id="ulimit文件系统及程序的限制关系">ulimit文件系统及程序的限制关系</h4>
+<h4 id="变量删除-取代与替换optional">变量删除、取代与替换（Optional）</h4>
+<h3 id="命令别名与历史命令">命令别名与历史命令</h3>
+<h3 id="bash-shell-操作环境">Bash Shell 操作环境</h3>
+<h3 id="管线命令pipe">管线命令(pipe)</h3>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div id="vlaine-comment"></div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Powered by <a href="http://zhang-blog.github.io/" target="_blank">Gridea</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E8%AE%A4%E8%AF%86%E5%AD%A6%E4%B9%A0bash">认识学习BASH</a>
+<ul>
+<li><a href="#%E7%A1%AC%E4%BB%B6-%E6%A0%B8%E5%BF%83-%E4%B8%8Eshell">硬件、核心、与Shell</a></li>
+<li><a href="#%E4%B8%BA%E4%BD%95%E8%A6%81%E5%AD%A6%E6%96%87%E5%AD%97%E6%8E%A5%E5%8F%A3shell">为何要学文字接口shell</a></li>
+<li><a href="#%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%90%88%E6%B3%95shell%E4%B8%8Eetcshells%E5%8A%9F%E8%83%BD">系统的合法shell与/etc/shells功能</a></li>
+<li><a href="#bash-shell%E7%9A%84%E5%8A%9F%E8%83%BD">Bash shell的功能</a>
+<ul>
+<li><a href="#history%E5%91%BD%E4%BB%A4%E7%BC%96%E4%BF%AE%E8%83%BD%E5%8A%9B">(history)命令编修能力</a></li>
+<li><a href="#tab%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%96%87%E4%BB%B6%E8%A1%A5%E5%85%A8%E5%8A%9F%E8%83%BD">[tab]命令与文件补全功能</a></li>
+<li><a href="#alias-%E5%91%BD%E4%BB%A4%E5%88%AB%E5%90%8D%E8%AE%BE%E5%AE%9A%E5%8A%9F%E8%83%BD">(alias) 命令别名设定功能</a></li>
+<li><a href="#%E5%B7%A5%E4%BD%9C%E6%8E%A7%E5%88%B6-%E5%89%8D%E5%8F%B0%E5%90%8E%E5%8F%B0%E6%8E%A7%E5%88%B6job-contrilforegroundbackground">工作控制、前台后台控制(job contril,foreground,background)</a></li>
+<li><a href="#%E7%A8%8B%E5%BA%8F%E5%8C%96%E8%84%9A%E6%9C%ACshell-scripts">程序化脚本（shell scripts)</a></li>
+<li><a href="#%E9%80%9A%E9%85%8D%E7%AC%A6wildcard">通配符（Wildcard)</a></li>
+</ul>
+</li>
+<li><a href="#type%E6%9F%A5%E8%AF%A2%E6%8C%87%E4%BB%A4%E6%98%AF%E5%90%A6%E4%B8%BAbash-shell%E5%91%BD%E4%BB%A4">type查询指令是否为bash shell命令</a></li>
+<li><a href="#%E6%8C%87%E4%BB%A4%E4%B8%8B%E8%BE%BE%E7%9A%84%E5%BF%AB%E9%80%9F%E7%BC%96%E8%BE%91%E6%8C%89%E9%92%AE">指令下达的快速编辑按钮</a></li>
+</ul>
+</li>
+<li><a href="#shell%E5%8F%98%E9%87%8F%E5%8A%9F%E8%83%BD">Shell变量功能</a>
+<ul>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%98%E9%87%8F">什么是变量</a></li>
+<li><a href="#%E5%8F%98%E9%87%8F%E7%9A%84%E5%8F%96%E7%94%A8%E4%B8%8E%E8%AE%BE%E5%AE%9Aecho%E5%8F%98%E9%87%8F%E8%AE%BE%E5%AE%9A%E8%A7%84%E5%88%99unset">变量的取用与设定:echo,变量设定规则,unset</a>
+<ul>
+<li><a href="#%E5%8F%98%E9%87%8F%E7%9A%84%E5%8F%96%E7%94%A8echo">变量的取用:echo</a></li>
+<li><a href="#%E5%8F%98%E9%87%8F%E7%9A%84%E8%AE%BE%E5%AE%9A%E8%A7%84%E5%88%99unset">变量的设定规则:unset</a></li>
+</ul>
+</li>
+<li><a href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E5%8A%9F%E8%83%BD">环境变量的功能</a>
+<ul>
+<li><a href="#%E7%94%A8env%E8%A7%82%E5%AF%9F%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">用env观察环境变量</a></li>
+<li><a href="#%E7%94%A8set%E8%A7%82%E5%AF%9F%E6%89%80%E6%9C%89%E5%8F%98%E9%87%8F">用set观察所有变量</a></li>
+<li><a href="#expire%E5%8F%98%E9%87%8F%E8%BD%AC%E6%8D%A2%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">expire：变量转换环境变量</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%98%E9%87%8F%E7%9A%84%E6%9C%89%E6%95%88%E8%8C%83%E5%9B%B4">变量的有效范围</a></li>
+<li><a href="#%E5%8F%98%E9%87%8F%E9%94%AE%E7%9B%98%E8%AF%BB%E5%8F%96">变量键盘读取</a></li>
+<li><a href="#ulimit%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%8F%8A%E7%A8%8B%E5%BA%8F%E7%9A%84%E9%99%90%E5%88%B6%E5%85%B3%E7%B3%BB">ulimit文件系统及程序的限制关系</a></li>
+<li><a href="#%E5%8F%98%E9%87%8F%E5%88%A0%E9%99%A4-%E5%8F%96%E4%BB%A3%E4%B8%8E%E6%9B%BF%E6%8D%A2optional">变量删除、取代与替换（Optional）</a></li>
+</ul>
+</li>
+<li><a href="#%E5%91%BD%E4%BB%A4%E5%88%AB%E5%90%8D%E4%B8%8E%E5%8E%86%E5%8F%B2%E5%91%BD%E4%BB%A4">命令别名与历史命令</a></li>
+<li><a href="#bash-shell-%E6%93%8D%E4%BD%9C%E7%8E%AF%E5%A2%83">Bash Shell 操作环境</a></li>
+<li><a href="#%E7%AE%A1%E7%BA%BF%E5%91%BD%E4%BB%A4pipe">管线命令(pipe)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zhanghaibin-a.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://zhanghaibin-a.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  <script type="application/javascript" src="https://zhanghaibin-a.github.io/media/scripts/valine.min.js"></script>
+  <script type="application/javascript">
+  
+    // var valine = new Valine();
+    // valine.init({
+    //   el: '#vlaine-comment',
+    //   appId: '',
+    //   appKey: '',
+    //   notify: false,
+    //   avatar: 'mp',
+    //   verify: true,
+    //   placeholder: '来都来了，不妨评论一下',
+    //   visitor: false,
+    //   highlight: false,
+    //   recordIP: false,
+    // })
+  
+    var valine = new Valine();
+    valine.init({
+      el: '#vlaine-comment',
+      appId: '',
+      appKey: '',
+      notify: false,
+      verify: false,
+      visitor: true,
+      avatar: 'mp',
+      placeholder: '加入讨论...'
+    })
+  </script>
+</body>
+
+</html>
