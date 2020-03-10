@@ -14,31 +14,28 @@
 
     
 
-  <meta name="description" content="### 系统基本设定
-#### 网络设置(手动设定与DHCP自动取得)
-##### 手动设置IP nmcli
-```bash
+  <meta name="description" content="系统基本设定
+网络设置(手动设定与DHCP自动取得)
+手动设置IP nmcli
 [root@vms001 ~]# nmcli connection show  查看所有网络设备信息UUId
-[r..." />
+[root@vms001 ~]# nmcli co..." />
   <meta property="og:title" content="鸟哥二十章#系统基础设置与备份策略 - 温故而知新">
-  <meta property="og:description" content="### 系统基本设定
-#### 网络设置(手动设定与DHCP自动取得)
-##### 手动设置IP nmcli
-```bash
+  <meta property="og:description" content="系统基本设定
+网络设置(手动设定与DHCP自动取得)
+手动设置IP nmcli
 [root@vms001 ~]# nmcli connection show  查看所有网络设备信息UUId
-[r..." />
+[root@vms001 ~]# nmcli co..." />
   <meta property="og:type" content="articles">
   <meta property="og:url" content="https://zhanghaibin-a.github.io/post/niao-ge-er-shi-zhang-xi-tong-ji-chu-she-zhi-yu-bei-fen-ce-lue/" />
   <meta property="og:image" content="https://zhanghaibin-a.github.io/images/avatar.png">
   <meta property="og:image:height" content="630">
   <meta property="og:image:width" content="1200">
   <meta name="twitter:title" content="鸟哥二十章#系统基础设置与备份策略 - 温故而知新">
-  <meta name="twitter:description" content="### 系统基本设定
-#### 网络设置(手动设定与DHCP自动取得)
-##### 手动设置IP nmcli
-```bash
+  <meta name="twitter:description" content="系统基本设定
+网络设置(手动设定与DHCP自动取得)
+手动设置IP nmcli
 [root@vms001 ~]# nmcli connection show  查看所有网络设备信息UUId
-[r...">
+[root@vms001 ~]# nmcli co...">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://zhanghaibin-a.github.io/post/niao-ge-er-shi-zhang-xi-tong-ji-chu-she-zhi-yu-bei-fen-ce-lue/">
 
@@ -75,179 +72,173 @@
           
         </div>
         <div class="markdown mb-8" v-pre>
-          <p>### <strong>系统基本设定</strong></p>
-<p>#### <strong>网络设置(手动设定与DHCP自动取得)</strong></p>
-<p>##### <strong>手动设置IP nmcli</strong></p>
-<p>```bash</p>
-<p>[root@vms001 ~]# nmcli connection show  查看所有网络设备信息UUId</p>
-<p>[root@vms001 ~]# nmcli connection show [网卡名称] 查看网卡详细配置信息</p>
-<p>```</p>
+          <h3 id="系统基本设定">系统基本设定</h3>
+<h4 id="网络设置手动设定与dhcp自动取得">网络设置(手动设定与DHCP自动取得)</h4>
+<h5 id="手动设置ip-nmcli">手动设置IP nmcli</h5>
+<pre><code class="language-bash">[root@vms001 ~]# nmcli connection show  查看所有网络设备信息UUId
+[root@vms001 ~]# nmcli connection show [网卡名称] 查看网卡详细配置信息
+</code></pre>
 <p>1、</p>
-<p>```bash</p>
-<p>[root@vms001 ~]# nmcli connection show</p>
-<p>NAME         UUID                                  TYPE            DEVICE</p>
-<p>virbr0-nic   d08aeeac-4165-4bea-8aac-9512abdeb916  generic         virbr0-nic</p>
-<p>virbr0       859f174a-d397-432f-8005-8e2219272a13  bridge          virbr0</p>
-<p>eno16777728  bf04663b-1a32-4632-9690-d5b29dafd0ee  802-3-ethernet  eno16777728</p>
-<p>eno33554968  7aefc5c6-6b24-4a69-887b-1843868ba414  802-3-ethernet  eno33554968</p>
-<p>```</p>
+<pre><code class="language-bash">[root@vms001 ~]# nmcli connection show 
+NAME         UUID                                  TYPE            DEVICE      
+virbr0-nic   d08aeeac-4165-4bea-8aac-9512abdeb916  generic         virbr0-nic  
+virbr0       859f174a-d397-432f-8005-8e2219272a13  bridge          virbr0      
+eno16777728  bf04663b-1a32-4632-9690-d5b29dafd0ee  802-3-ethernet  eno16777728 
+eno33554968  7aefc5c6-6b24-4a69-887b-1843868ba414  802-3-ethernet  eno33554968
+</code></pre>
 <p>2、</p>
-<p>```bash</p>
-<p>[root@vms001 ~]# nmcli connection show eno16777728</p>
-<p>connection.id:                          eno16777728</p>
-<p>connection.uuid:                        bf04663b-1a32-4632-9690-d5b29dafd0ee</p>
-<p>connection.interface-name:              eno16777728</p>
-<p>connection.type:                        802-3-ethernet</p>
-<p>connection.autoconnect:                 yes|no #是否开机自启动</p>
-<p>........</p>
-<p>ipv4.method:                            manual|auto #自动还是手动设置网络</p>
-<p>ipv4.dns:                               192.168.26.2 #DNS</p>
-<p>ipv4.dns-search:</p>
-<p>ipv4.addresses:                         192.168.26.101/24 #IP地址和掩码</p>
-<p>ipv4.gateway:                           192.168.26.2 #网关</p>
-<p>.........</p>
-<p>IP4.ADDRESS[1]:                         192.168.26.101/24</p>
-<p>IP4.GATEWAY:                            192.168.26.2</p>
-<p>IP4.DNS[1]:                             192.168.26.2</p>
-<p>IP6.ADDRESS[1]:                         fe80::20c:29ff:fe41:a771/64</p>
-<p>IP6.GATEWAY:</p>
-<p>```</p>
+<pre><code class="language-bash">[root@vms001 ~]# nmcli connection show eno16777728 
+connection.id:                          eno16777728
+connection.uuid:                        bf04663b-1a32-4632-9690-d5b29dafd0ee
+connection.interface-name:              eno16777728
+connection.type:                        802-3-ethernet
+connection.autoconnect:                 yes|no #是否开机自启动
+........
+ipv4.method:                            manual|auto #自动还是手动设置网络
+ipv4.dns:                               192.168.26.2 #DNS
+ipv4.dns-search:                        
+ipv4.addresses:                         192.168.26.101/24 #IP地址和掩码
+ipv4.gateway:                           192.168.26.2 #网关
+.........
+IP4.ADDRESS[1]:                         192.168.26.101/24
+IP4.GATEWAY:                            192.168.26.2
+IP4.DNS[1]:                             192.168.26.2
+IP6.ADDRESS[1]:                         fe80::20c:29ff:fe41:a771/64
+IP6.GATEWAY:
+</code></pre>
 <p>3、nmcli设置网络并写入配置文件</p>
-<p>```bash</p>
-<p>[root@vms001 ~]#nmcli connection modify eno33554968 \</p>
-<p>connection.autoconnect yes \</p>
-<p>ipv4.method manual  \</p>
-<p>ipv4.addresses 192.168.1.111/24 \</p>
-<p>ipv4.gateway 192.168.1.1  \</p>
-<p>#重启网卡</p>
-<p>[root@vms001 ~]#nmcli connection up eno33554968</p>
-<p>[root@vms001 ~]#nmcli connection show eno33554968</p>
-<p>...........</p>
-<p>IP4.ADDRESS[1]:                         192.168.1.111/24</p>
-<p>IP4.GATEWAY:                            192.168.1.1</p>
-<p>IP6.ADDRESS[1]:                         fe80::20c:29ff:fe41:a77b/64</p>
-<p>```</p>
-<p>##### <strong>自动获取 DHCP</strong></p>
-<p>```bash</p>
-<p>[root@vms001 ~]# nmcli connection modify eno33554968 \</p>
-<p>connection.autoconnect \</p>
-<p>yes ipv4.method auto</p>
-<p>```</p>
+<pre><code class="language-bash">[root@vms001 ~]#nmcli connection modify eno33554968 \ 
+connection.autoconnect yes \
+ipv4.method manual  \
+ipv4.addresses 192.168.1.111/24 \ 
+ipv4.gateway 192.168.1.1  \
+#重启网卡
+[root@vms001 ~]#nmcli connection up eno33554968
+[root@vms001 ~]#nmcli connection show eno33554968
+...........
+IP4.ADDRESS[1]:                         192.168.1.111/24
+IP4.GATEWAY:                            192.168.1.1
+IP6.ADDRESS[1]:                         fe80::20c:29ff:fe41:a77b/64
+</code></pre>
+<h5 id="自动获取-dhcp">自动获取 DHCP</h5>
+<pre><code class="language-bash">[root@vms001 ~]# nmcli connection modify eno33554968 \ 
+connection.autoconnect \
+yes ipv4.method auto
+
+</code></pre>
 <!--注意:nuclei 会将配置文件写入network配置文件中,使用nmcli命令可以用tab呼出相关命令-->
-<p>#### <strong>修改主机名</strong></p>
-<p>``` bash</p>
-<p>[root@vms001 ~]# hostnamectl [set-hostname 修改主机名]</p>
-<p>#1、显示目前的主机名相关信息</p>
-<p>Static hostname: vms001.example.com</p>
-<p>​         Icon name: computer-vm</p>
-<p>​           Chassis: vm</p>
-<p>​        Machine ID: 24e6b5df83aa4e59b09fae713786188f</p>
-<p>​           Boot ID: da8781aab5ba4eac9abfc6878b2f4fbc</p>
-<p>​    Virtualization: vmware</p>
-<p>Operating System: Red Hat Enterprise Linux Server 7.1 (Maipo)</p>
-<p>​       CPE OS Name: cpe:/o:redhat:enterprise_linux:7.1:GA:server</p>
-<p>​            Kernel: Linux 3.10.0-229.el7.x86_64</p>
-<p>​      Architecture: x86_64</p>
-<p>#2、修改主机名为www.baidu.com 在修改为 vms001.example.com</p>
-<p>[root@vms001 ~]# hostnamectl set-hostname www.baidu.com</p>
-<p>[root@vms001 ~]# hostnamectl</p>
-<p>Static hostname: www.baidu.com</p>
-<p>​         Icon name: computer-vm</p>
-<p>​           Chassis: vm</p>
-<p>​        Machine ID: 24e6b5df83aa4e59b09fae713786188f</p>
-<p>​           Boot ID: da8781aab5ba4eac9abfc6878b2f4fbc</p>
-<p>​    Virtualization: vmware</p>
-<p>Operating System: Red Hat Enterprise Linux Server 7.1 (Maipo)</p>
-<p>​       CPE OS Name: cpe:/o:redhat:enterprise_linux:7.1:GA:server</p>
-<p>​            Kernel: Linux 3.10.0-229.el7.x86_64</p>
-<p>​      Architecture: x86_64</p>
-<p>[root@vms001 ~]# hostnamectl set-hostname  vms001.example.com</p>
-<p>```</p>
-<p>#### <strong>日期与时间设置</strong></p>
-<p>#### <strong>时区的显示与设定</strong></p>
-<p>```bash</p>
-<p>[root@vms001 ~]# timedatectl [command]</p>
-<p>选项:</p>
-<p>set-time TIME          Set system time #设置时间</p>
-<p>set-timezone ZONE      Set system timezone # 设置时区</p>
-<p>list-timezones         Show known timezones #列出系统支持的时区名称</p>
-<p>set-ntp BOOL           Control whether NTP is enabled #设置网络校时系统</p>
-<p>#1、显示目前的时区与时间</p>
-<p>[root@vms001 ~]# timedatectl</p>
-<p>​      Local time: Fri 2020-03-06 02:32:45 CST</p>
-<p>Universal time: Thu 2020-03-05 18:32:45 UTC</p>
-<p>​        RTC time: Thu 2020-03-05 18:32:45</p>
-<p>​        Timezone: Asia/Shanghai (CST, +0800)</p>
-<p>​     NTP enabled: no</p>
-<p>NTP synchronized: yes</p>
-<p>RTC in local TZ: no</p>
-<p>​      DST active: n/a</p>
-<p>#2、查找是否有New_york时区，并修改</p>
-<p>[root@vms001 ~]# timedatectl list-timezones |grep New</p>
-<p>America/New_York</p>
-<p>America/North_Dakota/New_Salem</p>
-<p>[root@vms001 ~]# timedatectl set-timezone &quot;America/New_York&quot;</p>
-<p>[root@vms001 ~]# timedatectl</p>
-<p>​      Local time: Thu 2020-03-05 13:37:23 EST</p>
-<p>Universal time: Thu 2020-03-05 18:37:23 UTC</p>
-<p>​        RTC time: Thu 2020-03-05 18:37:23</p>
-<p>​        Timezone: America/New_York (EST, -0500)</p>
-<p>​     NTP enabled: no</p>
-<p>NTP synchronized: yes</p>
-<p>RTC in local TZ: no</p>
-<p>​      DST active: no</p>
-<p>Last DST change: DST ended at</p>
-<p>​                  Sun 2019-11-03 01:59:59 EDT</p>
-<p>​                  Sun 2019-11-03 01:00:00 EST</p>
-<p>Next DST change: DST begins (the clock jumps one hour forward) at</p>
-<p>​                  Sun 2020-03-08 01:59:59 EST</p>
-<p>​                  Sun 2020-03-08 03:00:00 EDT</p>
-<p>```</p>
-<p>#### <strong>时间的调整</strong></p>
-<p>```bash</p>
-<p>[root@vms001 ~]# timedatectl set-time &quot;2019-3-6 02:38&quot;</p>
-<p>[root@vms001 ~]# date</p>
-<p>Wed Mar  6 02:38:02 CST 2019</p>
-<p>[root@vms001 ~]# timedatectl set-time</p>
-<p>#timedatectl set-time 修改日期后，不用在修改hwclock去修改bios时间，timedatectl一口气搞定</p>
-<p>```</p>
-<p>#### <strong>用ntpdate手动网络校时</strong></p>
-<p>```bash</p>
-<p>[root@vms001 ~]# ntpdate ntp1.aliyun.com</p>
-<p>6 Mar 02:40:42 ntpdate[46021]: the NTP socket is in use, exiting</p>
-<p>[root@vms001 ~]# ps aux |grep ntp</p>
-<p>ntp         909  0.0  0.1  29388  2024 ?        Ss   01:45   0:00 /usr/sbin/ntpd -u ntp:ntp -g</p>
-<p>root      52650  0.0  0.0 112644   960 pts/0    S+   02:43   0:00 grep --color=auto ntp</p>
-<p>[root@vms001 ~]# kill -9 909</p>
-<p>[root@vms001 ~]# ntpdate ntp1.aliyun.com</p>
-<p>6 Mar 02:46:18 ntpdate[53502]: step time server 120.25.115.20 offset 31622507.123755 sec</p>
-<p>[root@vms001 ~]# date</p>
-<p>Fri Mar  6 02:46:22 CST 2020</p>
-<p>[root@vms001 ~]# hwclock -w #写入bios记录时间</p>
-<p>```</p>
-<p>#### <strong>语系设定</strong></p>
-<p>```bash</p>
-<p>[root@vms001 ~]# cat /etc/locale.conf  #语系配置文件</p>
-<p>LANG=&quot;zh_CN.UTF-8&quot;</p>
-<p>[root@vms001 ~]# localectl</p>
-<p>System Locale: LANG=zh_CN.UTF-8 #系统语系</p>
-<p>​       VC Keymap: cn</p>
-<p>​      X11 Layout: cn</p>
-<p>[root@vms001 ~]# localectl  #tab补全可以看到一些设置</p>
-<p>list-keymaps    list-locales    set-keymap      set-locale      set-x11-keymap  status</p>
-<p>[root@vms001 ~]# locale</p>
-<p>LANG=zh_CN.UTF-8 ##当前软件的语系</p>
-<p>LC_CTYPE=&quot;en_US.utf8&quot;</p>
-<p>LC_NUMERIC=&quot;en_US.utf8&quot;</p>
-<p>......</p>
-<p>LC_MEASUREMENT=&quot;en_US.utf8&quot;</p>
-<p>LC_IDENTIFICATION=&quot;en_US.utf8&quot;</p>
-<p>LC_ALL=en_US.utf8</p>
-<p>1、修改语系</p>
-<p>[root@vms001 ~]# localectl set-locale LANG=zh_CN.utf-8</p>
-<p>或</p>
-<p>[root@vms001 ~]# export LC_ALL=zh_CN.utf-8</p>
-<p>```</p>
+<h4 id="修改主机名">修改主机名</h4>
+<pre><code class="language-bash">[root@vms001 ~]# hostnamectl [set-hostname 修改主机名]
+#1、显示目前的主机名相关信息
+   Static hostname: vms001.example.com
+         Icon name: computer-vm
+           Chassis: vm
+        Machine ID: 24e6b5df83aa4e59b09fae713786188f
+           Boot ID: da8781aab5ba4eac9abfc6878b2f4fbc
+    Virtualization: vmware
+  Operating System: Red Hat Enterprise Linux Server 7.1 (Maipo)
+       CPE OS Name: cpe:/o:redhat:enterprise_linux:7.1:GA:server
+            Kernel: Linux 3.10.0-229.el7.x86_64
+      Architecture: x86_64
+#2、修改主机名为www.baidu.com 在修改为 vms001.example.com
+[root@vms001 ~]# hostnamectl set-hostname www.baidu.com
+[root@vms001 ~]# hostnamectl 
+   Static hostname: www.baidu.com
+         Icon name: computer-vm
+           Chassis: vm
+        Machine ID: 24e6b5df83aa4e59b09fae713786188f
+           Boot ID: da8781aab5ba4eac9abfc6878b2f4fbc
+    Virtualization: vmware
+  Operating System: Red Hat Enterprise Linux Server 7.1 (Maipo)
+       CPE OS Name: cpe:/o:redhat:enterprise_linux:7.1:GA:server
+            Kernel: Linux 3.10.0-229.el7.x86_64
+      Architecture: x86_64
+[root@vms001 ~]# hostnamectl set-hostname  vms001.example.com
+</code></pre>
+<h4 id="日期与时间设置">日期与时间设置</h4>
+<h4 id="时区的显示与设定">时区的显示与设定</h4>
+<pre><code class="language-bash">[root@vms001 ~]# timedatectl [command]
+选项:
+  set-time TIME          Set system time #设置时间
+  set-timezone ZONE      Set system timezone # 设置时区
+  list-timezones         Show known timezones #列出系统支持的时区名称
+  set-ntp BOOL           Control whether NTP is enabled #设置网络校时系统
+
+#1、显示目前的时区与时间
+[root@vms001 ~]# timedatectl 
+      Local time: Fri 2020-03-06 02:32:45 CST
+  Universal time: Thu 2020-03-05 18:32:45 UTC
+        RTC time: Thu 2020-03-05 18:32:45
+        Timezone: Asia/Shanghai (CST, +0800)
+     NTP enabled: no
+NTP synchronized: yes
+ RTC in local TZ: no
+      DST active: n/a
+#2、查找是否有New_york时区，并修改
+[root@vms001 ~]# timedatectl list-timezones |grep New
+America/New_York
+America/North_Dakota/New_Salem
+[root@vms001 ~]# timedatectl set-timezone &quot;America/New_York&quot;
+[root@vms001 ~]# timedatectl 
+      Local time: Thu 2020-03-05 13:37:23 EST
+  Universal time: Thu 2020-03-05 18:37:23 UTC
+        RTC time: Thu 2020-03-05 18:37:23
+        Timezone: America/New_York (EST, -0500)
+     NTP enabled: no
+NTP synchronized: yes
+ RTC in local TZ: no
+      DST active: no
+ Last DST change: DST ended at
+                  Sun 2019-11-03 01:59:59 EDT
+                  Sun 2019-11-03 01:00:00 EST
+ Next DST change: DST begins (the clock jumps one hour forward) at
+                  Sun 2020-03-08 01:59:59 EST
+                  Sun 2020-03-08 03:00:00 EDT
+</code></pre>
+<h4 id="时间的调整">时间的调整</h4>
+<pre><code class="language-bash">[root@vms001 ~]# timedatectl set-time &quot;2019-3-6 02:38&quot;
+[root@vms001 ~]# date 
+Wed Mar  6 02:38:02 CST 2019
+[root@vms001 ~]# timedatectl set-time
+#timedatectl set-time 修改日期后，不用在修改hwclock去修改bios时间，timedatectl一口气搞定
+</code></pre>
+<h4 id="用ntpdate手动网络校时">用ntpdate手动网络校时</h4>
+<pre><code class="language-bash">[root@vms001 ~]# ntpdate ntp1.aliyun.com
+ 6 Mar 02:40:42 ntpdate[46021]: the NTP socket is in use, exiting
+[root@vms001 ~]# ps aux |grep ntp
+ntp         909  0.0  0.1  29388  2024 ?        Ss   01:45   0:00 /usr/sbin/ntpd -u ntp:ntp -g
+root      52650  0.0  0.0 112644   960 pts/0    S+   02:43   0:00 grep --color=auto ntp
+[root@vms001 ~]# kill -9 909
+[root@vms001 ~]# ntpdate ntp1.aliyun.com
+ 6 Mar 02:46:18 ntpdate[53502]: step time server 120.25.115.20 offset 31622507.123755 sec
+[root@vms001 ~]# date 
+Fri Mar  6 02:46:22 CST 2020
+
+[root@vms001 ~]# hwclock -w #写入bios记录时间
+</code></pre>
+<h4 id="语系设定">语系设定</h4>
+<pre><code class="language-bash">[root@vms001 ~]# cat /etc/locale.conf  #语系配置文件
+LANG=&quot;zh_CN.UTF-8&quot;
+[root@vms001 ~]# localectl  
+   System Locale: LANG=zh_CN.UTF-8 #系统语系
+       VC Keymap: cn
+      X11 Layout: cn
+[root@vms001 ~]# localectl  #tab补全可以看到一些设置
+list-keymaps    list-locales    set-keymap      set-locale      set-x11-keymap  status
+[root@vms001 ~]# locale 
+LANG=zh_CN.UTF-8 ##当前软件的语系
+LC_CTYPE=&quot;en_US.utf8&quot;
+LC_NUMERIC=&quot;en_US.utf8&quot;
+......
+LC_MEASUREMENT=&quot;en_US.utf8&quot;
+LC_IDENTIFICATION=&quot;en_US.utf8&quot;
+LC_ALL=en_US.utf8
+
+1、修改语系
+[root@vms001 ~]# localectl set-locale LANG=zh_CN.utf-8
+或
+[root@vms001 ~]# export LC_ALL=zh_CN.utf-8 
+</code></pre>
 <h3 id="服务器硬件数据采集">服务器硬件数据采集</h3>
 <h4 id="系统自带dmidecode解析硬件设备">系统自带dmidecode解析硬件设备</h4>
 <pre><code class="language-bash">[root@mail ~]# dmidecode -t type
@@ -617,6 +608,22 @@ total 21M
 <ul>
 <li>
 <ul>
+<li><a href="#%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E8%AE%BE%E5%AE%9A">系统基本设定</a>
+<ul>
+<li><a href="#%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE%E6%89%8B%E5%8A%A8%E8%AE%BE%E5%AE%9A%E4%B8%8Edhcp%E8%87%AA%E5%8A%A8%E5%8F%96%E5%BE%97">网络设置(手动设定与DHCP自动取得)</a>
+<ul>
+<li><a href="#%E6%89%8B%E5%8A%A8%E8%AE%BE%E7%BD%AEip-nmcli">手动设置IP nmcli</a></li>
+<li><a href="#%E8%87%AA%E5%8A%A8%E8%8E%B7%E5%8F%96-dhcp">自动获取 DHCP</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E4%B8%BB%E6%9C%BA%E5%90%8D">修改主机名</a></li>
+<li><a href="#%E6%97%A5%E6%9C%9F%E4%B8%8E%E6%97%B6%E9%97%B4%E8%AE%BE%E7%BD%AE">日期与时间设置</a></li>
+<li><a href="#%E6%97%B6%E5%8C%BA%E7%9A%84%E6%98%BE%E7%A4%BA%E4%B8%8E%E8%AE%BE%E5%AE%9A">时区的显示与设定</a></li>
+<li><a href="#%E6%97%B6%E9%97%B4%E7%9A%84%E8%B0%83%E6%95%B4">时间的调整</a></li>
+<li><a href="#%E7%94%A8ntpdate%E6%89%8B%E5%8A%A8%E7%BD%91%E7%BB%9C%E6%A0%A1%E6%97%B6">用ntpdate手动网络校时</a></li>
+<li><a href="#%E8%AF%AD%E7%B3%BB%E8%AE%BE%E5%AE%9A">语系设定</a></li>
+</ul>
+</li>
 <li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A1%AC%E4%BB%B6%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86">服务器硬件数据采集</a>
 <ul>
 <li><a href="#%E7%B3%BB%E7%BB%9F%E8%87%AA%E5%B8%A6dmidecode%E8%A7%A3%E6%9E%90%E7%A1%AC%E4%BB%B6%E8%AE%BE%E5%A4%87">系统自带dmidecode解析硬件设备</a></li>
