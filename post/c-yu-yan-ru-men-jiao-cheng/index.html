@@ -35,7 +35,7 @@ int main()
     printf(&amp;quot;Hello World&amp;quot;..." />
   <meta property="og:type" content="articles">
   <meta property="og:url" content="https://zhanghaibin-a.github.io/post/c-yu-yan-ru-men-jiao-cheng/" />
-  <meta property="og:image" content="https://zhanghaibin-a.github.io/images/avatar.png">
+  <meta property="og:image" content="https://dn-simplecloud.shiyanlou.com/1523348726316.png">
   <meta property="og:image:height" content="630">
   <meta property="og:image:width" content="1200">
   <meta name="twitter:title" content="C 语言入门教程 - 温故而知新">
@@ -74,8 +74,15 @@ int main()
           C 语言入门教程
         </h1>
         
+          <img src="https://dn-simplecloud.shiyanlou.com/1523348726316.png" alt="C 语言入门教程" class="block w-full mb-8">
+        
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2020-03-05 · 3 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2020-03-05 · 15 min read</div>
+          
+            <a href="https://zhanghaibin-a.github.io/tag/qBgkmbRAt/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              实验楼_计算机专业课
+            </a>
           
         </div>
         <div class="markdown mb-8" v-pre>
@@ -163,19 +170,328 @@ int main()
 </blockquote>
 </li>
 </ol>
-<h3 id="3-顺序程序设计-数据类型一">3、顺序程序设计-数据类型（一）</h3>
+<h4 id="实验代码-基本输入输出函数">实验代码 (基本输入输出函数)</h4>
+<pre><code class="language-c">#include&lt;stdio.h&gt;                
+int main()
+{
+    int a,b,c;
+    printf(&quot;Please enter a value:&quot;);
+    scanf(&quot;%d&quot;,&amp;a);
+    printf(&quot;\n&quot;);
+    printf(&quot;Please enter b value&quot;);
+    scanf(&quot;%d&quot;,&amp;b);
+    c = a + b;
+    printf(&quot;%d\n&quot;,c);
+    return 0;
+}
+
+</code></pre>
+<p><code>编译运行</code></p>
+<pre><code class="language-bash">zhangMacBook-Pro:~ zhang$ gcc  -o aa aa.c 
+zhangMacBook-Pro:~ zhang$ ./aa 
+Please enter a value:11
+
+Please enter b value22
+33
+</code></pre>
+<h5 id="printf-格式化输出函数">printf() 格式化输出函数</h5>
+<blockquote>
+<p><strong>一般形式</strong>：printf(格式控制，输出表列)。<code>printf(&quot;%d,%d&quot;,a,b);</code></p>
+<blockquote>
+<p><strong>格式控制</strong>:用双引号括起来的一个字符串，称“转换控制字符串”</p>
+<blockquote>
+<p><strong>格式声明</strong>:格式声明由 % 和格式字符组成，如 %d （%d 代表输出整数，%f 代表输出实数）</p>
+<p><strong>普通字符</strong>:普通字符即在需要输出时原样输出的字符</p>
+</blockquote>
+<p><strong>输出表列</strong>:是程序需要输出的数据。</p>
+<blockquote>
+<p>printf(&quot;I love %d and %d&quot;***,x,s***);</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h5 id="scanf-格式化输入函数">scanf() 格式化输入函数</h5>
+<p><strong>一般形式</strong>：scanf(格式控制，地址表列)。<code>scanf(&quot;a=%d,b=%d&quot;,&amp;a,&amp;b);</code></p>
+<p>**“格式控制”**的含义同 printf 函数。“地址表列”是由若干地址组成的表列，可以是变量的地址。</p>
+<blockquote>
+<p><strong>注意</strong>：scanf() 函数中的表列是地址表列。 <code>scanf(&quot;a=%d,b=%d&quot;,&amp;a,&amp;b);</code> 中 a 和 b 前面的 &amp; 不能省掉，这一点要和 printf 作区分。</p>
+</blockquote>
+<h4 id="常量">常量</h4>
+<blockquote>
+<p>值不能被改变的量称为常量。</p>
+</blockquote>
+<h5 id="整数常量">整数常量</h5>
+<blockquote>
+<p>0 、100 、-30 等整数都是整型常量</p>
+</blockquote>
+<h5 id="实型常量">实型常量</h5>
+<p>就是我们通常所说的小数，如 12.34, -5.45, 143.342等，小数还可以用指数形式表现，如 32.23e3（表示 32.23<em>10^3）, -323.34e-6（表示 -323.34</em>10^-6）, 由于计算机无法表示上角和下角，所以规定以字母 e 或者 E 代表以 10 为底的指数。</p>
+<blockquote>
+<p>注意：e 或者 E 之前必须有数字，且 e 或者 E 后面必须为整数，不能是 e3 或者 12e4.1 这种形式。</p>
+</blockquote>
+<h5 id="字符常量字符常量有两种">字符常量，字符常量有两种</h5>
+<ul>
+<li>
+<p><strong>普通字符</strong></p>
+<blockquote>
+<p>用单引号括起来的一个字符，如 'a' 、'E' 、'%' 、'3' 。不能写成 'ab' 、'12' 。字符常量只能是一个字符，不包括单引号。</p>
+</blockquote>
+</li>
+<li>
+<p>**转义字符 **</p>
+<blockquote>
+<p>除了以上形式的字符常量外，C 语言还允许用一种特殊形式的字符常量，就是以字符 <code>\</code> 开头的字符序列，比如我们本节课的 3-1.c 中，<code>\n</code> 代表的就是换行符，显示跳转到下一行。这是一种在屏幕上无法显示的“控制字符”。</p>
+<figure data-type="image" tabindex="2"><img src="https://doc.shiyanlou.com/c/3-4.jpg/wm" alt="3-2.4.3-1" loading="lazy"></figure>
+</blockquote>
+</li>
+</ul>
+<h4 id="变量">变量</h4>
+<ol>
+<li>
+<p>什么是变量</p>
+<blockquote>
+<p>变量代表一个有名字的、具有特殊属性的存储单元。它可以用来保存数据。变量的值是可以改变的。变量在程序中定义的一般形式就是： &lt;类型名称&gt; &lt;变量名称&gt;。</p>
+</blockquote>
+<ul>
+<li>
+<p>int 代表定义的变量是整数类型。</p>
+<p><code>int a，b，c；</code>定义了三个整数类型的变量</p>
+</li>
+</ul>
+</li>
+<li>
+<p>标识符</p>
+<blockquote>
+<p>变量需要一个名字，变量的名字便是一种“标识符”，用来区别它和其它不同的变量。</p>
+</blockquote>
+</li>
+<li>
+<p>变量的赋值与初始化</p>
+<blockquote>
+<p>变量必须先定义后使用。这一行定义了一个变量，变量的名字是 price，类型是 int，初始的值是 0 。</p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p><strong>注意</strong>：和数学不同，a=b 在数学中表示关系，即 a 和 b 的值一样；而在程序设计中，a=b 表示要求计算机做一个动作：将 b 的值赋值给 a 。关系是静态的，而动作是动态的。在数学中，a=b 和 b=a 是等价的，而在程序设计中，两者意思相反。</p>
+</blockquote>
+<h4 id="数据类型">数据类型</h4>
+<p><code>数据类型简介</code></p>
+<blockquote>
+<p>一台拖拉机耕地一亩耗油 0.85kg，它的油箱的容积是 100 升（0.1m3），柴油的密度是 850kg/m3，该拖拉机装满油后最多耕地的亩数是多少？</p>
+</blockquote>
+<pre><code class="language-c">#include&lt;stdio.h&gt;
+int main()
+{
+    float tank_volume;                          // 定义油箱的容积为浮点类型变量 tank_volume
+    float oil_density;                          // 定义油的密度为浮点类型变量 oil_density
+    float oil_kg;                           
+    float area;
+
+    tank_volume = 0.1;                            // 给变量 tank_volume 赋值
+    oil_density = 850;                            // 给变量 oil_density 赋值
+
+    oil_kg = tank_volume*oil_density;             // 求 tank_volume 和 oil_density 的积并赋值给 oil_kg
+    area = oil_kg/0.85;                           // 求 oil_kg/0.85 的商并赋值给 area
+    printf(&quot;Most farming is %f mu&quot;,area);  
+    return 0;
+}
+</code></pre>
+<p>定义<code>floatt</code>变量</p>
+<pre><code class="language-c">float tank_volume;                     
+float oil_density;                      
+float oil_kg;                           
+float area;
+</code></pre>
+<p><code>float</code>变量覆值</p>
+<pre><code class="language-c">tank_volume = 0.1;                       // 给变量 tank_volume 赋值
+oil_density = 850;  
+</code></pre>
+<p><code>float</code>变量乘除</p>
+<pre><code class="language-c">oil_kg  = tank_volume*oil_density;   
+area = oil_kg / 0.85; 
+</code></pre>
+<p>为什么指定数据类型</p>
+<ul>
+<li>
+<p>在数学中，数值是不区分类型的，数值的运算是绝对准确的,数学是研究抽象的学科，数和数的运算都是抽象的。而在计算机中，数据是存储在计算机中的一个个单元里面，它是具体存在的。而且，存储单元是由有限的字节构成的，每一个存储单元存储的数据是有限的，不可能存放无限大的数，也不能存放无限循环小数。</p>
+</li>
+<li>
+<p>C 语言允许使用的数据类型见下图</p>
+</li>
+</ul>
+<figure data-type="image" tabindex="3"><img src="https://doc.shiyanlou.com/c/3-5.jpg/wm" alt="3-2.4.1-1" loading="lazy"></figure>
+<h4 id="整数类型">整数类型</h4>
+<h4 id="基本类型int类型">基本类型(int类型)</h4>
+<blockquote>
+<p>编译系统分配给 int 类型数据 2 个字节或者 4 个字节（由具体的编译系统自行决定）。我们使用的 gcc 编译器为每个整数类型分配四个字节,存储单元中存储方式是：用整数的补码形式存放。所以当 4 个字节的整数类型取值范围是 -2^31 到（2^31-1）。</p>
+</blockquote>
+<h4 id="短类型short类型">短类型(short类型)</h4>
+<blockquote>
+<p>gcc 编译系统分配给 short 类型 2 个字节，存储方式和 int 类型一样，也是补码的形式存储，取值范围是 -2^15 到（2^15-1），无符号短整型 <code>unsigned short</code> 的取值范围是 0 到（2^16-1）</p>
+</blockquote>
+<h4 id="长整型long类型">长整型(long类型)</h4>
+<blockquote>
+<p>gcc 编译系统分配给 long 类型 8 个字节，存储方式和 int 类型一样，也是补码的形式存储，取值范围是 -2^63 到（2^63-1），无符号长整型 <code>unsigned long</code> 的取值范围是 0 到（2^64-1）。</p>
+</blockquote>
+<h4 id="不同类别占用的空间">不同类别占用的空间</h4>
+<blockquote>
+<p>通过 sizeof() 运算符查看各类型的常量占据多少字节</p>
+</blockquote>
+<pre><code class="language-c">#include&lt;stdio.h&gt;                
+int main()
+{
+    printf(&quot;%d\n&quot;,(int)sizeof(int));
+    printf(&quot;%d\n&quot;,(int)sizeof(short));
+    printf(&quot;%d\n&quot;,(int)sizeof(long));
+
+    return 0;
+}
+</code></pre>
+<pre><code class="language-bash">zhangdeMacBook-Pro:~ zhang$ gcc  -o aa aa.c 
+zhangdeMacBook-Pro:~ zhang$ ./aa 
+4
+2
+8
+</code></pre>
 <h3 id="4-顺序程序设计-数据类型二">4、顺序程序设计-数据类型（二）</h3>
-<h3 id="5-顺序程序设计-运算符和数据转换">5、顺序程序设计-运算符和数据转换</h3>
-<h3 id="55-摄氏度转华氏温度">5.5、摄氏度转华氏温度</h3>
-<h3 id="6-选择程序设计">6、选择程序设计</h3>
-<h3 id="7-循环程序设计">7、循环程序设计</h3>
-<h3 id="75-序列求和">7.5、序列求和</h3>
-<h3 id="8-c语言数组">8、C语言数组</h3>
-<h3 id="9-模块化程序设计">9、模块化程序设计</h3>
-<h3 id="10-指针一">10、指针（一）</h3>
-<h3 id="11-指针二">11、指针（二）</h3>
-<h3 id="115修复指针使用错误的bug">11.5修复指针使用错误的BUG</h3>
-<h3 id="12-文件和文件的输入与输出">12 、文件和文件的输入与输出</h3>
+<h4 id="浮点型数据">浮点型数据</h4>
+<p><strong>浮点数类型包括 float（单精度浮点型）、double（双精度浮点型）、long double（长双精度浮点型）。</strong></p>
+<blockquote>
+<p>在 C 语言中，实数是以指数的形式存放在存储单元的。一个实数表示为指数可以不止一种形式只要在小数点位置浮动的同时改变指数的值，就可以保证它的值不会改变。由于小数点的位置可以浮动，所以实数的指数形式称为浮点数。</p>
+<p>规范化的指数形式：在指数形式的多种表示方式中把小数部分中小数点前的数字为 0，小数点后第 1 位数字不为 0 的表示形式称为规范化的指数形式，如 0.43242*10^1 就是 4.3242 的规范化的指数形式。一个实数只有一个规范化的指数形式。</p>
+</blockquote>
+<h5 id="float-型单精度浮点型">float 型（单精度浮点型）</h5>
+<blockquote>
+<p>gcc 编译系统为每一个 float 型变量分配 4 个字节，数值以规范化的二进制数指数形式存放在存储单元中。在存储时，系统将实型数据分成小数部分和指数部分两个部分、分别存储。</p>
+</blockquote>
+<figure data-type="image" tabindex="4"><img src="https://doc.shiyanlou.com/c/1.jpg/wm" alt="4-2.1.1-1" loading="lazy"></figure>
+<p>float 的取值范围</p>
+<pre><code class="language-c">#include&lt;stdio.h&gt;
+#include&lt;float.h&gt;
+int main()
+{
+    printf(&quot;The size of the smallest positive non-zero value of type float is %.3e\n&quot;,FLT_MIN);
+    printf(&quot;The size of the largest value of type float is %.3e\n&quot;,FLT_MAX);
+
+    return 0;
+}
+</code></pre>
+<pre><code class="language-bash">zhangdeMacBook-Pro:~ zhang$ ./aa 
+The size of the smallest positive non-zero value of type float is 1.175e-38
+The size of the largest value of type float is 3.403e+38
+</code></pre>
+<blockquote>
+<p>利用输入的直径计算一个圆桌的周长及面积。计算圆的周长或者面积时，数学公式要使用 pi（周长=2<em>pi</em>r，面积=pi*r^2，其中 r 是半径）</p>
+</blockquote>
+<pre><code class="language-c">#include&lt;stdio.h&gt;                
+int main()
+{
+    float radius,diameter;
+    float circumference,area;
+    float pi = 3.1415926;
+
+    printf(&quot;Input the diameter of the table:&quot;);
+    scanf(&quot;%f&quot;,&amp;diameter);
+
+    radius = diameter / 2.0;
+    circumference = 2.0 * pi * radius;
+    area = pi * radius * radius;
+    printf(&quot;\nThe circumference is %f&quot;,circumference);
+    printf(&quot;\nThe area is %f&quot;,area);
+
+    return 0;
+}
+</code></pre>
+<h5 id="double-型双精度浮点型">double 型（双精度浮点型）</h5>
+<blockquote>
+<p>double 型的存储方式和 float 的存储方式相同。 浮点型数据所占的内存空间以及取值范围：</p>
+</blockquote>
+<figure data-type="image" tabindex="5"><img src="https://doc.shiyanlou.com/c/4-8.jpg/wm" alt="4-2.1.2-1" loading="lazy"></figure>
+<blockquote>
+<p>在平时我们使用的浮点型数据的时候要注意这几个点哦！ 超过有效位的数字被舍去，可能产生舍入误差</p>
+</blockquote>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+int main()
+{
+    float  a , b ;
+    a = 123456.789e5 ;                /*   相当于 123456.789 * 10^5   */
+    b = a + 20 ;                    /*   20加上无意义   */
+    printf(&quot; %f &quot;, b) ;
+
+    return 0;
+}    
+</code></pre>
+<pre><code class="language-bash">zhangdeMacBook-Pro:~ zhang$ gcc  -o aa aa.c
+zhangdeMacBook-Pro:~ zhang$ ./aa 
+ 12345678848.000000
+#float数据的有效位是7位，a = 123456.789e5 这条语句中赋值给 a 的值超过了 float 的有效位 ；输出结果中 12345678848.000000 中只有前 7 位才是有效数字
+</code></pre>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+int main()
+{
+    double  a , b ;        //把float改为double类型
+    a = 123456.789e5 ;   
+    b = a + 20 ;                    
+    printf(&quot; %f &quot;, b) ;
+
+    return 0;
+}    
+</code></pre>
+<pre><code class="language-bash">zhangdeMacBook-Pro:~ zhang$ gcc  -o aa aa.c 
+zhangdeMacBook-Pro:~ zhang$ ./aa 
+ 12345678920.000000
+#因为 double 型的有效数字是 15~16 位，而 123456.789e5（其实是 12345678900 ）其有效数字是 11 位，把它赋值给 a 不会出现溢出。
+</code></pre>
+<h4 id="字符型数据">字符型数据</h4>
+<blockquote>
+<p>C 语言中，字符型的基本类型符是 char。</p>
+<p>字符型常量是用单引号括起来的一个字符。如 'A'，'a'，'?' 等等。 在所有的编译系统中都规定以 1 个字节（8 位）来存放一个字符。字符型数据在存储时，并不是把该字符本身存放到内存单元中，而是把该字符相应的 ASCII 码值存放到该存储单元中。</p>
+</blockquote>
+<pre><code class="language-c">#include&lt;stdio.h&gt; 
+int main()
+{ 
+    char a,b;                       //定义a和b为字符型变量
+    a = 'c';                          //把字符常量'c'赋值给变量a
+    b = 121; 
+    printf(&quot;%c,%c\n&quot;,a,b);          //%c表示以字符的形式输出
+    printf(&quot;%d,%d\n&quot;,a,b);          //%d表示以有符号十进制形式输出整数型
+    return 0;
+}
+</code></pre>
+<pre><code class="language-bash">zhangdeMacBook-Pro:~ zhang$ gcc  -o aa aa.c 
+zhangdeMacBook-Pro:~ zhang$ ./aa 
+c,y
+99,121
+#一个在字符的数据既可以以字符的形式输出，也可以以整数的形式输出。以字符形式输出时，先将存储单元中的 ASCII 码转换成相应的字符再输出；以整数的形式输出时，直接输出其 ASCII 码。
+</code></pre>
+<p>对字符型数据进行算术运算</p>
+<pre><code class="language-c">#include&lt;stdio.h&gt; 
+int main()
+{ 
+    char a,x;
+    int b;                  
+    a = 'c';                      
+    b = 1; 
+    x = a + b;
+    printf(&quot;%c\n&quot;,x);      
+    printf(&quot;%d\n&quot;,x);      
+    return 0;
+}
+</code></pre>
+<pre><code class="language-bash">zhangdeMacBook-Pro:~ zhang$ ./aa 
+d
+100
+#相当于对他们的 ASCII 码进行运算
+</code></pre>
+<h4 id="字符串常量">字符串常量</h4>
+<blockquote>
+<p>字符串常量是用一对双引号括起来的零个或多个字符组成的序列，字符串中的每个字符占用一个字节，在存储字符串常量时还要自动在其末尾加上 '\0' 作为字符串结束的标志。</p>
+</blockquote>
+<figure data-type="image" tabindex="6"><img src="https://doc.shiyanlou.com/c/4-7.jpg/wm" alt="4-2.3-1" loading="lazy"></figure>
+<p><strong>字符常量和字符串常量混淆，'b' 和 &quot;b&quot; 是完全不同的。前者是字符常量，在内存中占用的字节数为 1；而后者是字符串常量，在内存中占用的字节数为 2，包含字符 ‘b’ 和 ‘\0’。</strong></p>
+<blockquote>
+<p>注意：在 C 语言中没有专门的字符串变量，如果你想要将一个字符串存放在变量中，必须使用字符数组，数组中每一个元素存放一个字符。</p>
+</blockquote>
 
         </div>
         <!-- Share to Twitter, Weibo, Telegram -->
@@ -226,21 +542,40 @@ int main()
 <ul>
 <li><a href="#21-%E7%A8%8B%E5%BA%8F%E5%88%9B%E5%BB%BA4%E6%AD%A5%E9%AA%A4">2.1 程序创建4步骤</a></li>
 <li><a href="#22%E8%AF%AD%E8%A8%80%E7%9A%84%E7%AE%80%E5%8D%95%E7%BB%93%E6%9E%84">2.2语言的简单结构</a></li>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E4%BB%A3%E7%A0%81-%E5%9F%BA%E6%9C%AC%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%87%BD%E6%95%B0">实验代码 (基本输入输出函数)</a>
+<ul>
+<li><a href="#printf-%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA%E5%87%BD%E6%95%B0">printf() 格式化输出函数</a></li>
+<li><a href="#scanf-%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%85%A5%E5%87%BD%E6%95%B0">scanf() 格式化输入函数</a></li>
 </ul>
 </li>
-<li><a href="#3-%E9%A1%BA%E5%BA%8F%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%80">3、顺序程序设计-数据类型（一）</a></li>
-<li><a href="#4-%E9%A1%BA%E5%BA%8F%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%BA%8C">4、顺序程序设计-数据类型（二）</a></li>
-<li><a href="#5-%E9%A1%BA%E5%BA%8F%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E8%BF%90%E7%AE%97%E7%AC%A6%E5%92%8C%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2">5、顺序程序设计-运算符和数据转换</a></li>
-<li><a href="#55-%E6%91%84%E6%B0%8F%E5%BA%A6%E8%BD%AC%E5%8D%8E%E6%B0%8F%E6%B8%A9%E5%BA%A6">5.5、摄氏度转华氏温度</a></li>
-<li><a href="#6-%E9%80%89%E6%8B%A9%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1">6、选择程序设计</a></li>
-<li><a href="#7-%E5%BE%AA%E7%8E%AF%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1">7、循环程序设计</a></li>
-<li><a href="#75-%E5%BA%8F%E5%88%97%E6%B1%82%E5%92%8C">7.5、序列求和</a></li>
-<li><a href="#8-c%E8%AF%AD%E8%A8%80%E6%95%B0%E7%BB%84">8、C语言数组</a></li>
-<li><a href="#9-%E6%A8%A1%E5%9D%97%E5%8C%96%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1">9、模块化程序设计</a></li>
-<li><a href="#10-%E6%8C%87%E9%92%88%E4%B8%80">10、指针（一）</a></li>
-<li><a href="#11-%E6%8C%87%E9%92%88%E4%BA%8C">11、指针（二）</a></li>
-<li><a href="#115%E4%BF%AE%E5%A4%8D%E6%8C%87%E9%92%88%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF%E7%9A%84bug">11.5修复指针使用错误的BUG</a></li>
-<li><a href="#12-%E6%96%87%E4%BB%B6%E5%92%8C%E6%96%87%E4%BB%B6%E7%9A%84%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA">12 、文件和文件的输入与输出</a></li>
+<li><a href="#%E5%B8%B8%E9%87%8F">常量</a>
+<ul>
+<li><a href="#%E6%95%B4%E6%95%B0%E5%B8%B8%E9%87%8F">整数常量</a></li>
+<li><a href="#%E5%AE%9E%E5%9E%8B%E5%B8%B8%E9%87%8F">实型常量</a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E5%B8%B8%E9%87%8F%E5%AD%97%E7%AC%A6%E5%B8%B8%E9%87%8F%E6%9C%89%E4%B8%A4%E7%A7%8D">字符常量，字符常量有两种</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%98%E9%87%8F">变量</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B">数据类型</a></li>
+<li><a href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B">整数类型</a></li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8Bint%E7%B1%BB%E5%9E%8B">基本类型(int类型)</a></li>
+<li><a href="#%E7%9F%AD%E7%B1%BB%E5%9E%8Bshort%E7%B1%BB%E5%9E%8B">短类型(short类型)</a></li>
+<li><a href="#%E9%95%BF%E6%95%B4%E5%9E%8Blong%E7%B1%BB%E5%9E%8B">长整型(long类型)</a></li>
+<li><a href="#%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%88%AB%E5%8D%A0%E7%94%A8%E7%9A%84%E7%A9%BA%E9%97%B4">不同类别占用的空间</a></li>
+</ul>
+</li>
+<li><a href="#4-%E9%A1%BA%E5%BA%8F%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%BA%8C">4、顺序程序设计-数据类型（二）</a>
+<ul>
+<li><a href="#%E6%B5%AE%E7%82%B9%E5%9E%8B%E6%95%B0%E6%8D%AE">浮点型数据</a>
+<ul>
+<li><a href="#float-%E5%9E%8B%E5%8D%95%E7%B2%BE%E5%BA%A6%E6%B5%AE%E7%82%B9%E5%9E%8B">float 型（单精度浮点型）</a></li>
+<li><a href="#double-%E5%9E%8B%E5%8F%8C%E7%B2%BE%E5%BA%A6%E6%B5%AE%E7%82%B9%E5%9E%8B">double 型（双精度浮点型）</a></li>
+</ul>
+</li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E5%9E%8B%E6%95%B0%E6%8D%AE">字符型数据</a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F">字符串常量</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
