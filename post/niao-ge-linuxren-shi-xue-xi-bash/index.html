@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>鸟哥十章#认识学习BASH - 温故而知新</title>
-<link rel="shortcut icon" href="https://zhanghaibin-a.github.io/favicon.ico">
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
 <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"> -->
-<link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/tailwind.css">
-<link rel="stylesheet" href="https://zhanghaibin-a.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="鸟哥十章#认识学习BASH - 温故而知新 - Atom Feed" href="https://zhanghaibin-a.github.io/atom.xml">
+<link rel="stylesheet" href="http://localhost:4000/media/css/tailwind.css">
+<link rel="stylesheet" href="http://localhost:4000/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="鸟哥十章#认识学习BASH - 温故而知新 - Atom Feed" href="http://localhost:4000/atom.xml">
 
     
 
@@ -32,7 +32,7 @@
 
 远程管理:文字接口的传输速度较快,不容易出现断流..." />
   <meta property="og:type" content="articles">
-  <meta property="og:url" content="https://zhanghaibin-a.github.io/post/niao-ge-linuxren-shi-xue-xi-bash/" />
+  <meta property="og:url" content="http://localhost:4000/post/niao-ge-linuxren-shi-xue-xi-bash/" />
   <meta property="og:image" content="https://i1.wp.com/itsfoss.com/wp-content/uploads/2019/01/bash-logo.jpg?resize=800%2C450&amp;ssl=1">
   <meta property="og:image:height" content="630">
   <meta property="og:image:width" content="1200">
@@ -46,13 +46,13 @@
 
 远程管理:文字接口的传输速度较快,不容易出现断流...">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="https://zhanghaibin-a.github.io/post/niao-ge-linuxren-shi-xue-xi-bash/">
+  <link rel="canonical" href="http://localhost:4000/post/niao-ge-linuxren-shi-xue-xi-bash/">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
  
   
-    <link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/prism-atom-dark.css">
+    <link rel="stylesheet" href="http://localhost:4000/media/css/prism-atom-dark.css">
   
 
   
@@ -62,7 +62,7 @@
 
 <body>
   <div class="antialiased flex flex-col min-h-screen" id="app">
-    <a href="https://zhanghaibin-a.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+    <a href="http://localhost:4000" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
       温故而知新
     </a>
     <div class="max-w-4xl w-full mx-auto">
@@ -74,9 +74,9 @@
           <img src="https://i1.wp.com/itsfoss.com/wp-content/uploads/2019/01/bash-logo.jpg?resize=800%2C450&amp;ssl=1" alt="鸟哥十章#认识学习BASH" class="block w-full mb-8">
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2020-03-11 · 8 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2020-03-11 · 24 min read</div>
           
-            <a href="https://zhanghaibin-a.github.io/tag/0QwPsCw5i/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+            <a href="http://localhost:4000/tag/0QwPsCw5i/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
               <i class="ri-hashtag"></i>
               鸟哥Linux笔记
             </a>
@@ -305,12 +305,479 @@ HISTTIMEFORMAT=%F %T
 _=/usr/bin/env #上一次使用的指令的最后一个参数
 </code></pre>
 <h4 id="变量的有效范围">变量的有效范围</h4>
-<h4 id="变量键盘读取">变量键盘读取</h4>
+<p>全局变量,global variable=环境变量</p>
+<p>局部变量,local variable=局部变量</p>
+<ul>
+<li>当启动一个shell, 操作系统会分配- -记忆区块给shell 使用，此内存内之变量可让子程序取用</li>
+<li>若在父程序利用export 功能，可以让自定义变量的内容写到上述的记忆区块当中(环境变量);</li>
+<li>当加载另一个shell 时(亦即启动子程序，而离开原本的父程序了),子shell 可以将父shell 的环境变量所在的记忆区块导入自己的环境变量区块当中。</li>
+</ul>
+<h4 id="变量键盘读取-数组与类型readarraydeclare">变量键盘读取、数组与类型:read,array,declare</h4>
+<h5 id="read">read</h5>
+<pre><code class="language-bash">[root@txtx_email ~]# read
+-P 后面可以接提示字符!
+-t 后面可以接等待的「秒数!」这个比较有趣~不会一直等待使用者啦!
+范例一、让用户由键盘输入内容
+[root@txtx_email ~]# read atest
+hallo world
+[root@txtx_email ~]# echo $atest
+hallo world
+范例二、提示使用者30秒内输入自己的大名
+[root@txtx_email ~]# read -p 'Pleass keyin your name:' -t 30 named
+Pleass keyin your name:zhangsan        
+[root@txtx_email ~]# echo $named
+zhangsan
+</code></pre>
+<h5 id="declaretypeset两命令相同">declare/typeset（两命令相同）</h5>
+<pre><code class="language-bash">[root@txtx_email ~]# declare
+选项与参数:
+-a:将后面名为variable 的变量定义成为数组(array) 类型
+-i:将后面名为 variable的变量定义成为整数数字(integer) 类型
+-x:用法与 export 一样，就是将后面的 variable变成环境变量:
+-r:将变量设定成为 readonly类型,该变量不可被更改内容，也不能unset
+
+范例一、定义变量为整数数字
+root@txtx_email ~]# sum=100+200
+[root@txtx_email ~]# echo $sum
+100+200
+[root@txtx_email ~]# declare -i sum=100+200
+[root@txtx_email ~]# echo $sum
+300
+#变量类型默认为[字符串」，所以若不指定变量类型，则1+2为一个[字符串」而不是「计算式」。
+#bash环境中的数值运算，预设最多仅能到达整数形态，所以1/3结果是0;
+范例二、将sum边成环境变量
+[root@txtx_email ~]# declare -x sum
+[root@txtx_email ~]# export |grep sum
+declare -ix sum=&quot;400&quot;
+范例三、让sum边成只读属性
+[root@txtx_email ~]# declare -r sum
+[root@txtx_email ~]# sum=abc
+-bash: sum: readonly variable
+###当变量设置为只读变量后，变量将不能修改。得系统注销在登陆才能复原该变量类型
+范例四、取消sum环境变量
+[root@txtx_email ~]# declare -x sum
+[root@txtx_email ~]# declare -p sum
+declare -irx sum=&quot;400&quot;
+[root@txtx_email ~]# declare +x sum #将. 变成+可以进行「取消」动作
+[root@txtx_email ~]# declare -p sum #动作-P 可以单独列出变量的类型
+declare -ir sum=&quot;400&quot;ex
+[root@txtx_email ~]# export |grep sum
+[root@txtx_email ~]# 
+</code></pre>
+<h5 id="array数组变量类型">array数组变量类型</h5>
+<pre><code class="language-bash">[root@txtx_email ~]# var[1]=&quot;one&quot;
+[root@txtx_email ~]# var[2]=&quot;two&quot;
+[root@txtx_email ~]# var[3]=&quot;three&quot;
+[root@txtx_email ~]# echo ${var[1]},${var[2]},${var[3]}
+one,two,three
+</code></pre>
 <h4 id="ulimit文件系统及程序的限制关系">ulimit文件系统及程序的限制关系</h4>
+<blockquote>
+<p>我们的bash是可以「限制用户的某些系统资源」的，包括可以开启的文件数量，可以使用的CPU时间，可以使用的内存总量等等。</p>
+</blockquote>
+<pre><code class="language-bash">[root@txtx_email ~]# ulimit [参数] [值]
+选项与参数：
+-H:hard limit，严格设定，不能超过值
+-S:soft limit, 警告设定,超过警告
+-a:后面不接参数,列出所有限制参数
+-c:当某些程序发生错误，系统将内存错误写到核心文件(core file)。此为限制每个核心文件大小
+-f:此shell可以建立的最大文件容量(一般可能设定为2GB）单位Kbytes
+-d:程序可使用的最大断裂内存(segment)容量
+-l：可用于锁定(lock)内存量
+-t:可使用最大CPU时间（单位为妙）
+-u:单一用户可以使用最大程序(process)数量。
+
+范例一：列出你目前身份的所有限制数据值
+[zhang@txtx_email ~]$ ulimit -a
+core file size          (blocks, -c) 0  &lt;0代表没限制
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited &lt;=可建立的单一文件大小
+pending signals                 (-i) 7270
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 100001 &lt;可同时看起的文件数量
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 7270
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+
+范例二：限制用户仅能建立 10MBytes 以下的容量文件
+[zhang@txtx_email ~]$ ulimit -f 10240
+[zhang@txtx_email ~]$ ulimit -f 
+10240
+[zhang@txtx_email ~]$ ulimit -a |grep 'file size'
+core file size          (blocks, -c) 0
+file size               (blocks, -f) 10240
+
+[zhang@txtx_email ~]$ dd if=/dev/zero  of=123 bs=1M count=20
+File size limit exceeded
+[zhang@txtx_email ~]$ dd if=/dev/zero  of=123 bs=1M count=9
+9+0 records in
+9+0 records out
+9437184 bytes (9.4 MB) copied, 0.00720833 s, 1.3 GB/s
+#注销当前用户重新登陆后就能解开限制,一般用户如果设定了文件大小那只能继续减小容量不能增加容量
+</code></pre>
 <h4 id="变量删除-取代与替换optional">变量删除、取代与替换（Optional）</h4>
+<h5 id="内容的删除与取代">内容的删除与取代</h5>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量设定方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">${变量#关键字}</td>
+<td>若变量内容从头开始的数据符合关键词,将符合的最短数据删除</td>
+</tr>
+<tr>
+<td style="text-align:center">${变量##关键字}</td>
+<td>若变量内容从头开始的数据符合关键词,将符合的最常长数据删除</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">${变量%关键字}</td>
+<td>若变量内容从尾向前的数据符合,则将符合的最短数据删除</td>
+</tr>
+<tr>
+<td style="text-align:center">${变量%%关键字}</td>
+<td>若变量内容从尾向前的数据符合,则将符合的最长数据删除</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">${变量/旧字符串/新字符串}</td>
+<td>若变量内容符合「旧字符串」则[第一个旧字符串会被新字符串取代」</td>
+</tr>
+<tr>
+<td style="text-align:center">${变量//旧字符串//新字符串}</td>
+<td>若变量内容符合「旧字符串」则「全部的旧字符串会被新字符串取代」</td>
+</tr>
+</tbody>
+</table>
+<h5 id="变量的测试与内容替换">变量的测试与内容替换</h5>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量设定方式</th>
+<th style="text-align:center">str没有设定</th>
+<th style="text-align:center">str为空字符串</th>
+<th style="text-align:center">str已设定非空字符串</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">var=${str-expo}</td>
+<td style="text-align:center">var=expr</td>
+<td style="text-align:center">var=</td>
+<td style="text-align:center">var=$str</td>
+</tr>
+<tr>
+<td style="text-align:center">var=${str:-expo}</td>
+<td style="text-align:center">var=expr</td>
+<td style="text-align:center">var=expr</td>
+<td style="text-align:center">var=$str</td>
+</tr>
+<tr>
+<td style="text-align:center">var=${str+expo}</td>
+<td style="text-align:center">var=</td>
+<td style="text-align:center">var=expr</td>
+<td style="text-align:center">var=expr</td>
+</tr>
+<tr>
+<td style="text-align:center">var=${str:+expo}</td>
+<td style="text-align:center">var=</td>
+<td style="text-align:center">var=</td>
+<td style="text-align:center">var=expr</td>
+</tr>
+<tr>
+<td style="text-align:center">var=${str=expo}</td>
+<td style="text-align:center">str=expr   var=expr</td>
+<td style="text-align:center">str不变 var=</td>
+<td style="text-align:center">str不变 var=$str</td>
+</tr>
+<tr>
+<td style="text-align:center">var=${str:=expo}</td>
+<td style="text-align:center">str=expr   var=expr</td>
+<td style="text-align:center">str=expr  var=expr</td>
+<td style="text-align:center">str不变  var=$str</td>
+</tr>
+<tr>
+<td style="text-align:center">var=${str?expo}</td>
+<td style="text-align:center">expr输出至stderr</td>
+<td style="text-align:center">var=</td>
+<td style="text-align:center">var=$str</td>
+</tr>
+<tr>
+<td style="text-align:center">var=${str:?expo}</td>
+<td style="text-align:center">expr输出至stderr</td>
+<td style="text-align:center">expr输出至stderr</td>
+<td style="text-align:center">var=$str</td>
+</tr>
+</tbody>
+</table>
 <h3 id="命令别名与历史命令">命令别名与历史命令</h3>
+<h5 id="aliasunalias命令别名设定">alias,unalias命令别名设定</h5>
+<ul>
+<li>
+<p>alias 设置命令别名</p>
+<pre><code class="language-bash">[root@txtx_email ~]# alias lm='ls -al | more'
+#「alias的定义规则与变量定义规则几乎相同」，「别名='指令选项..‘」
+</code></pre>
+</li>
+<li>
+<p>unalias 取消命令别名</p>
+<pre><code class="language-bash">[root@txtx_email ~]# unalias lm
+[root@txtx_email ~]# alias 
+alias cp='cp -i'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+alias l.='ls -d .* --color=auto'
+alias ll='ls -l --color=auto'
+alias ls='ls --color=auto'
+alias mv='mv -i'
+alias rm='rm -i'
+alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
+
+</code></pre>
+</li>
+</ul>
+<p>注意：命令别名是「新创一个新的指令，你可以直接下达该指令」的，.至于变量则需要使用类似「echo 」指令才能够呼叫出变量的内容!</p>
+<h5 id="history历史命令">history历史命令</h5>
+<pre><code class="language-bash">[root@txtx_email ~]# history [n]
+[root@txtx_email ~]# history [-c]
+[root@txtx_email ~]# history [-raw]
+选项与参数:
+#n. 数字，意思是「要列出最近的n笔命令行表」的意思!
+#-c :将目前的shell 中的所有history 内容全部消除
+#-a: 将目前新增的history指令新增入histfiles 中，若没有加 histfiles ，则预设写入~/. bash_ history
+#-r:将histfiles 的内容读到目前这个shell 的history 记忆中;
+#-w:将目前的history 记忆内容写入histfiles中!
+#范例一、列出目前内存所有histort
+[root@txtx_email ~]# history
+ 3019  2020-03-23 03:08:27 ls
+ 3020  2020-03-23 03:08:28 clear
+ 3021  2020-03-23 03:08:30 history 
+#范例二、列出最近3条命令
+[root@txtx_email ~]# history 3
+ 3021  2020-03-23 03:08:30 history 
+ 3022  2020-03-23 03:09:05 history 10
+ 3023  2020-03-23 03:09:07 history 3
+#范例三、立刻将目前历史命令写入histfile当中
+[root@txtx_email ~]# history -w
+[root@txtx_email ~]# ls -l ~/.bash_history 
+-rw------- 1 root root 88004 Mar 23 03:09 /root/.bash_history
+[root@txtx_email ~]# echo ${HISTSIZE}
+3000
+
+</code></pre>
+<p><em><strong>流程</strong></em>：</p>
+<ul>
+<li>当我们以bash 登入Linux 主机之后,系统会主动的由家目录的~/.bash_ history读取以前曾经下过的指令，那么~/.bash_ history会记录几笔数据呢?这就与你bash的HISTFILESIZE 这个变量设定值有关了!</li>
+<li>假设我这次登入主机后，共下达过100次指令，I 等我注销时，系统就会将 101~1100 这总共1000 笔历史命令更新到~/.bash history 当中。」也就是说， 历史命令在我注销时，会将最近的HISTFlESIZE 笔记录到我的纪录文件当中啦!</li>
+<li>当然，也可以用history-w 强制立刻写入的!那为何用更新」两个字呢?因为~/.bash history记录的笔数永远都是HISTFLESIZE那么多，旧的讯息会被主动的拿掉!仅保留最新的!</li>
+</ul>
+<p><em><strong>历史命令特殊用法</strong></em></p>
+<pre><code class="language-bash">[root@txtx_email ~]# !number
+[root@txtx_email ~]# !command
+[root@txtx_email ~]# !!
+选项与参数:
+#number :执行第几笔指令的意思:
+#command :由最近的指令向前搜寻「指令串开头为command的那个指令，并执行:
+#就是执行，上一个指令(相当于按↑按键后，按Enter)
+</code></pre>
+<p>**同一账户同时多次登陆history写入问题 **</p>
+<blockquote>
+<p>因为等账户注销时才会更新history文件，所以当多用户同时登陆同一账户时。最后注销用户的操作命令将会得到保存，前面用户操作命令将被覆盖</p>
+</blockquote>
+<p>**无法记录时间 **</p>
+<blockquote>
+<p>history无法记录时间，1000笔历史命令将依序记录～</p>
+</blockquote>
 <h3 id="bash-shell-操作环境">Bash Shell 操作环境</h3>
-<h3 id="管线命令pipe">管线命令(pipe)</h3>
+<h4 id="路径与名搜寻顺序">路径与名搜寻顺序</h4>
+<p><em><strong>指令运行顺序</strong></em>(ls)</p>
+<ol>
+<li>以相对/绝对路径执行指令，例如I /bin/s 」或「./Is 」;</li>
+<li>由alias 找到该指令来执行;</li>
+<li>由bash内建的(builtin) 指令来执行;</li>
+<li>透过$SPATH这个变量的顺序搜寻到的第-一个 指令来执行。</li>
+</ol>
+<h4 id="bash的登陆欢迎信息etcissueetcmotd">bash的登陆欢迎信息/etc/issue,/etc/motd</h4>
+<ul>
+<li>
+<p>/etc/issue(tty1-tty6终端提示)</p>
+<pre><code class="language-bash">[root@txtx_email ~]# cat /etc/issue
+\S
+Kernel \r on an \m
+
+#\d本地端时间的日期;
+#\1显示第几个终端机接口;
+#\m显示硬件的等级( i386/ i486/i586/ i686...);\n显示主机的网络名称;
+#\0显示domain name;
+#\r操作系统的版本(相当于uname -r)
+#\t显示本地端时间的时间;
+#\S操作系统的名称;
+#\v操作系统的版本。
+</code></pre>
+<p><em><strong>注意</strong></em></p>
+<blockquote>
+<p>除了/etc/issue还有/etc/issue.net是用来给tlnet连接时终端提示信息</p>
+</blockquote>
+</li>
+<li>
+<p>/etc/motd(使用者登陆后)</p>
+<pre><code class="language-bash">[root@txtx_email ~]# cat /etc/motd  &lt;&lt; EOF
+&gt;                  _oo0oo_
+&gt;                  088888880
+&gt;                  88&quot; . &quot;88
+&gt;                  (| -_- |)
+&gt;                  0\ = /0
+&gt;                 ___/'---'\___
+&gt;                .' \\\\|   |// '.
+&gt;               / \\\\||| : |||// \\
+&gt;               /_ ||||| -:- |||||- \\
+&gt;              |  | \\\\\\ - /// |  |
+&gt;              | \_| ''\---/'' |_/ |
+&gt;              \ .-\__ '-' __/-. /
+&gt;             ___'. .' /--.--\ '. .'___
+&gt;            .&quot;&quot; '&lt; '.___\_&lt;|&gt;_/___.' &gt;' &quot;&quot;.
+&gt;           | | : '- \'.;'\ _ /';.'/ - ' : | |
+&gt;           \ \ '_.  \_ __\ /__ _/  .-' / /
+&gt;         ====='-.____'.___ \_____/___.-'____.-'=====
+&gt;                  '=---='
+&gt; 
+&gt; 
+&gt;        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&gt;             佛祖保佑  iii  永不死机
+&gt;                $da
+&gt; EOF
+</code></pre>
+<p><em><strong>注意</strong></em></p>
+<blockquote>
+<p>一定要使用root才能修改/etc/motd文件，修改后当你使用一般账户或root登陆服务器都会显示motd的讯息</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="bash环境配置文件">bash环境配置文件</h4>
+<h5 id="login与non-login-shell">login与non-login shell</h5>
+<ul class="contains-task-list">
+<li>
+<p>login shell:取得bash 时需要完整的登入流程的，就称为login shell。</p>
+</li>
+<li>
+<p>non-login shell:取得bash 接口的方法不需要重复登入的举动</p>
+</li>
+<li class="task-list-item">
+<p><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox" id="task-item-6595928"><label class="task-list-item-label" for="task-item-6595928"> ​	1、你以X window登入Linux 后,再以X的图形化接口启动终端机，此时那个终端接口并没有需要再次的输入账号与密码，那个bash 的环境就称为non-login shell了。</label></p>
+</li>
+<li class="task-list-item">
+<p><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox" id="task-item-9654557"><label class="task-list-item-label" for="task-item-9654557"> ​	2、(你在原本的bash 环境下再次下达bash 这个指令，同样的也没有输入账号密码，那第二个 bash (子程序)也是non-login shell。</label></p>
+</li>
+</ul>
+<p><em><strong>login shell读取配置文件</strong></em></p>
+<blockquote>
+<p>/etc/profile: 这是系统整体的设定，你最好不要修改这个文件; .</p>
+</blockquote>
+<blockquote>
+<p>~/.bash profile或~/.bash login或~/.profle: 属于使用者个人设定，你要改自己的数据，就写入这里!</p>
+</blockquote>
+<h5 id="etcprofilelogin-shel-才会读">/etc/profile(login shel 才会读)</h5>
+<p>/etc/profile配置文件利用使用者的UID来决定重要变量数据，每个使用者登陆bash时都会读取这个配置文件,所以要设定使用者的整理环境可以修改/etc/profile<code>建议不要修改</code></p>
+<ul>
+<li>PATH:会依据UID决定PATH变量要不要含有sbin 的系统指令目录;</li>
+<li>MAIL:依据账号设定好使用者的mailbox 到/var/spool/mai/账 号名;</li>
+<li>USER:根据用户的账号设定此一变量内容;</li>
+<li>HOSTNAME:依据主机的hostname指令决定此--变量内容;.</li>
+<li>HISTSIZE:历史命令记录笔数。CentOS 7.x设定为1000 ;</li>
+<li>umask:包括root 默认为022而一-般用户为002等!</li>
+</ul>
+<p>/etc/profile还会运行其他脚本来获取其他数据:</p>
+<ol>
+<li>
+<p>/etc/profile.d/*.sh</p>
+<p>其实这是个目录内的众多文件!只要在/etc/profile.d/ 这个目录内且扩展名为.sh ，另外，使用者能够具有r的权限，那么该文件就 会被/etc/profile 呼叫进来。在CentOS 7.x中，这个目录底下的文件规范了bash 操作接口的颜色、语系、 11与ls指令的命令别名、vi的命令别名、which的命令别名等等。如果你需要帮所有使用者设定- - 些共享的命令别名时，可以在这个目录底下自行建立扩展名为.sh 的文件，并将所需要的数据写入即可喔!</p>
+</li>
+<li>
+<p>/etc/locale.conf</p>
+<p>这个文件是由/etc/profile.d/lang.sh呼叫进来的!这也是我们决定bash预设使用何种语系的重要配置文件!文件里最重要的就是LANG/LC_ ALL这些个变量的设定啦!</p>
+</li>
+<li>
+<p>/usr/share/bash-completion/completions/*</p>
+</li>
+</ol>
+<p>记得我们上头谈过[tab] 的妙用吧?除了命令补齐、档名补齐之外，还可以进行指令的选项/参数补齐功能!那就是从这个目录里面找到相对应的指令来处理的!其实这个目录底下的内容是由/etc/profile.d/bash_ completion.sh这个文件载入的啦!</p>
+<p><em><strong>注意:bash的login shell情况下所读取的整体环境配置文件其实只有/etc/profile,</strong></em></p>
+<h5 id="~bash_profilelogin-shell才会读">～/.bash_profile(login shell才会读)</h5>
+<p>在login shell的bash环境读取个人偏好配置文件主要有三个,bash 的login shell设定只会读取上面三个文件的其中一个，而 读取的顺序则是依照下面的顺序。</p>
+<ol>
+<li>~/.bash_login</li>
+<li>~/.bash_profile</li>
+<li>~/.profile</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://img-blog.csdn.net/20160627130225434?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="img" loading="lazy"></figure>
+<h5 id="source读入环境配置文件的指令">source:读入环境配置文件的指令</h5>
+<blockquote>
+<p>/etc/profile 与~/.bash_ profile 都是在取得login shell 的时候才会读取的配置文件</p>
+</blockquote>
+<pre><code class="language-bash">[root@txtx_email ~]# source 配置文件名
+范例一、将家目录的~/ . bashrc 的设定读入目前的bash 环境中
+[root@txtx_email ~]# source ~/.bashrc 
+[root@txtx_email ~]# . ~/.bashrc 
+#两条命令效果一样
+
+</code></pre>
+<h5 id="~bashrcnon-login-shell会读">～/.bashrc(non-login shell会读)</h5>
+<p>当使用non-login时只会读取～/.bashrc配置文件而已</p>
+<pre><code class="language-bash">[root@txtx_email ~]# cat ~/.bashrc 
+# .bashrc
+
+# User specific aliases and functions#使用者个人设定 
+
+alias rm='rm -i'		
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Source global definitions #整体环境设定
+if [ -f /etc/bashrc ]; then 
+        . /etc/bashrc
+fi
+</code></pre>
+<p>此外non-login和login还会运行/etc/bashrc文件因为需要</p>
+<ul>
+<li>依据不同的UID规范出umask的值;</li>
+<li>依据不同的UID规范出提示字符(就是PS1变量); .</li>
+<li>呼叫/etc/profile.d/*.sh 的设定</li>
+</ul>
+<p><em><strong>注意:/etc/bashrc文件为redhar和centos特有,其他版本以别的方式存在，万一系统没有/etc/bashrc会导致一些常用变量丢失。</strong></em></p>
+<h5 id="其他相关配置文件">其他相关配置文件</h5>
+<ul>
+<li>
+<p>/etc/man_db.conf</p>
+<p>规范了使用man的时候， man page 的路径到哪里去寻找!</p>
+</li>
+<li>
+<p>~/.bash_history</p>
+<p>每次登入bash后，bash会先读取这个文件，将所有的历史指令读入内存，因此，当我们登入bash 后就可以查知上次使用过哪些指令哕。</p>
+</li>
+<li>
+<p>~/.bash_logout</p>
+<p>当我注销bash后，系统再帮我做完什么动作后才离开</p>
+</li>
+</ul>
+<h4 id="终端环境设定sttyset">终端环境设定：stty,set</h4>
 
         </div>
         <!-- Share to Twitter, Weibo, Telegram -->
@@ -392,14 +859,46 @@ _=/usr/bin/env #上一次使用的指令的最后一个参数
 </ul>
 </li>
 <li><a href="#%E5%8F%98%E9%87%8F%E7%9A%84%E6%9C%89%E6%95%88%E8%8C%83%E5%9B%B4">变量的有效范围</a></li>
-<li><a href="#%E5%8F%98%E9%87%8F%E9%94%AE%E7%9B%98%E8%AF%BB%E5%8F%96">变量键盘读取</a></li>
-<li><a href="#ulimit%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%8F%8A%E7%A8%8B%E5%BA%8F%E7%9A%84%E9%99%90%E5%88%B6%E5%85%B3%E7%B3%BB">ulimit文件系统及程序的限制关系</a></li>
-<li><a href="#%E5%8F%98%E9%87%8F%E5%88%A0%E9%99%A4-%E5%8F%96%E4%BB%A3%E4%B8%8E%E6%9B%BF%E6%8D%A2optional">变量删除、取代与替换（Optional）</a></li>
+<li><a href="#%E5%8F%98%E9%87%8F%E9%94%AE%E7%9B%98%E8%AF%BB%E5%8F%96-%E6%95%B0%E7%BB%84%E4%B8%8E%E7%B1%BB%E5%9E%8Breadarraydeclare">变量键盘读取、数组与类型:read,array,declare</a>
+<ul>
+<li><a href="#read">read</a></li>
+<li><a href="#declaretypeset%E4%B8%A4%E5%91%BD%E4%BB%A4%E7%9B%B8%E5%90%8C">declare/typeset（两命令相同）</a></li>
+<li><a href="#array%E6%95%B0%E7%BB%84%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B">array数组变量类型</a></li>
 </ul>
 </li>
-<li><a href="#%E5%91%BD%E4%BB%A4%E5%88%AB%E5%90%8D%E4%B8%8E%E5%8E%86%E5%8F%B2%E5%91%BD%E4%BB%A4">命令别名与历史命令</a></li>
-<li><a href="#bash-shell-%E6%93%8D%E4%BD%9C%E7%8E%AF%E5%A2%83">Bash Shell 操作环境</a></li>
-<li><a href="#%E7%AE%A1%E7%BA%BF%E5%91%BD%E4%BB%A4pipe">管线命令(pipe)</a></li>
+<li><a href="#ulimit%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%8F%8A%E7%A8%8B%E5%BA%8F%E7%9A%84%E9%99%90%E5%88%B6%E5%85%B3%E7%B3%BB">ulimit文件系统及程序的限制关系</a></li>
+<li><a href="#%E5%8F%98%E9%87%8F%E5%88%A0%E9%99%A4-%E5%8F%96%E4%BB%A3%E4%B8%8E%E6%9B%BF%E6%8D%A2optional">变量删除、取代与替换（Optional）</a>
+<ul>
+<li><a href="#%E5%86%85%E5%AE%B9%E7%9A%84%E5%88%A0%E9%99%A4%E4%B8%8E%E5%8F%96%E4%BB%A3">内容的删除与取代</a></li>
+<li><a href="#%E5%8F%98%E9%87%8F%E7%9A%84%E6%B5%8B%E8%AF%95%E4%B8%8E%E5%86%85%E5%AE%B9%E6%9B%BF%E6%8D%A2">变量的测试与内容替换</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%91%BD%E4%BB%A4%E5%88%AB%E5%90%8D%E4%B8%8E%E5%8E%86%E5%8F%B2%E5%91%BD%E4%BB%A4">命令别名与历史命令</a><br>
+*
+<ul>
+<li><a href="#aliasunalias%E5%91%BD%E4%BB%A4%E5%88%AB%E5%90%8D%E8%AE%BE%E5%AE%9A">alias,unalias命令别名设定</a></li>
+<li><a href="#history%E5%8E%86%E5%8F%B2%E5%91%BD%E4%BB%A4">history历史命令</a></li>
+</ul>
+</li>
+<li><a href="#bash-shell-%E6%93%8D%E4%BD%9C%E7%8E%AF%E5%A2%83">Bash Shell 操作环境</a>
+<ul>
+<li><a href="#%E8%B7%AF%E5%BE%84%E4%B8%8E%E5%90%8D%E6%90%9C%E5%AF%BB%E9%A1%BA%E5%BA%8F">路径与名搜寻顺序</a></li>
+<li><a href="#bash%E7%9A%84%E7%99%BB%E9%99%86%E6%AC%A2%E8%BF%8E%E4%BF%A1%E6%81%AFetcissueetcmotd">bash的登陆欢迎信息/etc/issue,/etc/motd</a></li>
+<li><a href="#bash%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">bash环境配置文件</a>
+<ul>
+<li><a href="#login%E4%B8%8Enon-login-shell">login与non-login shell</a></li>
+<li><a href="#etcprofilelogin-shel-%E6%89%8D%E4%BC%9A%E8%AF%BB">/etc/profile(login shel 才会读)</a></li>
+<li><a href="#~bash_profilelogin-shell%E6%89%8D%E4%BC%9A%E8%AF%BB">～/.bash_profile(login shell才会读)</a></li>
+<li><a href="#source%E8%AF%BB%E5%85%A5%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E6%8C%87%E4%BB%A4">source:读入环境配置文件的指令</a></li>
+<li><a href="#~bashrcnon-login-shell%E4%BC%9A%E8%AF%BB">～/.bashrc(non-login shell会读)</a></li>
+<li><a href="#%E5%85%B6%E4%BB%96%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">其他相关配置文件</a></li>
+</ul>
+</li>
+<li><a href="#%E7%BB%88%E7%AB%AF%E7%8E%AF%E5%A2%83%E8%AE%BE%E5%AE%9Asttyset">终端环境设定：stty,set</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -471,11 +970,11 @@ _=/usr/bin/env #上一次使用的指令的最后一个参数
 </div>
 
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="https://zhanghaibin-a.github.io/media/scripts/main.js"></script>
+  <script src="http://localhost:4000/media/scripts/main.js"></script>
   
   <!-- Code Highlight -->
   
-    <script src="https://zhanghaibin-a.github.io/media/prism.js"></script>
+    <script src="http://localhost:4000/media/prism.js"></script>
     <script>
       Prism.highlightAll()
     </script>
@@ -565,7 +1064,7 @@ _=/usr/bin/env #上一次使用的指令的最后一个参数
     //初始化
     initImg();
   </script>
-  <script type="application/javascript" src="https://zhanghaibin-a.github.io/media/scripts/valine.min.js"></script>
+  <script type="application/javascript" src="http://localhost:4000/media/scripts/valine.min.js"></script>
   <script type="application/javascript">
   
     // var valine = new Valine();
