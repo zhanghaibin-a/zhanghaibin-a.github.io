@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>http://localhost:4000</id>
+    <id>https://zhanghaibin-a.github.io</id>
     <title>温故而知新</title>
-    <updated>2020-03-22T21:45:50.503Z</updated>
+    <updated>2020-03-23T21:32:39.104Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="http://localhost:4000"/>
-    <link rel="self" href="http://localhost:4000/atom.xml"/>
+    <link rel="alternate" href="https://zhanghaibin-a.github.io"/>
+    <link rel="self" href="https://zhanghaibin-a.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
-    <logo>http://localhost:4000/images/avatar.png</logo>
-    <icon>http://localhost:4000/favicon.ico</icon>
+    <logo>https://zhanghaibin-a.github.io/images/avatar.png</logo>
+    <icon>https://zhanghaibin-a.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 温故而知新</rights>
     <entry>
+        <title type="html"><![CDATA[【chapter3】Django_URL_template「1」]]></title>
+        <id>https://zhanghaibin-a.github.io/post/chapter2-django_url_template1/</id>
+        <link href="https://zhanghaibin-a.github.io/post/chapter2-django_url_template1/">
+        </link>
+        <updated>2020-03-23T21:30:35.000Z</updated>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[【chapter2】Django_URL_views]]></title>
-        <id>http://localhost:4000/post/chapter2-django_url_views/</id>
-        <link href="http://localhost:4000/post/chapter2-django_url_views/">
+        <id>https://zhanghaibin-a.github.io/post/chapter2-django_url_views/</id>
+        <link href="https://zhanghaibin-a.github.io/post/chapter2-django_url_views/">
         </link>
         <updated>2020-03-17T15:53:48.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[鸟哥十章#认识学习BASH]]></title>
-        <id>http://localhost:4000/post/niao-ge-linuxren-shi-xue-xi-bash/</id>
-        <link href="http://localhost:4000/post/niao-ge-linuxren-shi-xue-xi-bash/">
+        <id>https://zhanghaibin-a.github.io/post/niao-ge-linuxren-shi-xue-xi-bash/</id>
+        <link href="https://zhanghaibin-a.github.io/post/niao-ge-linuxren-shi-xue-xi-bash/">
         </link>
         <updated>2020-03-10T20:47:55.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[鸟哥二十章#系统基础设置与备份策略]]></title>
-        <id>http://localhost:4000/post/niao-ge-er-shi-zhang-xi-tong-ji-chu-she-zhi-yu-bei-fen-ce-lue/</id>
-        <link href="http://localhost:4000/post/niao-ge-er-shi-zhang-xi-tong-ji-chu-she-zhi-yu-bei-fen-ce-lue/">
+        <id>https://zhanghaibin-a.github.io/post/niao-ge-er-shi-zhang-xi-tong-ji-chu-she-zhi-yu-bei-fen-ce-lue/</id>
+        <link href="https://zhanghaibin-a.github.io/post/niao-ge-er-shi-zhang-xi-tong-ji-chu-she-zhi-yu-bei-fen-ce-lue/">
         </link>
         <updated>2020-03-05T18:48:13.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[C 语言入门教程]]></title>
-        <id>http://localhost:4000/post/c-yu-yan-ru-men-jiao-cheng/</id>
-        <link href="http://localhost:4000/post/c-yu-yan-ru-men-jiao-cheng/">
+        <id>https://zhanghaibin-a.github.io/post/c-yu-yan-ru-men-jiao-cheng/</id>
+        <link href="https://zhanghaibin-a.github.io/post/c-yu-yan-ru-men-jiao-cheng/">
         </link>
         <updated>2020-03-05T15:04:53.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[Day7#beautiful_soup使用方法]]></title>
-        <id>http://localhost:4000/post/day7beautiful_soup-shi-yong-fang-fa/</id>
-        <link href="http://localhost:4000/post/day7beautiful_soup-shi-yong-fang-fa/">
+        <id>https://zhanghaibin-a.github.io/post/day7beautiful_soup-shi-yong-fang-fa/</id>
+        <link href="https://zhanghaibin-a.github.io/post/day7beautiful_soup-shi-yong-fang-fa/">
         </link>
         <updated>2020-03-03T18:54:23.000Z</updated>
         <summary type="html"><![CDATA[<h3 id="1-beautiful_souplxml转html">1、beautiful_soup（lxml转html)</h3>
@@ -53,37 +60,30 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Day6#正则表达式re和xpath-解析库使用]]></title>
-        <id>http://localhost:4000/post/day6zheng-ze-biao-da-shi-re-he-xpath-jie-xi-ku-shi-yong/</id>
-        <link href="http://localhost:4000/post/day6zheng-ze-biao-da-shi-re-he-xpath-jie-xi-ku-shi-yong/">
+        <id>https://zhanghaibin-a.github.io/post/day6zheng-ze-biao-da-shi-re-he-xpath-jie-xi-ku-shi-yong/</id>
+        <link href="https://zhanghaibin-a.github.io/post/day6zheng-ze-biao-da-shi-re-he-xpath-jie-xi-ku-shi-yong/">
         </link>
         <updated>2020-03-03T18:49:22.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[Day5#requests代理和cookie请求方法]]></title>
-        <id>http://localhost:4000/post/day5requests-dai-li-he-cookie-qing-qiu-fang-fa/</id>
-        <link href="http://localhost:4000/post/day5requests-dai-li-he-cookie-qing-qiu-fang-fa/">
+        <id>https://zhanghaibin-a.github.io/post/day5requests-dai-li-he-cookie-qing-qiu-fang-fa/</id>
+        <link href="https://zhanghaibin-a.github.io/post/day5requests-dai-li-he-cookie-qing-qiu-fang-fa/">
         </link>
         <updated>2020-03-03T18:42:14.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[Day4#urllib_cookie*2和request模块基本用法]]></title>
-        <id>http://localhost:4000/post/day4urllib_cookie2-he-request-mo-kuai-ji-ben-yong-fa/</id>
-        <link href="http://localhost:4000/post/day4urllib_cookie2-he-request-mo-kuai-ji-ben-yong-fa/">
+        <id>https://zhanghaibin-a.github.io/post/day4urllib_cookie2-he-request-mo-kuai-ji-ben-yong-fa/</id>
+        <link href="https://zhanghaibin-a.github.io/post/day4urllib_cookie2-he-request-mo-kuai-ji-ben-yong-fa/">
         </link>
         <updated>2020-03-03T18:08:39.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[Day2#Urllib_requests请求头和代理添加]]></title>
-        <id>http://localhost:4000/post/day2urllib_requests-qing-qiu-tou-he-dai-li-tian-jia/</id>
-        <link href="http://localhost:4000/post/day2urllib_requests-qing-qiu-tou-he-dai-li-tian-jia/">
+        <id>https://zhanghaibin-a.github.io/post/day2urllib_requests-qing-qiu-tou-he-dai-li-tian-jia/</id>
+        <link href="https://zhanghaibin-a.github.io/post/day2urllib_requests-qing-qiu-tou-he-dai-li-tian-jia/">
         </link>
         <updated>2020-03-03T17:44:26.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Day1#Urllib_request基本请求和解码]]></title>
-        <id>http://localhost:4000/post/day1request-ji-ben-qing-qiu-he-jie-ma/</id>
-        <link href="http://localhost:4000/post/day1request-ji-ben-qing-qiu-he-jie-ma/">
-        </link>
-        <updated>2020-03-03T17:38:53.000Z</updated>
     </entry>
 </feed>
