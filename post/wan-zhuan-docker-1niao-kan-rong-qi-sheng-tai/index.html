@@ -1,0 +1,474 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>玩转Docker--1#鸟瞰容器生态 - 温故而知新</title>
+<link rel="shortcut icon" href="https://zhanghaibin-a.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"> -->
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="玩转Docker--1#鸟瞰容器生态 - 温故而知新 - Atom Feed" href="https://zhanghaibin-a.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="容器核心技术
+容器核心技术是指能够让Container在host上运行起来的那些技术
+容器规范
+Open Container Initiative(OCI)定义了容器运行时标准目前发布了runtime spec、Image format s..." />
+  <meta property="og:title" content="玩转Docker--1#鸟瞰容器生态 - 温故而知新">
+  <meta property="og:description" content="容器核心技术
+容器核心技术是指能够让Container在host上运行起来的那些技术
+容器规范
+Open Container Initiative(OCI)定义了容器运行时标准目前发布了runtime spec、Image format s..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://zhanghaibin-a.github.io/post/wan-zhuan-docker-1niao-kan-rong-qi-sheng-tai/" />
+  <meta property="og:image" content="http://img0.imgtn.bdimg.com/it/u=1225647447,3612185683&amp;fm=26&amp;gp=0.jpg">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="玩转Docker--1#鸟瞰容器生态 - 温故而知新">
+  <meta name="twitter:description" content="容器核心技术
+容器核心技术是指能够让Container在host上运行起来的那些技术
+容器规范
+Open Container Initiative(OCI)定义了容器运行时标准目前发布了runtime spec、Image format s...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zhanghaibin-a.github.io/post/wan-zhuan-docker-1niao-kan-rong-qi-sheng-tai/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://zhanghaibin-a.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      温故而知新
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          玩转Docker--1#鸟瞰容器生态
+        </h1>
+        
+          <img src="http://img0.imgtn.bdimg.com/it/u=1225647447,3612185683&amp;fm=26&amp;gp=0.jpg" alt="玩转Docker--1#鸟瞰容器生态" class="block w-full mb-8">
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-03-27 · 7 min read</div>
+          
+            <a href="https://zhanghaibin-a.github.io/tag/MKT0rKTst/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              玩转docker
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <h3 id="容器核心技术">容器核心技术</h3>
+<p>容器核心技术是指能够让<code>Container</code>在host上运行起来的那些技术</p>
+<h4 id="容器规范">容器规范</h4>
+<p><code>Open Container Initiative(OCI)</code>定义了容器运行时标准目前发布了<code>runtime spec、Image format spec</code>两个规范,用来保证容器的可移植性和互操作性。</p>
+<h4 id="容器runtime">容器runtime</h4>
+<p><code>runtime</code>是容器真正运行的地方。<code>runtime</code> 需要跟操作系统<code>kernel</code> 紧密协作，为容器提供运行环境。</p>
+<ul>
+<li>lxc： Linux老牌容器<code>Runtime</code>。Docker最初的<code>Runtime</code></li>
+<li>runc：Docker自己开发的容器<code>Runtime</code>符合OCI规范，当前Docker默认<code>Runtime</code></li>
+<li>rkt：Centos开发的容器<code>Runtime</code>符合OCI规范,因而能运行在Docker容器</li>
+</ul>
+<h4 id="容器管理工具">容器管理工具</h4>
+<p>容器管理工具对内与<code>runtime</code> 交互，对外为用户提供<code>interface</code>， 比如CLI。</p>
+<ul>
+<li>lxd：<code>lxc runtime</code>对应管理工具</li>
+<li>Docker engine：<code>runc runtime</code>对应管理工具<code>docker engine</code>包含后台<code>deamon</code>和<code>cli</code>两个部分。一般我们提docker就是指<code>Docker engine</code></li>
+<li>rkt cli：<code>rkt runtime</code>对应管理工具</li>
+</ul>
+<h4 id="容器定义工具">容器定义工具</h4>
+<p>容器定义工具允许用户定义容器的内容和属性，这样容器就能够被保存、共享和重建。</p>
+<ul>
+<li>Docker image：Docker容器的模板，<code>runtime</code> 依据<code>docker image</code>创建容器。</li>
+<li>Docker file：是包含若干命令的文本文件，可以通过这些命令创建出<code>docker image</code>。</li>
+<li>ACI(App Continer image)：与<code>docker image</code>类似,是由CoreOS开发的<code>rkt</code>容器的<code>image</code>格式。</li>
+</ul>
+<h4 id="registries">Registries</h4>
+<p>容器通过<code>image</code>创建的，需要有一个仓库来统一存放<code>image</code>, 这个仓库就叫做<code>Registry</code>。</p>
+<p>Docker Registry：官方开源了<code>Docker Registry</code>的源代码,企业可自行搭建私用<code>Registry</code></p>
+<p>Docker Hub：Docker公共托管Registry<code>https://hub.docker.com</code></p>
+<p>Quay.io：另一个公共托管<code>Registry</code>, 提供与<code>Docker Hub</code>类似的服务。<code>https://quay.io</code></p>
+<h4 id="容器os">容器os</h4>
+<p>容器OS是专门运行容器的操作系统。与常规OS相比，容器OS通常体积更小，启动更快。因为是为容器定制的OS,通常它们运行容器的效率会更高。</p>
+<p><em><strong>杰出的容器os</strong></em></p>
+<ol>
+<li>coreos</li>
+<li>atomic</li>
+<li>ubuntu core</li>
+</ol>
+<h3 id="容器平台技术">容器平台技术</h3>
+<p>容器核心技术使得容器能够在单个host. 上运行， 而容器平台技术能够让容器作为集群在分布式环境中运行。</p>
+<h4 id="容器编排引擎">容器编排引擎</h4>
+<p>所谓编排<code>orchestration)</code>，通常包括容器管理、调度、集群定义和服务发现等。通过容器编排引擎，容器被有机地组合成微服务应用，实现业务需求。</p>
+<ul>
+<li>
+<p>Docker swarm ：docker开发的容器编排引擎</p>
+</li>
+<li>
+<p>kubernetes：Goole领导开发的开源容器编排引擎，同时支持<code>Docker</code>和<code>CoreOS</code>容器</p>
+</li>
+<li>
+<p>mesos+marathon：是一个通用的集群资源调度平台，<code>mesos</code> 与<code>marathon</code> 一起提供容器编排引擎功能。</p>
+</li>
+</ul>
+<h4 id="容器管理平台">容器管理平台</h4>
+<p>容器管理平台是架构在容器编排引擎之上的一个更为通用的平台。通常容器管理平台能够支持多种编排引擎，抽象了编排引擎的底层实现细节，为用户提供更方便的功能，比如<code>application catalog</code>和一键应用部署等 。</p>
+<p><em><strong>典型代表</strong></em></p>
+<ul>
+<li>Rancher</li>
+<li>Container Ship</li>
+</ul>
+<h4 id="基于容器的paas">基于容器的PaaS</h4>
+<p>基于容器的PaaS为微服务应用开发人员和公司提供了开发、部署和管理应用的平台，使用户不必关心底层基础设施而专注于应用的开发。</p>
+<p><em><strong>代表</strong></em></p>
+<ol>
+<li>Deis</li>
+<li>Dlynn</li>
+<li>Dokku</li>
+</ol>
+<h3 id="容器支持技术">容器支持技术</h3>
+<h4 id="容器网络">容器网络</h4>
+<p>容器的出现使网络拓扑变得更加动态和复杂。用户需要专门的解决方案来管理容器与容器、容器与其他实体之间的连通性和隔离性。</p>
+<ul>
+<li>Docker network：Docker原生网络解决方案</li>
+<li>flannel：CoreOS 团队针对 Kubernetes 设计的一个开源覆盖网络(Overlay Network)工具</li>
+<li>weave：Weave创建的网络可以连通在不同位置的容器，比如公有云、私有云，虚拟机和裸金属设备，容器网络可以承载二层和三层的流量，并支持多播；</li>
+<li>Calico：Calico是一个纯三层的协议，为OpenStack虚机和Docker容器提供多主机间通信。</li>
+</ul>
+<h4 id="服务发现">服务发现</h4>
+<p>服务发现会保存容器集群中所有微服务最新的信息，比如IP 和端口，并对外提供API,提供服务查询功能。</p>
+<p><code>典型解决方案</code></p>
+<ul>
+<li>etcd：<code>https://blog.csdn.net/bbwangj/article/details/82584988</code></li>
+<li>consul：<code>Consu</code>l是一个服务网格（微服务间的 TCP/IP，负责服务之间的网络调用、限流、熔断和监控）解决方案，它是一个一个分布式的，高度可用的系统，而且开发使用都很简便。</li>
+<li>Zookeeper：<code>ZooKeeper</code>是一个分布式的，开放源码的分布式应用程序协调服务，是<code>Google</code>的<code>Chubby</code>一个开源的实现，是<code>Hadoop</code>和<code>Hbase</code>的重要组件。</li>
+</ul>
+<h4 id="监控">监控</h4>
+<p>监控对于基础架构非常重要，而容器的动态特征对监控提出更多挑战。</p>
+<ul>
+<li>Docker ps/top/stats：Docker原生命令行监控工具</li>
+<li>docker stats API：Docker提供的API 通过HTTP获取容器状态信息</li>
+<li>Sysdig：开源docker监控工具</li>
+<li>cAdvisor/Heapster：开源docker监控工具</li>
+<li>Weave Scope：开源docker监控工具</li>
+</ul>
+<h4 id="数据管理">数据管理</h4>
+<p>容器经常会在不同的host 之间迁移，如何保证持久化数据也能够动态迁移，是Rex-Ray这类数据管理工具提供的能力.</p>
+<h4 id="日志管理">日志管理</h4>
+<p>日志为问题排查和事件管理提供了重要依据。</p>
+<p>Docker logs:Docker原生日志工具</p>
+<p>Logspout:对日志提供了路由功能，可以收集不同的容器的日志并转发给其他工具处理</p>
+<h4 id="安全性">安全性</h4>
+<p>OpenSCAP：能够对容器镜像进行扫描，发现潜在漏洞。</p>
+<h3 id="docker实验命令">Docker实验命令</h3>
+<p>1、apt install HTTPS access docker origin</p>
+<pre><code class="language-bash">sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+</code></pre>
+<p>2、add docker official GPG key</p>
+<pre><code class="language-bash">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+</code></pre>
+<p>3、will docker GPG key add to /etc/apt/sources.list</p>
+<pre><code class="language-bash">sudo add-apt-repository &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable&quot;
+</code></pre>
+<p>4、install docker</p>
+<pre><code class="language-bash">sudo apt-get update 
+sudo apt-get installl docker-ce -y
+</code></pre>
+<p>5、modification docker origin by inland origin</p>
+<pre><code class="language-bash">#https://www.daocloud.io/mirror #inland origin download 
+sudo curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2.m.daocloud.io
+</code></pre>
+<p>6、restart docker service</p>
+<pre><code class="language-bash">systemctl restart docker.service
+</code></pre>
+<p>7、test run docker apache Http service</p>
+<pre><code class="language-bash">docker run -d -p 80:80 httpd
+docker container ls #show docker runtime status info 
+</code></pre>
+<p>8、test access httpd 80 port</p>
+<pre><code>root@zhang-Ubuntu:/# curl 127.0.0.1
+&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div id="vlaine-comment"></div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Powered by <a href="http://zhang-blog.github.io/" target="_blank">Gridea</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E5%AE%B9%E5%99%A8%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF">容器核心技术</a>
+<ul>
+<li><a href="#%E5%AE%B9%E5%99%A8%E8%A7%84%E8%8C%83">容器规范</a></li>
+<li><a href="#%E5%AE%B9%E5%99%A8runtime">容器runtime</a></li>
+<li><a href="#%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7">容器管理工具</a></li>
+<li><a href="#%E5%AE%B9%E5%99%A8%E5%AE%9A%E4%B9%89%E5%B7%A5%E5%85%B7">容器定义工具</a></li>
+<li><a href="#registries">Registries</a></li>
+<li><a href="#%E5%AE%B9%E5%99%A8os">容器os</a></li>
+</ul>
+</li>
+<li><a href="#%E5%AE%B9%E5%99%A8%E5%B9%B3%E5%8F%B0%E6%8A%80%E6%9C%AF">容器平台技术</a>
+<ul>
+<li><a href="#%E5%AE%B9%E5%99%A8%E7%BC%96%E6%8E%92%E5%BC%95%E6%93%8E">容器编排引擎</a></li>
+<li><a href="#%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0">容器管理平台</a></li>
+<li><a href="#%E5%9F%BA%E4%BA%8E%E5%AE%B9%E5%99%A8%E7%9A%84paas">基于容器的PaaS</a></li>
+</ul>
+</li>
+<li><a href="#%E5%AE%B9%E5%99%A8%E6%94%AF%E6%8C%81%E6%8A%80%E6%9C%AF">容器支持技术</a>
+<ul>
+<li><a href="#%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C">容器网络</a></li>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0">服务发现</a></li>
+<li><a href="#%E7%9B%91%E6%8E%A7">监控</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86">数据管理</a></li>
+<li><a href="#%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86">日志管理</a></li>
+<li><a href="#%E5%AE%89%E5%85%A8%E6%80%A7">安全性</a></li>
+</ul>
+</li>
+<li><a href="#docker%E5%AE%9E%E9%AA%8C%E5%91%BD%E4%BB%A4">Docker实验命令</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zhanghaibin-a.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://zhanghaibin-a.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  <script type="application/javascript" src="https://zhanghaibin-a.github.io/media/scripts/valine.min.js"></script>
+  <script type="application/javascript">
+  
+    // var valine = new Valine();
+    // valine.init({
+    //   el: '#vlaine-comment',
+    //   appId: '',
+    //   appKey: '',
+    //   notify: false,
+    //   avatar: 'mp',
+    //   verify: true,
+    //   placeholder: '来都来了，不妨评论一下',
+    //   visitor: false,
+    //   highlight: false,
+    //   recordIP: false,
+    // })
+  
+    var valine = new Valine();
+    valine.init({
+      el: '#vlaine-comment',
+      appId: '',
+      appKey: '',
+      notify: false,
+      verify: false,
+      visitor: true,
+      avatar: 'mp',
+      placeholder: '加入讨论...'
+    })
+  </script>
+</body>
+
+</html>
