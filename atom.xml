@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zhanghaibin-a.github.io</id>
     <title>温故而知新</title>
-    <updated>2020-03-27T09:22:27.534Z</updated>
+    <updated>2020-03-28T12:15:34.446Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zhanghaibin-a.github.io"/>
     <link rel="self" href="https://zhanghaibin-a.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://zhanghaibin-a.github.io/images/avatar.png</logo>
     <icon>https://zhanghaibin-a.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 温故而知新</rights>
+    <entry>
+        <title type="html"><![CDATA[玩转Openstack--1#虚拟化]]></title>
+        <id>https://zhanghaibin-a.github.io/post/wan-zhuan-openstack-1xu-ni-hua/</id>
+        <link href="https://zhanghaibin-a.github.io/post/wan-zhuan-openstack-1xu-ni-hua/">
+        </link>
+        <updated>2020-03-28T12:11:34.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[玩转Docker--1#鸟瞰容器生态]]></title>
         <id>https://zhanghaibin-a.github.io/post/wan-zhuan-docker-1niao-kan-rong-qi-sheng-tai/</id>
@@ -78,12 +85,5 @@
         <link href="https://zhanghaibin-a.github.io/post/day5requests-dai-li-he-cookie-qing-qiu-fang-fa/">
         </link>
         <updated>2020-03-03T18:42:14.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Day4#urllib_cookie*2和request模块基本用法]]></title>
-        <id>https://zhanghaibin-a.github.io/post/day4urllib_cookie2-he-request-mo-kuai-ji-ben-yong-fa/</id>
-        <link href="https://zhanghaibin-a.github.io/post/day4urllib_cookie2-he-request-mo-kuai-ji-ben-yong-fa/">
-        </link>
-        <updated>2020-03-03T18:08:39.000Z</updated>
     </entry>
 </feed>

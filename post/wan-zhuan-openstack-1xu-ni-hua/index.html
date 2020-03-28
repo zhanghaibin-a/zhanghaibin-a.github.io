@@ -1,0 +1,612 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>玩转Openstack--1#虚拟化 - 温故而知新</title>
+<link rel="shortcut icon" href="https://zhanghaibin-a.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"> -->
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="玩转Openstack--1#虚拟化 - 温故而知新 - Atom Feed" href="https://zhanghaibin-a.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="虚拟化是云计算的基础。简单地说，虚拟化使得在一台物理的服 务器上可以跑多台虚拟机，虚拟机共享物理机的CPU、内存、I0 硬件资源，但逻辑上虚拟机之间是相互隔离的。
+根据Hypervisor的实现方式和所处的位置，虚拟化又分为:
+
+
+1型虚拟..." />
+  <meta property="og:title" content="玩转Openstack--1#虚拟化 - 温故而知新">
+  <meta property="og:description" content="虚拟化是云计算的基础。简单地说，虚拟化使得在一台物理的服 务器上可以跑多台虚拟机，虚拟机共享物理机的CPU、内存、I0 硬件资源，但逻辑上虚拟机之间是相互隔离的。
+根据Hypervisor的实现方式和所处的位置，虚拟化又分为:
+
+
+1型虚拟..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://zhanghaibin-a.github.io/post/wan-zhuan-openstack-1xu-ni-hua/" />
+  <meta property="og:image" content="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1585407728246&amp;di=9a67c3c890f4de66a9ec103d76bde9ea&amp;imgtype=0&amp;src=http%3A%2F%2Fwww.agileea.com%2Fwp%2Fwp-content%2Fuploads%2F2017%2F04%2Fopenstack-cloud-computing.jpg">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="玩转Openstack--1#虚拟化 - 温故而知新">
+  <meta name="twitter:description" content="虚拟化是云计算的基础。简单地说，虚拟化使得在一台物理的服 务器上可以跑多台虚拟机，虚拟机共享物理机的CPU、内存、I0 硬件资源，但逻辑上虚拟机之间是相互隔离的。
+根据Hypervisor的实现方式和所处的位置，虚拟化又分为:
+
+
+1型虚拟...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zhanghaibin-a.github.io/post/wan-zhuan-openstack-1xu-ni-hua/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://zhanghaibin-a.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      温故而知新
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          玩转Openstack--1#虚拟化
+        </h1>
+        
+          <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1585407728246&amp;di=9a67c3c890f4de66a9ec103d76bde9ea&amp;imgtype=0&amp;src=http%3A%2F%2Fwww.agileea.com%2Fwp%2Fwp-content%2Fuploads%2F2017%2F04%2Fopenstack-cloud-computing.jpg" alt="玩转Openstack--1#虚拟化" class="block w-full mb-8">
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-03-28 · 9 min read</div>
+          
+            <a href="https://zhanghaibin-a.github.io/tag/AutsNYtaD/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              玩转openstack
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p>虚拟化是云计算的基础。简单地说，虚拟化使得在一台物理的服 务器上可以跑多台虚拟机，虚拟机共享物理机的CPU、内存、I0 硬件资源，但逻辑上虚拟机之间是相互隔离的。</p>
+<p>根据<code>Hypervisor</code>的实现方式和所处的位置，虚拟化又分为:</p>
+<ul>
+<li>
+<p>1型虚拟化和</p>
+<p><code>Hypervisor</code>直接安装在物理机上，多个虚拟机在<code>Hypervisor</code>上运行。</p>
+<figure data-type="image" tabindex="1"><img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=759316157,3380112575&amp;fm=26&amp;gp=0.jpg" alt="img" loading="lazy"></figure>
+</li>
+<li>
+<p>2型虚拟化</p>
+<p>物理机上首先安装常规的操作系统，比如Redhat. Ubuntu 和Windows. Hyperisor 作为os上的-一个程序模块运行，并对虚拟机进行管理。</p>
+<figure data-type="image" tabindex="2"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2766837875,336108834&amp;fm=15&amp;gp=0.jpg" alt="img" loading="lazy"></figure>
+</li>
+</ul>
+<p><em><strong>注意:</strong></em></p>
+<ul>
+<li>1.型虚拟化一般对硬件虚拟化功能进行了特别优化，性能上比2型要高;</li>
+<li>2.型虚拟化因为基于普通的操作系统,会比较灵活,比如支持虚拟机嵌套。嵌套意味着可以生KVM虚拟机中再运行KVM。</li>
+</ul>
+<h3 id="kvm虚拟化原理">KVM虚拟化原理</h3>
+<h4 id="cpu虚拟化">CPU虚拟化</h4>
+<p>KVM的虚拟化是需要CPU硬件支持</p>
+<pre><code class="language-bash">root@openstack:~# grep -Eo '(vmx|svm)' /proc/cpuinfo 
+vmx
+###vmx一般指intel Cpu支持虚拟化
+###svm一般指AMD   Cpu支持虚拟化
+</code></pre>
+<p>一个KVM虚机在宿主机中是一个qemu-kvm 进程,与其他Linux 进程一样被调度。</p>
+<pre><code class="language-bash">root@openstack:~# virsh list 
+ Id    Name                           State
+----------------------------------------------------
+ 1     VM1                            running
+ 2     VM2                            running
+ root@openstack:~# ps aux |grep qemu-system-x86_64
+ libvirt+  3204  2.7  3.2 1064712 132624 ?      Sl   09:10   2:04 qemu-system-x86_64 -enable-kvm -name guest=VM1,
+ libvirt+  3338  2.7  3.2 1064712 132100 ?      Sl   09:10   2:04 qemu-system-x86_64 -enable-kvm -name guest=VM2
+</code></pre>
+<p>虚拟机的每一个虚拟vCPU 对应qemu-kvm进程中的一个线程。</p>
+<figure data-type="image" tabindex="3"><img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3699014927,628054277&amp;fm=26&amp;gp=0.jpg" alt="img" loading="lazy"></figure>
+<p><em><strong>注意：</strong></em></p>
+<p>虚机的vCPU总数可以超过物理CPU数量,KVM允许<code>overcommit</code>, 这个特性使得虚机能够充分利用宿主机的CPU资源,但前提是在同一时刻，不是所有的虚机都满负荷运行。</p>
+<h4 id="内存虚拟化">内存虚拟化</h4>
+<p>KVM通过内存虚拟化共享物理系统内存，动态分配给虚拟机</p>
+<img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=4290737511,1327008464&amp;fm=26&amp;gp=0.jpg" alt="img" style="zoom:50%;" />
+<ul>
+<li>KVM需要实现VA (虚拟内存)→PA (物理内存)→MA (机器内存)之间的地址转换。</li>
+<li>虚机OS控制虚拟地址到客户内存物理地址的映射(VA →PA)，但是虚机OS不能直接访问实际机器内存。</li>
+<li>因此KVM需要负责映射客户物理内存到实际机器内存(PA →MA)。</li>
+</ul>
+<p><em><strong>注意：</strong></em></p>
+<p>内存也是可以overcommit 的，即所有虚机的内存之和可以超过宿主机的物理内存。</p>
+<h4 id="存储虚拟化">存储虚拟化</h4>
+<p>KVM的存储虚拟化是通过存储池(Storage Pool)和卷(Volume) 来管理的。</p>
+<p>Storage Pool 是宿主机上可以看到的一片 存储空间可以是多种类型，。Volume是在Storage Pool中划分出的一块空间， 宿主机将Volume 分配给虚拟机，Volume 在虚拟机中看到的就是一块硬盘。</p>
+<h5 id="目录类型的storage-pool">目录类型的Storage Pool</h5>
+<ul>
+<li>文件目录是最常用的Storage Pool类型。</li>
+<li>KVM将宿主机目录/var/lib/libvirt/images/ 作为默认的Storage Pool。</li>
+<li>Volume: 在/var/lib/libvirt/images/ 目录下一个文件就是一个Volume</li>
+</ul>
+<pre><code class="language-bash">root@openstack:/var/lib/libvirt/images# ls -lh /var/lib/libvirt/images
+总用量 42M
+-rw-r--r-- 1 libvirt-qemu kvm 13M 3月  28 07:17 cirros-0.3.4-x86_64-disk.img
+-rw-r--r-- 1 libvirt-qemu kvm 15M 3月  28 08:47 mv1.img
+-rw-r--r-- 1 libvirt-qemu kvm 15M 3月  28 08:48 mv2.img
+#可以修改默认Storage Pool目录
+root@openstack:# cat /etc/libvirt/storage/default.xml |grep  path
+    &lt;path&gt;/var/lib/libvirt/images&lt;/path&gt;
+#文件做Volume 有很多优点:存储方便、移植性好、可复制、可远程访问。
+</code></pre>
+<p><em><strong>远程访问</strong></em></p>
+<p>远程访问的意思是镜像文件不一-定 都放置到宿主机本地文件系统中，也可以存储在通过网络连接的远程文件系统，比如NFS,或者是分布式文件系统中。</p>
+<p>添加硬件-&gt;选择创建自定义存储-&gt;创建卷-&gt;格式</p>
+<ul>
+<li>raw：是默认格式，即原始磁盘镜像格式，移植性好，性能好，但大小固定，不能节省磁盘空间。</li>
+<li>qcow2：是推荐使用的格式，( cow表示 示copy on write, 能够节省磁盘空间，支持AES加密，支持zlib压缩，支持多快照，功能很多。</li>
+<li>vmdk:VMWare虚拟机磁盘格式，</li>
+</ul>
+<h5 id="lvm类型的storage-pool">LVM类型的Storage Pool</h5>
+<ul>
+<li>宿主机上VG中的LV也可以作为虚拟磁盘分配给虚拟机使用。</li>
+<li>LV由于没有磁盘的MBR引导记录，不能作为虚拟机的启动盘，只能作为数据盘使用。</li>
+<li>这种配置下，宿主机上的VG就是一个Storage Pool, VG中的LV就是Volume。</li>
+<li>LV的优点是有较好的性能;不足的地方是管理和移动性方面不如镜像文件，而且不能通过网络远程使用。</li>
+</ul>
+<h5 id="其他类型的storage-pool">其他类型的Storage Pool</h5>
+<p>KVM还支持iSCSI、 Ceph等多种类型的Storage Pool</p>
+<h3 id="网络虚拟化">网络虚拟化</h3>
+<figure data-type="image" tabindex="4"><img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1585377602020&amp;di=fa957cd12cc5e7f3703ba635118efe17&amp;imgtype=0&amp;src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D4198062902%2C583930564%26fm%3D214%26gp%3D0.jpg" alt="img" loading="lazy"></figure>
+<h4 id="linux-bridge">Linux Bridge</h4>
+<figure data-type="image" tabindex="5"><img src="http://cdn.ttgtmedia.com/rms/onlineImages/kvmnet_580.jpg" alt="查看源图像" loading="lazy"></figure>
+<p>Linux Bridge 是Linux上用来做TCP/IP二层协议交换的设备,其功能大家可以简单地理解为是一个二层交换机或者Hub。 多个网络设备可以连接到同-一个 Linux Bridge,当某个设备收到数据包时，Linux Bridge会将数据转发给其他设备。</p>
+<p>注意：</p>
+<ul>
+<li>之前宿主机的IP是通过dhep 配置在eth0 上的;创建Linux Bridge之后，IP就必须放到br0上了。</li>
+<li>在br0的配置信息中请注意最后一行bridge ports eth0, 其作用就是将eth0挂到br0上。</li>
+</ul>
+<h4 id="vlan">VLAN</h4>
+<p>在计算机网络中，一个二层网络可以被划分为多个不同的广播域，一个广播域对应了一个特定的用户组，默认情况下这些不同的广播域是相互隔离的。不同的广播域之间想要通信，需要通过一个或多个路由器。这样的一个广播域就称为VLAN。</p>
+<p>交换机两种配置模式：</p>
+<ul>
+<li>
+<p>Access:这些端口被打上了VLAN的标签，表明该端口属于哪个VLAN。</p>
+</li>
+<li>
+<p>Trunk:VLAN1、2、3的数据包在通过Trunk口到达对方交换机的过程中始终带看目己的VLAN标签。</p>
+</li>
+</ul>
+<p>KVM 实现VLAN：</p>
+<ul>
+<li>宿主机用软件实现了一个交换机(当然是虚拟的)，上面定义了一个VLAN10。</li>
+<li>eth0.10，brvlan10 和vnet0 都分别接到VLAN10的Access 口上。而eth0 就是-一个Trunk口。</li>
+<li>VMI通过vnet0发出来的数据包会被打上VLAN10的标签。</li>
+</ul>
+<h4 id="linux-bridgevlan虚拟交换机">Linux Bridge+VLAN=虚拟交换机</h4>
+<ul>
+<li>
+<p>Linux的VLAN设备实现的是隔离功能，但没有交换功能。</p>
+<blockquote>
+<p>一个VLAN母设备(比如eth0)不能拥有两个相同ID的VLAN子设备，因此也就不可能出现数据交换情况。</p>
+</blockquote>
+</li>
+<li>
+<p>Linux Bridge专门实现交换功能。</p>
+<blockquote>
+<p>将同一VLAN的子设备都挂载到一一个Bridge.上，设备之间就可以交换数据了。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="实验命令">实验命令：</h3>
+<h4 id="kvm安装和虚拟机创建">KVM安装，和虚拟机创建</h4>
+<ol>
+<li>
+<p>ubuntu install kvm after start ：</p>
+<pre><code class="language-bash">sudo apt-get install quem-kvm qemu-system libvirt-bin virt-manager bridge-utils vlan -y
+sudo apt-get install xinit
+sudo ape-get install gdm 
+sudo apt install kubuntu-desktop
+service libvirt-bin status
+virt-manager #RootTypeRun,start kvm management Desktop
+</code></pre>
+</li>
+<li>
+<p>kvm add VirtualMachine:</p>
+<pre><code class="language-bash">http://download.cirros-cloud.net#download cirros iso
+cp cirros-0.3.4-x86_64-disk.img /var/lib/libvirt/images/.
+</code></pre>
+</li>
+<li>
+<p>kvm access connect host :#error</p>
+<pre><code class="language-bash">vim /etc/default/libvirtd 
+start_libvirtd=&quot;yes&quot;
+libvirtd_opts=&quot;-d -l&quot;
+
+vim /etc/libvirt/libvirtd.conf
+listen_tls = 0
+listen_tcp = 1
+unix_sock_group = &quot;libvirt&quot;
+unix_sock_rw_perms = &quot;0770&quot;
+unix_sock_ro_perms = &quot;0777&quot;
+auth_unix_ro = &quot;none&quot;
+</code></pre>
+</li>
+</ol>
+<h4 id="kvm-sorage-使用lvm">KVM Sorage 使用LVM</h4>
+<ol>
+<li>
+<p>create VG +LV</p>
+<pre><code class="language-bash">fdisk /dev/sda 
+gcreate kvm_test /dev/sda3
+lvcreate -L 500M -n kvm_lv kvm_test  
+</code></pre>
+</li>
+<li>
+<p>create Sorage Pool define file</p>
+<pre><code class="language-bash">root@openstack:/dev/kvm_test# vgdisplay 
+  --- Volume group ---
+  VG Name               kvm_test
+  System ID             
+  Format                lvm2
+  
+vim /etc/libvirt/storage/kvm_test.xml
+&lt;pool type=''&gt;
+  &lt;name&gt;kvm_test&lt;/name&gt;
+  &lt;source&gt;
+&lt;format type='lvm2'/&gt;
+  &lt;/source&gt;
+  &lt;target&gt;
+    &lt;path&gt;/dev/kvm_test&lt;/path&gt;
+  &lt;/target&gt;
+  &lt;/pool&gt;
+</code></pre>
+</li>
+<li>
+<p>add HostVG then start</p>
+</li>
+</ol>
+<h4 id="linux-桥接网络">Linux 桥接网络</h4>
+<ol>
+<li>
+<p>deploy Bridge file ：</p>
+<pre><code class="language-bash">vim /etc/network/interfaces
+# interfaces(5) file used by ifup(8) and ifdown(8)
+auto lo
+iface lo inet loopback
+auto enp0s5
+iface enp0s5 inet manual
+auto br0
+iface br0 inet dhcp
+       bridge_stp off
+       bridge_waitport 0
+       bridge_fd 0
+       bridge_ports enp0s5
+</code></pre>
+</li>
+<li>
+<p>restart host：</p>
+</li>
+<li>
+<p>show Bridge：</p>
+<pre><code class="language-bash">brctl show
+</code></pre>
+</li>
+<li>
+<p>bridge KVM vm1</p>
+</li>
+</ol>
+<h4 id="kvm-vlan">KVM VLAN</h4>
+<p>deploy Bridge file ：</p>
+<pre><code class="language-bash">vim /etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+auto enp0s5
+iface enp0s5 inet dhcp
+
+auto enp0s5.10
+iface enp0s5.10 inet manual
+        vlan-raw-device enp0s5
+auto brvlan10
+iface brvlan10 inet manual
+        bridge_stp off
+        bridge_waitport 0
+        bridge_fd 0
+        bridge_ports enp0s5.10
+
+auto enp0s5.20
+iface enp0s5.20 inet manual
+        vlan-raw-device enp0s5
+auto brvlan20
+iface brvlan20 inet manual
+        bridge_stp off
+        bridge_waitport 0
+        bridge_fd 0
+        bridge_ports enp0s5.20 
+</code></pre>
+<p>restart host：</p>
+<p>show bridge：</p>
+<pre><code class="language-bash">root@openstack:/Parallels Tools#  brctl show
+bridge name	bridge id		STP enabled	interfaces
+brvlan10		8000.001c42266b39	no		enp0s5.10
+brvlan20		8000.001c42266b39	no		enp0s5.20
+virbr0		8000.5254004f6be8	yes		virbr0-nic
+</code></pre>
+<p>deploy KVM add network：</p>
+<p>test：</p>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div id="vlaine-comment"></div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Powered by <a href="http://zhang-blog.github.io/" target="_blank">Gridea</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#kvm%E8%99%9A%E6%8B%9F%E5%8C%96%E5%8E%9F%E7%90%86">KVM虚拟化原理</a>
+<ul>
+<li><a href="#cpu%E8%99%9A%E6%8B%9F%E5%8C%96">CPU虚拟化</a></li>
+<li><a href="#%E5%86%85%E5%AD%98%E8%99%9A%E6%8B%9F%E5%8C%96">内存虚拟化</a></li>
+<li><a href="#%E5%AD%98%E5%82%A8%E8%99%9A%E6%8B%9F%E5%8C%96">存储虚拟化</a>
+<ul>
+<li><a href="#%E7%9B%AE%E5%BD%95%E7%B1%BB%E5%9E%8B%E7%9A%84storage-pool">目录类型的Storage Pool</a></li>
+<li><a href="#lvm%E7%B1%BB%E5%9E%8B%E7%9A%84storage-pool">LVM类型的Storage Pool</a></li>
+<li><a href="#%E5%85%B6%E4%BB%96%E7%B1%BB%E5%9E%8B%E7%9A%84storage-pool">其他类型的Storage Pool</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E7%BD%91%E7%BB%9C%E8%99%9A%E6%8B%9F%E5%8C%96">网络虚拟化</a>
+<ul>
+<li><a href="#linux-bridge">Linux Bridge</a></li>
+<li><a href="#vlan">VLAN</a></li>
+<li><a href="#linux-bridgevlan%E8%99%9A%E6%8B%9F%E4%BA%A4%E6%8D%A2%E6%9C%BA">Linux Bridge+VLAN=虚拟交换机</a></li>
+</ul>
+</li>
+<li><a href="#%E5%AE%9E%E9%AA%8C%E5%91%BD%E4%BB%A4">实验命令：</a>
+<ul>
+<li><a href="#kvm%E5%AE%89%E8%A3%85%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%88%9B%E5%BB%BA">KVM安装，和虚拟机创建</a></li>
+<li><a href="#kvm-sorage-%E4%BD%BF%E7%94%A8lvm">KVM Sorage 使用LVM</a></li>
+<li><a href="#linux-%E6%A1%A5%E6%8E%A5%E7%BD%91%E7%BB%9C">Linux 桥接网络</a></li>
+<li><a href="#kvm-vlan">KVM VLAN</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zhanghaibin-a.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://zhanghaibin-a.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  <script type="application/javascript" src="https://zhanghaibin-a.github.io/media/scripts/valine.min.js"></script>
+  <script type="application/javascript">
+  
+    // var valine = new Valine();
+    // valine.init({
+    //   el: '#vlaine-comment',
+    //   appId: '',
+    //   appKey: '',
+    //   notify: false,
+    //   avatar: 'mp',
+    //   verify: true,
+    //   placeholder: '来都来了，不妨评论一下',
+    //   visitor: false,
+    //   highlight: false,
+    //   recordIP: false,
+    // })
+  
+    var valine = new Valine();
+    valine.init({
+      el: '#vlaine-comment',
+      appId: '',
+      appKey: '',
+      notify: false,
+      verify: false,
+      visitor: true,
+      avatar: 'mp',
+      placeholder: '加入讨论...'
+    })
+  </script>
+</body>
+
+</html>
