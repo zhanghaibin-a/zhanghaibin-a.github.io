@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zhanghaibin-a.github.io</id>
     <title>温故而知新</title>
-    <updated>2020-04-05T16:00:30.223Z</updated>
+    <updated>2020-04-09T09:00:47.163Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zhanghaibin-a.github.io"/>
     <link rel="self" href="https://zhanghaibin-a.github.io/atom.xml"/>
@@ -10,6 +10,20 @@
     <logo>https://zhanghaibin-a.github.io/images/avatar.png</logo>
     <icon>https://zhanghaibin-a.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 温故而知新</rights>
+    <entry>
+        <title type="html"><![CDATA[玩转Openstack--3#Openstack架构]]></title>
+        <id>https://zhanghaibin-a.github.io/post/wan-zhuan-openstack-3openstack-jia-gou/</id>
+        <link href="https://zhanghaibin-a.github.io/post/wan-zhuan-openstack-3openstack-jia-gou/">
+        </link>
+        <updated>2020-04-09T08:59:46.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[1、Ansible架构和原理]]></title>
+        <id>https://zhanghaibin-a.github.io/post/1ansible-jia-gou-he-yuan-li/</id>
+        <link href="https://zhanghaibin-a.github.io/post/1ansible-jia-gou-he-yuan-li/">
+        </link>
+        <updated>2020-04-06T16:30:18.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[玩转Docker--3#Docker入门]]></title>
         <id>https://zhanghaibin-a.github.io/post/wan-zhuan-docker-3docker-ru-men/</id>
@@ -65,19 +79,5 @@
         <link href="https://zhanghaibin-a.github.io/post/niao-ge-linuxren-shi-xue-xi-bash/">
         </link>
         <updated>2020-03-10T20:47:55.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[鸟哥二十章#系统基础设置与备份策略]]></title>
-        <id>https://zhanghaibin-a.github.io/post/niao-ge-er-shi-zhang-xi-tong-ji-chu-she-zhi-yu-bei-fen-ce-lue/</id>
-        <link href="https://zhanghaibin-a.github.io/post/niao-ge-er-shi-zhang-xi-tong-ji-chu-she-zhi-yu-bei-fen-ce-lue/">
-        </link>
-        <updated>2020-03-05T18:48:13.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[C 语言入门教程]]></title>
-        <id>https://zhanghaibin-a.github.io/post/c-yu-yan-ru-men-jiao-cheng/</id>
-        <link href="https://zhanghaibin-a.github.io/post/c-yu-yan-ru-men-jiao-cheng/">
-        </link>
-        <updated>2020-03-05T15:04:53.000Z</updated>
     </entry>
 </feed>

@@ -1,0 +1,433 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>1、Ansible架构和原理 - 温故而知新</title>
+<link rel="shortcut icon" href="https://zhanghaibin-a.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"> -->
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="1、Ansible架构和原理 - 温故而知新 - Atom Feed" href="https://zhanghaibin-a.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="常用自动化运维工具：
+Ansible:python,Agentless,中小型应用环境
+Saltstack:python 一般需部署agent ,执行效率更高
+Puppet:ruby   功能强大,配置复杂,重型,适合大型环境
+Fabric..." />
+  <meta property="og:title" content="1、Ansible架构和原理 - 温故而知新">
+  <meta property="og:description" content="常用自动化运维工具：
+Ansible:python,Agentless,中小型应用环境
+Saltstack:python 一般需部署agent ,执行效率更高
+Puppet:ruby   功能强大,配置复杂,重型,适合大型环境
+Fabric..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://zhanghaibin-a.github.io/post/1ansible-jia-gou-he-yuan-li/" />
+  <meta property="og:image" content="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1586200864499&amp;di=84bfa003e9fa819259cbb0b607369ce8&amp;imgtype=0&amp;src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D118371233%2C1275544235%26fm%3D214%26gp%3D0.jpg">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="1、Ansible架构和原理 - 温故而知新">
+  <meta name="twitter:description" content="常用自动化运维工具：
+Ansible:python,Agentless,中小型应用环境
+Saltstack:python 一般需部署agent ,执行效率更高
+Puppet:ruby   功能强大,配置复杂,重型,适合大型环境
+Fabric...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zhanghaibin-a.github.io/post/1ansible-jia-gou-he-yuan-li/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://zhanghaibin-a.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      温故而知新
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          1、Ansible架构和原理
+        </h1>
+        
+          <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1586200864499&amp;di=84bfa003e9fa819259cbb0b607369ce8&amp;imgtype=0&amp;src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D118371233%2C1275544235%26fm%3D214%26gp%3D0.jpg" alt="1、Ansible架构和原理" class="block w-full mb-8">
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-04-07 · 4 min read</div>
+          
+            <a href="https://zhanghaibin-a.github.io/tag/WwB91kuYD/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              ansible
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <h4 id="常用自动化运维工具">常用自动化运维工具：</h4>
+<p>Ansible:python,Agentless,中小型应用环境</p>
+<p>Saltstack:python 一般需部署agent ,执行效率更高</p>
+<p>Puppet:ruby   功能强大,配置复杂,重型,适合大型环境</p>
+<p>Fabric : python , agentless</p>
+<p>Chef: ruby,国内应用少</p>
+<p>Cfengine</p>
+<p>func</p>
+<h4 id="ansible特点">Ansible特点：</h4>
+<ul>
+<li>模块化:调用特定的模块,完成特定任务</li>
+<li>有Paramiko , PyYAML , Jinja2 (模板语言)三个关键模块</li>
+<li>支持自定义模块</li>
+<li>基于Python语言实现</li>
+<li>部署简单,基于python和SSH(默认已安装) , agentless</li>
+<li>安全,基于OpenSSH</li>
+<li>支持playbook编排任务</li>
+<li>幂等性:一个任务执行1遍和执行n遍效果一样,不因重复执行带来意外情况无需代理不依赖PKI (无需ssl )</li>
+<li>可使用任何编程语言写模块</li>
+<li>YAML格式,编排任务,支持丰富的数据结构</li>
+<li>较强大的多层解决方案</li>
+<li>配置key是ansible进行批量控制的基本要求</li>
+</ul>
+<h4 id="ansible总体架构">Ansible总体架构：</h4>
+<figure data-type="image" tabindex="1"><img src="https://s4.51cto.com/images/blog/201712/05/f057734f7c603c5142a8377a4a4b18ca.png?x-oss-process=image/watermark,size_1,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_0,type_ZmFuZ3poZW5naGVpdGk=" alt="企业级自动化运维工具——ansible" loading="lazy"></figure>
+<pre><code class="language-bash">`Ansible：Ansible核心程序。
+`HostInventory：记录由Ansible管理的主机信息，包括端口、密码、ip等。
+`Playbooks：“剧本”YAML格式文件，多个任务定义在一个文件中，定义主机需要调用哪些模块来完成的功能。
+`CoreModules：核心模块，主要操作是通过调用核心模块来完成管理任务。
+`CustomModules：自定义模块，完成核心模块无法完成的功能，支持多种语言。
+`ConnectionPlugins：连接插件，Ansible和Host通信使用
+</code></pre>
+<h4 id="ansible工作原理">Ansible工作原理</h4>
+<figure data-type="image" tabindex="2"><img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1586199978886&amp;di=b7ebe6257937ad1a911fa730dfa5b21c&amp;imgtype=0&amp;src=http%3A%2F%2Fseo-1255598498.file.myqcloud.com%2Ffull%2Fbcc0207745e24d9f76845d99f125e9f9cadfc719.jpg" alt="img" loading="lazy"></figure>
+<ul>
+<li><code>ANSIBLE PLAYBOOKS</code>:任务剧本(任务集) , 编排定义<code>Ansible</code>任务集的配置文件，由<code>Ansible</code>顺序依次执行,通常是JSON格式的YML文件</li>
+<li><code>INVENTORY</code> : <code>Ansible</code>管理主机的清单/etc/anaible/hosts</li>
+<li><code>MODULES</code> : <code>Ansible</code>执行命令的功能模块,多数为内置核心模块,也可自定义</li>
+<li><code>PLUGINS</code> :模块功能的补充,如连接类型插件、循环插件、变量插件、过滤插件等， ,该功能不常用</li>
+<li>API :供第三方程序调用的应用程序编程接口</li>
+<li><code>ANSIBLE</code>:组合<code>INVENTORY</code>、<code>API</code>、<code>MODULES</code>、 <code>PLUGINS</code>的绿框 ,可以理解为是<code>ansible</code>命令工具,其为核心执行工具</li>
+</ul>
+<h4 id="安装和基本配置文件">安装和基本配置文件</h4>
+<ul>
+<li>
+<p>rpm包安装：EPEL源</p>
+<pre><code class="language-bash">[root@edc-x86-apptest05 ~]# yum install ansible
+[root@edc-x86-apptest05 ~]# ansible --version
+ansible 2.9.3
+</code></pre>
+</li>
+<li>
+<p>编译安装</p>
+<pre><code class="language-bash">[root@edc-x86-apptest05 ~]# yum -Y install python-jinja2 PyYAML python-paramiko python-babel python-crypto
+[root@edc-x86-apptest05 ~]#tar xf ansible-1.5.4.tar.gzcd ansible-1.5.4
+[root@edc-x86-apptest05 ~]#python setup.py build
+[root@edc-x86-apptest05 ~]#python setup.py install
+[root@edc-x86-apptest05 ~]#mkdir /etc/ansible
+[root@edc-x86-apptest05 ~]#cp-r examples/* /etc/ansible
+[root@edc-x86-apptest05 ~]# ansible --version
+ansible 2.9.3
+</code></pre>
+</li>
+<li>
+<p>pip安装</p>
+<pre><code class="language-bash">[root@edc-x86-apptest05 ~]#yum install python-pip python-devel
+[root@edc-x86-apptest05 ~]#yum install gcc glibc-devel zibl-devel rpm-bulid openssl-devel
+[root@edc-x86-apptest05 ~]#pip install --upgrade pip
+[root@edc-x86-apptest05 ~]#pip install ansible --upgrade
+[root@edc-x86-apptest05 ~]# ansible --version
+ansible 2.9.3
+</code></pre>
+</li>
+<li>
+<p>配置文件</p>
+<p>/etc/ansible/ansible.cfg主配置文件,配置ansible.工作特性</p>
+<p>/etc/ansible/hosts主机清单</p>
+<p>/etc/ansible/roles/存放角色的目录</p>
+</li>
+<li>
+<p>程序说明</p>
+</li>
+</ul>
+<ol>
+<li>/usr/bin/ansible主程序,临时命令执行工具</li>
+<li>/usr/bin/ansible-doc查看配置文档,模块功能查着工具</li>
+<li>/usr/bin/ansible-galaxy下载/上传优秀代码或Roles模块的官网平台</li>
+<li>/usr/bin/ansible- playbook定制自动化任务,编排剧本工具/usr/bin/ansible-pull远程执行命令的工具</li>
+<li>/usr/bin/ansible-vault文件加密工具</li>
+<li>/usr/bin/ansible-console基于Console界面与用户交互的执行工具</li>
+</ol>
+<h4 id="主机清单inventory">主机清单inventory</h4>
+<ul>
+<li>
+<p>Inventory 主机清单</p>
+<p>ansible的主要功用在于批量主机操作,为了便捷地使用其中的部分主机,可以在inventory file中将其分组命名</p>
+</li>
+<li>
+<p>默认的inventory file为/etc/ansible/hosts</p>
+</li>
+<li>
+<p>inventory file可以有多个,且也可以通过Dynamic Inventory来动态生成</p>
+</li>
+</ul>
+<figure data-type="image" tabindex="3"><img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=990876970,1517161203&amp;fm=26&amp;gp=0.jpg" alt="img" loading="lazy"></figure>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div id="vlaine-comment"></div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Powered by <a href="http://zhang-blog.github.io/" target="_blank">Gridea</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E5%B8%B8%E7%94%A8%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4%E5%B7%A5%E5%85%B7">常用自动化运维工具：</a></li>
+<li><a href="#ansible%E7%89%B9%E7%82%B9">Ansible特点：</a></li>
+<li><a href="#ansible%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84">Ansible总体架构：</a></li>
+<li><a href="#ansible%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86">Ansible工作原理</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85%E5%92%8C%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">安装和基本配置文件</a></li>
+<li><a href="#%E4%B8%BB%E6%9C%BA%E6%B8%85%E5%8D%95inventory">主机清单inventory</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zhanghaibin-a.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://zhanghaibin-a.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  <script type="application/javascript" src="https://zhanghaibin-a.github.io/media/scripts/valine.min.js"></script>
+  <script type="application/javascript">
+  
+    // var valine = new Valine();
+    // valine.init({
+    //   el: '#vlaine-comment',
+    //   appId: '',
+    //   appKey: '',
+    //   notify: false,
+    //   avatar: 'mp',
+    //   verify: true,
+    //   placeholder: '来都来了，不妨评论一下',
+    //   visitor: false,
+    //   highlight: false,
+    //   recordIP: false,
+    // })
+  
+    var valine = new Valine();
+    valine.init({
+      el: '#vlaine-comment',
+      appId: '',
+      appKey: '',
+      notify: false,
+      verify: false,
+      visitor: true,
+      avatar: 'mp',
+      placeholder: '加入讨论...'
+    })
+  </script>
+</body>
+
+</html>
