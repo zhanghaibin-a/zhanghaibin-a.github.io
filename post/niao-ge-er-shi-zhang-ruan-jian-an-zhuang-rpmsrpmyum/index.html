@@ -1,0 +1,1063 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>鸟哥二十二章#软件安装RPM、SRPM、YUM - 温故而知新</title>
+<link rel="shortcut icon" href="https://zhanghaibin-a.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"> -->
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="鸟哥二十二章#软件安装RPM、SRPM、YUM - 温故而知新 - Atom Feed" href="https://zhanghaibin-a.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="软件管理简介
+两大主流:RPM与DPKG
+LINUX开发商将软件编译后打包成指定格式，包含预先侦测系统相依软件脚本。
+客户端取得文件，运行安装指令，软件依照预先侦测系统相依脚本安装前提驱动软件。
+
+DPKG:由Debian 发起、B2D、U..." />
+  <meta property="og:title" content="鸟哥二十二章#软件安装RPM、SRPM、YUM - 温故而知新">
+  <meta property="og:description" content="软件管理简介
+两大主流:RPM与DPKG
+LINUX开发商将软件编译后打包成指定格式，包含预先侦测系统相依软件脚本。
+客户端取得文件，运行安装指令，软件依照预先侦测系统相依脚本安装前提驱动软件。
+
+DPKG:由Debian 发起、B2D、U..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://zhanghaibin-a.github.io/post/niao-ge-er-shi-zhang-ruan-jian-an-zhuang-rpmsrpmyum/" />
+  <meta property="og:image" content="https://diffzi.com/wp-content/uploads/2018/11/Yum-vs.-RPM.jpg">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="鸟哥二十二章#软件安装RPM、SRPM、YUM - 温故而知新">
+  <meta name="twitter:description" content="软件管理简介
+两大主流:RPM与DPKG
+LINUX开发商将软件编译后打包成指定格式，包含预先侦测系统相依软件脚本。
+客户端取得文件，运行安装指令，软件依照预先侦测系统相依脚本安装前提驱动软件。
+
+DPKG:由Debian 发起、B2D、U...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zhanghaibin-a.github.io/post/niao-ge-er-shi-zhang-ruan-jian-an-zhuang-rpmsrpmyum/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://zhanghaibin-a.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      温故而知新
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          鸟哥二十二章#软件安装RPM、SRPM、YUM
+        </h1>
+        
+          <img src="https://diffzi.com/wp-content/uploads/2018/11/Yum-vs.-RPM.jpg" alt="鸟哥二十二章#软件安装RPM、SRPM、YUM" class="block w-full mb-8">
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-04-12 · 27 min read</div>
+          
+            <a href="https://zhanghaibin-a.github.io/tag/0QwPsCw5i/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              鸟哥Linux笔记
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <h3 id="软件管理简介">软件管理简介</h3>
+<h4 id="两大主流rpm与dpkg">两大主流:RPM与DPKG</h4>
+<p>LINUX开发商将软件编译后打包成指定格式，包含预先侦测系统相依软件脚本。</p>
+<p>客户端取得文件，运行安装指令，软件依照预先侦测系统相依脚本安装前提驱动软件。</p>
+<ul>
+<li>DPKG:由Debian 发起、B2D、Ubuntu</li>
+<li>RPM：由Red Hat设计、Fedora、Centos、SuSE</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">distribution代表</th>
+<th style="text-align:center">软件管理机制</th>
+<th style="text-align:center">使用命令</th>
+<th style="text-align:center">在线升级机制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Red Hat/Fedora</td>
+<td style="text-align:center">RPM</td>
+<td style="text-align:center">Rpm,rpmbuild</td>
+<td style="text-align:center">YUM(yum)</td>
+</tr>
+<tr>
+<td style="text-align:center">Debian/Ubuntu</td>
+<td style="text-align:center">DPKG</td>
+<td style="text-align:center">Dpkg</td>
+<td style="text-align:center">APT(apt-get)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="什么是rpm与srpm">什么是RPM与SRPM</h4>
+<table>
+<thead>
+<tr>
+<th>文件格式</th>
+<th>软件名后缀</th>
+<th>直接安装与否</th>
+<th>内含程序类型</th>
+<th>可否修改参数并编译</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RPM</td>
+<td>xxx.rpm</td>
+<td>可</td>
+<td>以编译</td>
+<td>不可</td>
+</tr>
+<tr>
+<td>SRPM</td>
+<td>xxx.src.rpm</td>
+<td>不可</td>
+<td>未编译之始源码</td>
+<td>可</td>
+</tr>
+</tbody>
+</table>
+<p><em><strong>RPM</strong></em></p>
+<ul>
+<li>RPM是以一种数据库记录的方式</li>
+<li>RPM打包经过编译后的软件</li>
+<li>RPM将相关依赖信息写入包</li>
+<li>Rpm安装检测环境依赖包</li>
+<li>安装完成将相关信息写进linux rpm数据库</li>
+</ul>
+<blockquote>
+<p>优点:</p>
+<p>​	由于已经编译完成并且打包完毕，所以软件传输与安装上很方便(不需要再重新编译);</p>
+<p>​	由于软件的信息都已经记录在Linux 主机的数据库上，很方便查询、升级与反安装；</p>
+</blockquote>
+<blockquote>
+<p>缺点:</p>
+<p>​	软件文件安装的环境必须与打包时的环境需求-致或相当</p>
+<p>​	需要满足软件的相依属性需求;</p>
+<p>​	反安装时需要特别小心，最底层的软件不可先移除，否则可能造成整个系统的问题；</p>
+</blockquote>
+<p><em><strong>SRPM</strong></em></p>
+<ul>
+<li>
+<p>SRPM所提供的软件「没有进过编译安装的软件」</p>
+</li>
+<li>
+<p>SRPM扩展名以 ***.src.rpm这种格式</p>
+</li>
+<li>
+<p>SRPM安装过程：</p>
+<blockquote>
+<p>先将该软件以RPM管理的方式编译，此时SRPM会被编译为RPM文件;</p>
+<p>然后将编译完成的RPM文件安装到Linux 系统当中</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="rpm名规范常见cpu架构">RPM名规范,常见CPU架构</h4>
+<pre><code class="language-bash">[root@izvk0hbkynfxqzz ~]# rpm -qe htop
+htop-2.2.0-3.el7.x86_64
+
+htop-       2.2.0-      3       .el7.x86_64     .rpm
+软件名称    版本信息    释放次数    适用的软件平台    扩展名
+
+软件名称：软件名字
+版本信息：主版本.次版本
+释放次数：打包次数，小幅度的打补丁
+操作硬件平台：
+X86_64：主流架构平台
+noarch：没有任何硬件等级上的限制。
+</code></pre>
+<h4 id="rpm优点">RPM优点</h4>
+<ul>
+<li>RPM内含已经编译过的程序与配置文件等数据，可以让用户免除重新编译的困扰;</li>
+<li>RPM在被安装之前，会先检查系统的硬盘容量、操作系统版本等，可避免文件被错误安装;</li>
+<li>RPM文件本身提供软件版本信息、相依属性软件名称、软件用途说明、软件所含文件等信息，便于了解软件;</li>
+<li>RPM管理的方式使用数据库记录RPM文件的相关参数，便于升级、移除、查询与验证。</li>
+</ul>
+<h4 id="rpm属性相依解决yum在线升级">RPM属性相依解决(yum在线升级)</h4>
+<figure data-type="image" tabindex="1"><img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1586706213023&amp;di=90808c3bfd9b47925a334383e903d92e&amp;imgtype=0&amp;src=http%3A%2F%2Fcn.linux.vbird.org%2Flinux_server%2F0210network-secure_files%2Fyum-01.gif" alt="img" loading="lazy"></figure>
+<ol>
+<li>先将释出的软件放置到YUM服务器内</li>
+<li>分析软件相依属性问题，记录信息整理成列表</li>
+<li>列表数据于软件所在的本地或网络位置称为容器或软件库</li>
+<li>安装软件时，客户端请求yum服务器获取下载清单列表，对比本地rpm库确认需要下载软件</li>
+<li>下载软件进行安装</li>
+</ol>
+<h3 id="rpm软件管理程序">RPM软件管理程序</h3>
+<h4 id="rpm默认安装路径">RPM默认安装路径</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">/var/lib/rpm</th>
+<th>rpm相关信息数据库文件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">/etc</td>
+<td>配置文件存放目录</td>
+</tr>
+<tr>
+<td style="text-align:left">/usr/bin</td>
+<td>可执行程序</td>
+</tr>
+<tr>
+<td style="text-align:left">/usr/lib</td>
+<td>程序动态函式库</td>
+</tr>
+<tr>
+<td style="text-align:left">/usr/share/doc</td>
+<td>基本软件手册说明文件</td>
+</tr>
+<tr>
+<td style="text-align:left">/usr/share/man</td>
+<td>mac page文件</td>
+</tr>
+</tbody>
+</table>
+<h4 id="rpm安装root权限">RPM安装(root权限)</h4>
+<pre><code class="language-bash">rpm  -ivh package_name
+
+选项与参数:
+-i:install 的意思
+-v:察看更细部的安装信息画面
+-h:以安装信息列显示安装进度
+
+可下达选项：
+--nodeps：强制安装
+--replacefiles：覆盖安装
+--replacepkgs：重新安装
+--force：重新覆盖安装
+--test:测速rpm包是否可以安装
+--justdb：更新软件在数据库内信息
+--nosignature：略过数字签名
+--prefix：指定软件安装路径
+--noscripts：拒绝软件安装过程中自动执行某些命令
+-------------------------------------
+ISO安装rpm包
+rpm 安装系统盘rpm包：
+挂载光盘：# mount /dev/sr0  /mnt
+找出文件实际路径：# cd /mnt/Packages/
+查找rpm包
+# ls |grep iotop
+iotop-0.6-4.el7.noarch.rpm
+安装rpm包：rpm -ivh iotop-0.6-4.el7.noarch.rpm
+
+</code></pre>
+<h4 id="rpm升级与更新">RPM升级与更新</h4>
+<pre><code class="language-bash">-Uvh:后面接的软件即使没有安装过，则系统将予以直接安装; 若后面接的软件有安装过旧版，则系统自动更
+新至新版;
+-Fvh:如果后面接的软件并未安装到你的Linux 系统上，则该软件不会被安装;亦即只有己安装至你Linux 系统内的软件会被「升级」!
+</code></pre>
+<h4 id="rpm查询">RPM查询</h4>
+<p>RPM 查询访问/var/lib/rpm/下的数据库文件，也可以查询未安装软件信息</p>
+<pre><code class="language-bash">rpm -qa             -------- 以安装软件名称
+rpm -q[licdR ] 以安装软件名称 -----以安装软件
+rpm -qf 存在与系统上面的某个文件名 ---以安装软件
+rpm -qp[licdR ] 为安装的某个文件名 --查阅RPM文件
+
+选项与参数:
+查询已安装软件的信息:
+-q:仅查询， 后面接的软件 名称是否有安装;
+-qa:列出所有的，已经安装在本机Linux 系统上面的所有软件名称;
+-qi:列出该软件的详细信息(information)， 包含开发商、版本与说明等;
+-ql:列出该软件所有的文件与目录所在完整文件名(list);
+-qc:列出该软件的所有配置文件(找出在/etc/ 底下的檔名而已)
+-qd:列出该软件的所有说明文件(找出与man有关的文件而已)
+qR :列出与该软件有关的相依软件所含的文件(Required 的意思)
+-qf:由后面接的文件名，找出该文件属于哪个已安装的软件:
+-q--scripts:列出是否含有安装后需要执行的脚本档，可用以debug喔!
+查询某个RPM文件内含有的信息:
+-qp[icd1R]:注意-qp 后面接的所有参数以上面的说明一致。但用途仅在于找出某个RPM文件内的信息， 而非已安装的软件信息! 注意!
+</code></pre>
+<h4 id="rpm验证与数字签名">RPM验证与数字签名</h4>
+<p>使用/var/lib/rpm底下的数据库内容来比对目前Linux 系统的环境下的所有软件文件</p>
+<pre><code class="language-bash">rpm -Va
+rpm _V  已安装的软件名称
+rpm _Vp 某个RPM文件的档名
+rpm -Vf在系统上面的某个文件
+
+选项与参数:
+-V :后面加的是软件名称，若该软件所含的文件被更动过，才会列出来;
+-Va:列出目前系统上面所有可能被更动过的文件:
+-Vp:后面加的是文件名，列出该软件内可能被更动过的文件:
+-Vf:列出某个文件是否被更动过~
+
+# rpm -Vf /etc/crontab
+S.5....T.  c /etc/crontab
+第一个字段：
+S : (file Size differs) 文件的容量大小是否被改变
+M : (Mode differs)文件的类型或文件的属性(rwx) 是否被改变?如是否可执行等参数已被改变
+5 : (MD5 sum differs) MD5这一种指纹码的内容已经不同
+D : (Device major/minor number mis -match) 装置的主/次代码已经改变
+L : (readLink(2) path mis-match) Link 路径已被改变
+U : (User ownership differs) 文件的所属人已被改变
+G : (Group ownership differs) 文件的所属群组已被改变
+T : (mTime differs)文件的建立时间已被改变
+P : (caPabilities differ) 功能已经被改变
+第二个字段：、
+
+c :配置文件(config file)
+d :文件数据文件(documentation)
+g：鬼文件~通常是该文件不被某个软件所包含，较少发生! (ghost file)
+1 :许可证文件(license file)
+r :自述文件(read me)
+
+</code></pre>
+<p>软件厂商有自己的签章系统：</p>
+<p>1.首先你必须要先安装原厂释出的公钥文件;</p>
+<p>2.实际安装原厂 的RPM软件时，rpm指令会去读取RPM文件的签章信息,与本机系统内的签章信息比对，</p>
+<p>3.若签章相同则予以安装，若找不到相关的签章信息时，则给予警告并且停止安装喔。</p>
+<p>Centos数字签名目录：/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release</p>
+<h4 id="rpm卸载与重建数据库">RPM卸载与重建数据库</h4>
+<p>解安装的过程一定是由上层往下接触</p>
+<pre><code class="language-bash">rpm -e 文件名称  ---卸载rpm
+rpm --rebuilddb ---重建数据库
+#由于RPM文件常常会安装/移除/升级等，某些动作或许可能会导致RPM数据库/var/lib/pm/ 内的文件破损。
+</code></pre>
+<h3 id="yum在线升级机制">Yum在线升级机制</h3>
+<h4 id="利用yum查询-安装-升级与移除">利用YUM查询、安装、升级与移除</h4>
+<p>查询功能YUM [LIST|INFO|SEARCH|PROVIDES|WHATPROVIDES]#参数</p>
+<pre><code class="language-bash">yum [option] [查询工作项目] [相关参数]
+选项与参数:
+[option]:主要的选项，包括有:
+    -y :当yum要等待用户输入时，这个选项可以自动提供yes的响应:
+    --installroot=/some/path :将该软件安装在/some/path 而不使用默认路径
+
+[查询工作项目] [相关参数]:这方面的参数有:
+search :搜寻某个软件名称或者是描述(description) 的重要关键字;
+list：列出目前yum所管理的所有的软件名称与版本，有点类似rpm -qa;
+info :同上，不过有点类似rpm -gai的执行结果;
+provides:从文件去搜寻软件!类似rpm -qf的功能!
+
+搜索磁盘阵列（raid)相关软件：yum search raid
+找出mdadm这个软件的功能：yum info mdadm
+列出yum服务器上的所有软件名：yum list
+列出服务器上可供本次升级软件：yum list update
+查看以pam为开头软件：yum list pam*
+</code></pre>
+<p>安装/升级功能：YUM[INSTALL|UPDATE]软件</p>
+<pre><code class="language-bash">Yum [option] [安装与升级的工作项目] [相关参数]
+选项与参数:
+install :后面接要安装的软件!
+update:后面接要升级的软件，若要整个系统都升级，就直接update 即可
+
+
+
+
+[root@TX ~]# yum install htop
+Loaded plugins: fastestmirror, langpacks   #首先的5行在找出最快的yum server
+Loading mirror speeds from cached hostfile
+ * base: mirrors.aliyun.com
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+base                                                   | 3.6 kB     00:00
+epel                                                   | 5.4 kB     00:00
+extras                                                 | 2.9 kB     00:00
+pgdg10                                                 | 3.6 kB     00:00
+pgdg11                                                 | 3.6 kB     00:00
+pgdg12                                                 | 3.6 kB     00:00
+pgdg94                                                 | 3.6 kB     00:00
+pgdg95                                                 | 3.6 kB     00:00
+pgdg96                                                 | 3.6 kB     00:00
+updates                                                | 2.9 kB     00:00
+(1/2): epel/7/x86_64/updateinfo                          | 1.0 MB   00:00
+(2/2): epel/7/x86_64/primary_db                          | 6.9 MB   00:01
+Resolving Dependencies      #接下来处理「属性相依」的软件问题
+--&gt; Running transaction check
+---&gt; Package htop.x86_64 0:2.2.0-3.el7 will be installed
+--&gt; Finished Dependency Resolution
+
+Dependencies Resolved
+#由上面的检测发现安装htop没有相关依赖包要安装
+#至于底下则是一个总结的表格显示！
+==============================================================================
+ Package        Arch             Version                 Repository      Size
+==============================================================================
+Installing:
+ htop           x86_64           2.2.0-3.el7             epel           103 k
+
+Transaction Summary
+==============================================================================
+Install  1 Package          #要安装的是一个软件
+
+Total download size: 103 k
+Installed size: 218 k               #总需要下载的容量
+Is this ok [y/d/N]: y           #是否决定要下载安装
+Downloading packages:           #开始下载
+htop-2.2.0-3.el7.x86_64.rpm                              | 103 kB   00:00
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : htop-2.2.0-3.el7.x86_64                                    1/1
+  Verifying  : htop-2.2.0-3.el7.x86_64                                    1/1
+
+Installed:
+  htop.x86_64 0:2.2.0-3.el7
+
+Complete!           #安装成功
+</code></pre>
+<p>移除功能：yum[remove]包名称</p>
+<pre><code class="language-bash">[root@TX ~]# yum remove htop
+Loaded plugins: fastestmirror, langpacks
+Resolving Dependencies              ##解决属性相依问题
+--&gt; Running transaction check
+---&gt; Package htop.x86_64 0:2.2.0-3.el7 will be erased
+--&gt; Finished Dependency Resolution
+
+Dependencies Resolved
+==================================================================================================
+ Package             Arch                  Version                     Repository            Size
+==================================================================================================
+Removing:
+ htop                x86_64                2.2.0-3.el7                 @epel                218 k
+
+Transaction Summary
+==================================================================================================
+Remove  1 Package       ##没有属性相依问题，仅移除一个软件。
+
+Installed size: 218 k
+Is this ok [y/N]: y
+Downloading packages:
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Erasing    : htop-2.2.0-3.el7.x86_64                                                        1/1
+  Verifying  : htop-2.2.0-3.el7.x86_64                                                        1/1
+
+Removed:
+  htop.x86_64 0:2.2.0-3.el7         
+
+Complete!
+</code></pre>
+<h4 id="yum配置文件">YUM配置文件</h4>
+<p>yum源目录：repodate目录是分析rpm软件后所产生的软件属性相依数据存放处</p>
+<pre><code class="language-bash">vim /etc/yum.repos.d/CentOS-Base.repo
+[base]
+name=CentOS-$releasever - Base - mirrors.aliyun.com
+failovermethod=priority
+baseurl=http://mirrors.aliyun.com/centos/$releasever/os/$basearch/
+        http://mirrors.aliyuncs.com/centos/$releasever/os/$basearch/
+        http://mirrors.cloud.aliyuncs.com/centos/$releasever/os/$basearch/
+gpgcheck=1
+enabled=1
+gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-7
+
+[base]：代表软件库的名称～中括号一定要存在，里面的名称可以随意。不能由相同的软件可名称，否则yum不知道那里寻找
+failovermethod=：两个选项roundrobin和priority，多个URL选择时yum采用roundrobin随机，还是priority顺序
+name：说明软件库的意义，重要性不高
+baseurl=：软件库的实际网址，mirrorlist是由yum程序自行去捉映像站台，baseurl则是指定固定的一个软件库网址。
+gpgcheck=：指定是否需要查阅RPM文件内的数字签名
+enabled=：软件库是否被启动，0代表不启动，1代表启动。默认为启动
+gpgkey=：就是数字签名的公钥文件所在位置，默认即可
+
+一般目录下有多个软件库文件
+[root@izvk0hbkynfxqzz ~]# yum repolist all |grep updates  ##查看全部软件库是否正常运作
+C7.0.1406-updates/x86_64           CentOS-7.0.1406 - Updates     disabled
+!updates/7/x86_64                  CentOS-7 - Updates            enabled:    711  ##可以看到yum软件库
+
+updates修改完yum配置文件，因为不同厂家和版本差异最好清除下yum缓存。
+
+yum clean 【packages|headers|all]
+选项与参数：
+        packages:将已下载的软件文件删除
+        headers：将下载的软件文件头删除
+        all    ：将所有软件库数据都删除
+
+[root@TX ~]#yum clean all
+Loaded plugins: fastestmirror, langpacks
+Cleaning repos: base epel extras pgdg10 pgdg11 pgdg12 pgdg94 pgdg95
+              : pgdg96 updates
+-source/7                   CentOS-7 - Updates Sources    disable
+
+</code></pre>
+<h4 id="yum软件群组功能">YUM软件群组功能</h4>
+<pre><code class="language-bash">[ root@study ~]# yum [群组功能] [软件群组]
+选项与参数:
+grouplist : 列出所有可使用的[软件群组组」，例如Development Tools 之类的:
+groupinfo:后面接groupname,则可了解该group内含的所有软件名:
+groupinstall:这个好用!可以安装整组的软件群组，相当的不错 用
+groupremove :移除某个软件群组:
+
+范例一：查询目前软件库可以使用的群组
+[root@TX SPECS]# yum grouplist
+installed environment groups:  ##以安装的系统环境软件群组
+
+available enviroment groups ： ##还能安装的系统环境群组
+
+installed grups: 已经安装的软件群组
+
+available group ：还能额外安装的软件群组
+
+</code></pre>
+<h4 id="epelelrepo外挂软件以及自定义">Epel/elrepo外挂软件以及自定义</h4>
+<p>一，什么是epel 如果既想获得 RHEL 的高质量、高性能、高可靠性，又需要方便易用(关键是免费)的软件包更新功能，那么 Fedora Project 推出的 EPEL(Extra Packages for Enterprise Linux)正好适合你。EPEL(http://fedoraproject.org/wiki/EPEL) 是由 Fedora 社区打造，为 RHEL 及衍生发行版如 CentOS、Scientific Linux 等提供高质量软件包的项目。</p>
+<pre><code class="language-bash">EPEL源-是什么?为什么安装？
+ 
+ EPEL (Extra Packages for Enterprise Linux)是基于Fedora的一个项目，为“红帽系”的操作系统提供额外的软件包，适用于RHEL、CentOS和Scientific Linux.
+ 
+使用很简单：
+1. 首先需要安装一个叫”epel-release”的软件包，这个软件包会自动配置yum的软件仓库。当然你也可以不安装这个包，自己配置软件仓库也是一样的。
+ 
+#用于RHEL5系列
+wget http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+rpm -ivh epel-release-5-4.noarch.rpm
+ 
+#用于RHEL6系列
+wget http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-5.noarch.rpm
+rpm -ivh epel-release-6-5.noarch.rpm
+ 
+2. 安装完成之后你就可以直接使用yum来安装额外的软件包了
+yum clean all
+ 
+yum makecache
+yum install nginx pure-ftpd
+ 
+ 
+3.直接自己手工添加软件仓库配置文件
+vi /etc/yum.repos.d/epel.repo
+ 
+[epel]
+name=epel
+mirrorlist=http://mirrors.fedoraproject.org/mirrorlist?repo=epel-releasever&amp;arch=releasever&amp;arch=basearch
+enabled=1
+gpgcheck=0
+ 
+CentOS6.5添加阿里云的EPEL源
+yum localinstall --nogpgcheck http://mirrors.aliyun.com/epel/6/x86_64/epel-release-6-8.noarch.rpm
+ 
+安装阿里云EPEL源
+1、首先卸载以前装的epel以免影响
+rpm -e epel-release
+2、 下载阿里提供的epel
+wget -P /etc/yum.repos.d/ http://mirrors.aliyun.com/repo/epel-6.repo
+3、yum clean all
+4、yum makecache
+ 
+阿里云源安装示例：
+1、备份(如有配置其他epel源)
+mv /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel.repo.backup
+mv /etc/yum.repos.d/epel-testing.repo /etc/yum.repos.d/epel-testing.repo.backup
+ 
+2、下载新repo 到/etc/yum.repos.d/
+epel(RHEL 7)
+wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+ 
+epel(RHEL 6)
+wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo
+ 
+epel(RHEL 5)
+wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-5.repo
+ 
+</code></pre>
+<h4 id="管理的抉择rpm还是tarball">管理的抉择:RPM还是tarball</h4>
+<p>如果我要升级的话，或者是全新安装-一个新的软件，那么该选择RPM还是Tarball 来安装呢?</p>
+<ol>
+<li>
+<p>优先选择原厂的RPM功能:</p>
+<p>由于RPM与yum具有容易安装/移除/升级等特点，且还提供查询与验证的功能,安装时更有数字签名的保护，让你的软件管理变的更轻松自在!因此,当然首选就是利用RPM来处理啦!.</p>
+</li>
+<li>
+<p>选择软件官网释出的RPM或者是提供的软件库网址:</p>
+<p>如果有提供软件库网址，下载rpm可以修改yum配置文件来加入该软件库，就能够自动安装与升级该软件</p>
+</li>
+<li>
+<p>利用Tarball 安装特殊软件</p>
+</li>
+<li>
+<p>用Tarball 测试新版软件</p>
+<p>所以说，RPM与Tarball 各有其优缺点，不过，如果有RPM的话，那么优先权还是在于RPM安装上面，毕竟管理上比较便利，但是如果软件的架构差异性太大，或者是无法解决相依属性的问题，那么与其花大把的时间与精力在解决属性相依的问题上,还不如直接以tarball 来安装,轻松又惬意!</p>
+</li>
+</ol>
+<h4 id="基础服务管理以apache为例">基础服务管理:以apache为例</h4>
+<h3 id="srpm的使用">Srpm的使用</h3>
+<p>srpm[source rpm]：新版rpm将ron与srpm指令分开了，srpm使用rpmbuild而不是rpm。</p>
+<h4 id="利用默认值安装srpm文件">利用默认值安装srpm文件</h4>
+<pre><code class="language-bash">srpm能根据不同系统环境进行优化编译(人类使用无差别)，一般使用srpm用来进行配置修改
+
+--rebulid ：  这个选项会将后面的SRPM进行「编译」与「打包」的动作，最后会产生RPM的文件，但是产
+生的RPM文件并没有安装到系统上。
+--recompile ：这个动作会直接的[编译」「打包」并且[安装」
+
+1、提醒你需要安装的依赖包
+[root@TX RPMS]# rpmbuild --rebuild ntp-4.2.6p5-19.el7.centos.1.src.rpm
+libcap-devel is needed by ntp-4.2.6p5-19.el7.1.x86_64
+        openssl-devel is needed by ntp-4.2.6p5-19.el7.1.x86_64
+        libedit-devel is needed by ntp-4.2.6p5-19.el7.1.x86_64
+        perl-HTML-Parser is needed by ntp-4.2.6p5-19.el7.1.x86_64
+        pps-tools-devel is needed by ntp-4.2.6p5-19.el7.1.x86_64
+        autogen is needed by ntp-4.2.6p5-19.el7.1.x86_64
+        autogen-libopts-devel is needed by ntp-4.2.6p5-19.el7.1.x86_64
+2.安装相关依赖包
+yum install {libcap-devel,openssl-devel,libedit-devel,perl-HTML-Parser,pps-tools-devel,autogen,autogen-libopts-devel}
+3。编译安装，成功后查看家目录下的/root/rpmbuild/RPMS
+rpmbuild --rebuild ntp-4.2.6p5-19.el7.centos.1.src.rpm
+[root@TX RPMS]# ls -lh
+total 8.0K
+drwxr-xr-x 2 root root 4.0K Nov 25 22:55 noarch  ##可以在任何平台下使用这个rpm包
+drwxr-xr-x 2 root root 4.0K Nov 25 22:55 x86_64  ##x86_64下的rpm包
+
+</code></pre>
+<h4 id="srpm使用的路径与需要的软件">srpm使用的路径与需要的软件</h4>
+<pre><code class="language-bash">srpm配置文件一般存放在用户目录底下，每个用户都有自己都目录
+root为例：
+/root/rpmbuild/SPECS:该软件都配置文件，信息参数，设定项
+/root/rpmbuild/SOURCES：该软件都原始文件（*tar.gz文件）以及config配置文件
+/root/rpmbuild/BUILD：编译过程中，缓存数据都会放置在这个目录
+/root/rpmbuild/SRPMS：放置srpm封装文件
+
+1、当编译发生错误时/tmp会产生对应当错误日志；
+2、当文件编译成功用户目录下的{SPECS,SOURCES,BUILD}都会消失，只留下SRPMS
+3、由于srpm需要重新编译，需要有make与其相关程序如gcc,c ,c++等编译程序语言来编译
+
+</code></pre>
+<h4 id="配置文件的主要内容spec">配置文件的主要内容(*.spec)</h4>
+<pre><code class="language-bash">#.1介绍整个软件基本相关信息
+Summary: The NTP daemon and utilities  ##简述软件功能
+Name: ntp                              ##软件名
+Version: 4.2.6p5                       ##软件版本
+Release: 19%{?dist}.1                  ##软件释出版本
+# primary license (COPYRIGHT) : MIT
+License: (MIT and BSD and BSD with advertising) and GPLv2
+Group: System Environment/Daemons
+Source1: ntp.conf                      ##写sourceN 的就是原始码
+Source2: ntp.keys                      ##原始码可以有多个
+Source4: ntpd.sysconfig
+
+# ntpbz #802
+Patch1: ntp-4.2.6p1-sleep.patch        ##布丁文件，patchN的目的
+
+#2.设定相依属性需求的地方
+URL: http://www.ntp.org                #底下说明这个软件的相依性
+Requires(post): systemd-units          #还有编译过程需要那些软件
+Requires(preun): systemd-units
+Requires(postun): systemd-units
+Requires: ntpdate = %{version}-%{release}
+BuildRequires: libcap-devel openssl-devel libedit-devel perl-HTML-Parser
+BuildRequires: pps-tools-devel autogen autogen-libopts-devel systemd-units
+
+%package -n ntpdate                     #ntp包含挺多软件
+Summary: Utility to set the date and time via NTP
+Group: Applications/System
+Requires(pre): shadow-utils
+Requires(post): systemd-units
+Requires(preun): systemd-units
+Requires(postun): systemd-units
+#3。编译前的预处理，以及编译过程进行的指令
+# %build底下的数据，几乎是makefile信息
+%prep
+%setup -q -a 5
+
+%patch1 -p1 -b .sleep
+%patch2 -p1 -b .droproot
+%patch3 -p1 -b .bcast
+%patch4 -p1 -b .cmsgalign
+
+%build                          #./configure make等动作
+sed -i 's|$CFLAGS -Wstrict-overflow|$CFLAGS|' configure sntp/configure
+export CFLAGS=&quot;$RPM_OPT_FLAGS -fPIE -fno-strict-aliasing -fno-strict-overflow&quot;
+export LDFLAGS=&quot;-pie -Wl,-z,relro,-z,now&quot;
+%configure \                    #./configyre 动作
+        --sysconfdir=%{_sysconfdir}/ntp/crypto \
+        --with-openssl-libdir=%{_libdir} \
+make % {?_smp_mflags}           #make 动作
+
+%install                        #安装过程所进行的各项动作
+make DESTDIR=$RPM_BUILD_ROOT bindir=%{_sbindir} install
+
+mkdir -p $RPM_BUILD_ROOT%{_mandir}/man{5,8}
+sed -i 's/sntp\.1/sntp\.8/' $RPM_BUILD_ROOT%{_mandir}/man1/sntp.1
+mv $RPM_BUILD_ROOT%{_mandir}/man{1/sntp.1,8/sntp.8}
+rm -rf $RPM_BUILD_ROOT%{_mandir}/man1
+
+#4软件释放的文件有那些意思
+%files          #这些软件所属的文件有那些意思
+%dir %{ntpdocdir}
+%{ntpdocdir}/COPYRIGHT
+%{ntpdocdir}/ChangeLog
+%{ntpdocdir}/NEWS
+%{_sbindir}/ntp-keygen
+%{_sbindir}/ntpd
+%{_sbindir}/ntpdc
+%{_sbindir}/ntpq
+%{_sbindir}/ntptime
+%{_sbindir}/ticka
+
+#5。列出这个软件的更改历史记录文件
+%changelog
+* Tue Jun 23 2015 CentOS Sources &lt;bugs@centos.org&gt; - 4.2.6p5-19.el7.centos.1
+- rebrand vendorzone
+
+* Thu Apr 23 2015 Miroslav Lichvar &lt;mlichvar@redhat.com&gt; 4.2.6p5-19.el7_1.1
+- don't step clock for leap second with -x option (#1191122)
+
+* Fri Dec 19 2014 Miroslav Lichvar &lt;mlichvar@redhat.com&gt; 4.2.6p5-19
+- don't generate weak control key for resolver (CVE-2014-9293)
+- don't generate weak MD5 keys in ntp-keygen (CVE-2014-9294)
+- fix buffer overflows via specially-crafted packets (CVE-2014-9295)
+- don't mobilize passive association when authentication fails (CVE-2014-9296)
+
+1.整个文件 的开头以Summary为开始，这部份的设定都是最基础的说明内容;
+2.然后每个不同的段落之间， 都以%来做为开头，例如%prep与%install 等;
+
+--------
+Summary:软件主要说明
+Name:软件名称
+Version：软件版本
+Release：软件打补丁次数
+Liceense:软件授权次数
+Group：软件安装时候，放置在哪一个软件群组
+URL：原始码官网
+SourceN：软件来源
+PatchN：补丁文件
+BuildRoot：编译时使用哪个目录来暂存中间文件(如编译过程的目标文件/链接文件等档)。
+######上面为必须要存在值，底下为额定值######
+Requires：软件的依赖文件，安装时需要检查的
+BuildRequires：编译时所需要的软件
+根据上面的设定，最终rpm名为：{name}-{Version}-{Release}.{Arch}.rpm
+
+
+%description:
+软件简短说明，必须要有。当rpm -qi 软件名称 会出现说明
+%prep
+
+尚未进行设定或安装之前，你要编译完成的rpm帮你事先做的事情
+
+1.进行软件的补 丁(patch) 等相关工作:
+2. 寻找软件所需要的目录是否已经存在?确认用的!
+3.事先建立你的软件所需要的目录，或者事先需要进行的任务;
+4.如果待安装的Linux系统内已经有安装的时候可能会被覆盖掉的文件时，那么就必需要进行备份(backup)的工作了!
+
+%build
+说明make怎么编译成可执行程序，./configure,make等命令，可以修改./configure等参数
+
+%install
+编译完成后就是安装，安装的相关信息。相当于make install
+%files:
+软件的安装文件，和目录。
+%changelog
+这个项目主要记录这个软件曾经的更新记录
+
+rpm -q 查询信息，都是这写入
+
+</code></pre>
+<h4 id="srpm的编译指令-ba-bb">SRPM的编译指令(-ba/-bb)</h4>
+<pre><code class="language-bash">[ root@study ~]# rpmbuild ba ntp. spec &lt;= 编译并同时产生RPM与SRPM 文件
+[ root@study ~]# rpmbuild bb ntp. spec &lt;==仅编译成 RPM文件
+操作流程：
+1.先进入到BUILD这个目录
+2. 依照*.spec 文件内的Name 与Version 定义出工作的目录名称，以我们，上面的例子为例，那么系统就会
+在BUILD目录中先删除ntp-4.2.6p5的目录，再重新建立- -个 ntp-4.2.6p5的目录，并进入该目录
+
+3. 在新建的目录里面，针对SOURCES目录下的来源文件，也就是*.spec 里面的Source 设定的那个文件,
+以tar进行解压缩，以我们这个例子来说，则会在/root/pmbuild/BUILD/tp-4.2.6p5 当中，将
+/root/pmbuild/SOURCES/tp-*等等多个原始码文件进行解压缩啦!
+
+4.再来开始%build 及%install 的设定与编译!
+
+5.最后将完成打 包的文件给他放置到该放置的地方去，如果你的系统是x86_ _64的话，那么最后编译成功的
+*.x86_ _64.pm文件就会被放置在/root/rpmbuild/RPMS/x86_ _64 里面哕!如果是noarch 那么自然就是
+/root/pmbuild/RPMS/noarch目录下哕!
+</code></pre>
+<h4 id="一个打包自己软件的范例按书">一个打包自己软件的范例:按书</h4>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div id="vlaine-comment"></div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Powered by <a href="http://zhang-blog.github.io/" target="_blank">Gridea</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E8%BD%AF%E4%BB%B6%E7%AE%A1%E7%90%86%E7%AE%80%E4%BB%8B">软件管理简介</a>
+<ul>
+<li><a href="#%E4%B8%A4%E5%A4%A7%E4%B8%BB%E6%B5%81rpm%E4%B8%8Edpkg">两大主流:RPM与DPKG</a></li>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFrpm%E4%B8%8Esrpm">什么是RPM与SRPM</a></li>
+<li><a href="#rpm%E5%90%8D%E8%A7%84%E8%8C%83%E5%B8%B8%E8%A7%81cpu%E6%9E%B6%E6%9E%84">RPM名规范,常见CPU架构</a></li>
+<li><a href="#rpm%E4%BC%98%E7%82%B9">RPM优点</a></li>
+<li><a href="#rpm%E5%B1%9E%E6%80%A7%E7%9B%B8%E4%BE%9D%E8%A7%A3%E5%86%B3yum%E5%9C%A8%E7%BA%BF%E5%8D%87%E7%BA%A7">RPM属性相依解决(yum在线升级)</a></li>
+</ul>
+</li>
+<li><a href="#rpm%E8%BD%AF%E4%BB%B6%E7%AE%A1%E7%90%86%E7%A8%8B%E5%BA%8F">RPM软件管理程序</a>
+<ul>
+<li><a href="#rpm%E9%BB%98%E8%AE%A4%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84">RPM默认安装路径</a></li>
+<li><a href="#rpm%E5%AE%89%E8%A3%85root%E6%9D%83%E9%99%90">RPM安装(root权限)</a></li>
+<li><a href="#rpm%E5%8D%87%E7%BA%A7%E4%B8%8E%E6%9B%B4%E6%96%B0">RPM升级与更新</a></li>
+<li><a href="#rpm%E6%9F%A5%E8%AF%A2">RPM查询</a></li>
+<li><a href="#rpm%E9%AA%8C%E8%AF%81%E4%B8%8E%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D">RPM验证与数字签名</a></li>
+<li><a href="#rpm%E5%8D%B8%E8%BD%BD%E4%B8%8E%E9%87%8D%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93">RPM卸载与重建数据库</a></li>
+</ul>
+</li>
+<li><a href="#yum%E5%9C%A8%E7%BA%BF%E5%8D%87%E7%BA%A7%E6%9C%BA%E5%88%B6">Yum在线升级机制</a>
+<ul>
+<li><a href="#%E5%88%A9%E7%94%A8yum%E6%9F%A5%E8%AF%A2-%E5%AE%89%E8%A3%85-%E5%8D%87%E7%BA%A7%E4%B8%8E%E7%A7%BB%E9%99%A4">利用YUM查询、安装、升级与移除</a></li>
+<li><a href="#yum%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">YUM配置文件</a></li>
+<li><a href="#yum%E8%BD%AF%E4%BB%B6%E7%BE%A4%E7%BB%84%E5%8A%9F%E8%83%BD">YUM软件群组功能</a></li>
+<li><a href="#epelelrepo%E5%A4%96%E6%8C%82%E8%BD%AF%E4%BB%B6%E4%BB%A5%E5%8F%8A%E8%87%AA%E5%AE%9A%E4%B9%89">Epel/elrepo外挂软件以及自定义</a></li>
+<li><a href="#%E7%AE%A1%E7%90%86%E7%9A%84%E6%8A%89%E6%8B%A9rpm%E8%BF%98%E6%98%AFtarball">管理的抉择:RPM还是tarball</a></li>
+<li><a href="#%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E4%BB%A5apache%E4%B8%BA%E4%BE%8B">基础服务管理:以apache为例</a></li>
+</ul>
+</li>
+<li><a href="#srpm%E7%9A%84%E4%BD%BF%E7%94%A8">Srpm的使用</a>
+<ul>
+<li><a href="#%E5%88%A9%E7%94%A8%E9%BB%98%E8%AE%A4%E5%80%BC%E5%AE%89%E8%A3%85srpm%E6%96%87%E4%BB%B6">利用默认值安装srpm文件</a></li>
+<li><a href="#srpm%E4%BD%BF%E7%94%A8%E7%9A%84%E8%B7%AF%E5%BE%84%E4%B8%8E%E9%9C%80%E8%A6%81%E7%9A%84%E8%BD%AF%E4%BB%B6">srpm使用的路径与需要的软件</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9spec">配置文件的主要内容(*.spec)</a></li>
+<li><a href="#srpm%E7%9A%84%E7%BC%96%E8%AF%91%E6%8C%87%E4%BB%A4-ba-bb">SRPM的编译指令(-ba/-bb)</a></li>
+<li><a href="#%E4%B8%80%E4%B8%AA%E6%89%93%E5%8C%85%E8%87%AA%E5%B7%B1%E8%BD%AF%E4%BB%B6%E7%9A%84%E8%8C%83%E4%BE%8B%E6%8C%89%E4%B9%A6">一个打包自己软件的范例:按书</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zhanghaibin-a.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://zhanghaibin-a.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  <script type="application/javascript" src="https://zhanghaibin-a.github.io/media/scripts/valine.min.js"></script>
+  <script type="application/javascript">
+  
+    // var valine = new Valine();
+    // valine.init({
+    //   el: '#vlaine-comment',
+    //   appId: '',
+    //   appKey: '',
+    //   notify: false,
+    //   avatar: 'mp',
+    //   verify: true,
+    //   placeholder: '来都来了，不妨评论一下',
+    //   visitor: false,
+    //   highlight: false,
+    //   recordIP: false,
+    // })
+  
+    var valine = new Valine();
+    valine.init({
+      el: '#vlaine-comment',
+      appId: '',
+      appKey: '',
+      notify: false,
+      verify: false,
+      visitor: true,
+      avatar: 'mp',
+      placeholder: '加入讨论...'
+    })
+  </script>
+</body>
+
+</html>
