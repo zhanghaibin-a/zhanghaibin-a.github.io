@@ -1,0 +1,633 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>鸟哥十五章#Linux定时任务 - 温故而知新</title>
+<link rel="shortcut icon" href="https://zhanghaibin-a.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"> -->
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="鸟哥十五章#Linux定时任务 - 温故而知新 - Atom Feed" href="https://zhanghaibin-a.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="什么是定时任务
+Linux定时任务总类
+常见的两种工作计划：
+
+一种是例行性的,就是每隔一定的周期要来办的事项
+一种是突发性的,就是这次做完以后就没有的那一种
+
+上面两总功能：
+***at:***at可以处理仅执行一次就结束排程的指令,要执..." />
+  <meta property="og:title" content="鸟哥十五章#Linux定时任务 - 温故而知新">
+  <meta property="og:description" content="什么是定时任务
+Linux定时任务总类
+常见的两种工作计划：
+
+一种是例行性的,就是每隔一定的周期要来办的事项
+一种是突发性的,就是这次做完以后就没有的那一种
+
+上面两总功能：
+***at:***at可以处理仅执行一次就结束排程的指令,要执..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://zhanghaibin-a.github.io/post/niao-ge-shi-wu-zhang-linux-ding-shi-ren-wu/" />
+  <meta property="og:image" content="https://tse4-mm.cn.bing.net/th?id=OIP.EizaEYYPGT02z8_KZUK9igHaCl&amp;pid=Api&amp;rs=1">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="鸟哥十五章#Linux定时任务 - 温故而知新">
+  <meta name="twitter:description" content="什么是定时任务
+Linux定时任务总类
+常见的两种工作计划：
+
+一种是例行性的,就是每隔一定的周期要来办的事项
+一种是突发性的,就是这次做完以后就没有的那一种
+
+上面两总功能：
+***at:***at可以处理仅执行一次就结束排程的指令,要执...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zhanghaibin-a.github.io/post/niao-ge-shi-wu-zhang-linux-ding-shi-ren-wu/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://zhanghaibin-a.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      温故而知新
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          鸟哥十五章#Linux定时任务
+        </h1>
+        
+          <img src="https://tse4-mm.cn.bing.net/th?id=OIP.EizaEYYPGT02z8_KZUK9igHaCl&amp;pid=Api&amp;rs=1" alt="鸟哥十五章#Linux定时任务" class="block w-full mb-8">
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-04-13 · 14 min read</div>
+          
+            <a href="https://zhanghaibin-a.github.io/tag/0QwPsCw5i/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              鸟哥Linux笔记
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <h3 id="什么是定时任务">什么是定时任务</h3>
+<h4 id="linux定时任务总类">Linux定时任务总类</h4>
+<p>常见的两种工作计划：</p>
+<ul>
+<li>一种是例行性的,就是每隔一定的周期要来办的事项</li>
+<li>一种是突发性的,就是这次做完以后就没有的那一种</li>
+</ul>
+<p>上面两总功能：</p>
+<p>***at:***<code>at</code>可以处理仅执行一次就结束排程的指令,要执行<code>at</code> 时须要<code>atd</code> 服务支援,某些新版<code>distributions</code>，<code>atd</code> 预设没有启动，那么<code>at</code>指令就会失效呢!不过<code>CentOS</code>预设启动!</p>
+<p>***crontab: *** <code>crontab</code> 这个指令所设定的工作将会循环的- -直进行下去!可循环的时间为分钟、小时、每周、每月或每年等。<code>crontab</code> 除了可以使用指令执行外，亦可编辑<code>/etc/crontab</code> 来支持。至于让 <code>crontab</code>可以生效的服务则是<code>crond</code>这个服务喔!</p>
+<h4 id="centos-linux系统常见的定时任务">Centos Linux系统常见的定时任务</h4>
+<ul>
+<li>登录档的轮询（log rotate）：linux在指定时间对登录档进行轮询（系统所发生档各种信息）防止单个日志文件过大。</li>
+<li>登录文件分析logwatch任务：系统产生大量日志（软件问题、硬件错误、安全问题、）logwatch帮我们分析日志，并发邮件给我们。</li>
+<li>建立locate数据库：locate所访问都数据库需要定时更新。保证数据库里都文件信息都是最新都</li>
+<li>man page：查询数据库都建立：与locate类似</li>
+<li>移除暂存档：某些文件在运行时会产生一些临时文件，需要定时对文件夹进行清空。</li>
+<li>与网络访问有关对分析：分析www服务器的登录文件</li>
+</ul>
+<p>注意：很多第三方软件会自行添加计划任务</p>
+<h3 id="单次的定时任务">单次的定时任务</h3>
+<h4 id="atd的启动与at运作的方式">atd的启动与at运作的方式</h4>
+<ul>
+<li>
+<p>使用at必须保证atd服务正常运行：</p>
+<pre><code class="language-bash"># systemctl restart atd  ##重启服务
+# systemctl status atd  ##查看状态
+● atd.service - Job spooling tools
+   Loaded: loaded (/usr/lib/systemd/system/atd.service; enabled; vendor preset: enabled)
+   Active: active (running) since Sun 2019-11-10 18:24:37 CST; 1s ago
+ Main PID: 6521 (atd)
+   CGroup: /system.slice/atd.service
+           └─6521 /usr/sbin/atd -f
+
+Nov 10 18:24:37 VM_0_16_centos systemd[1]: Stopped Job spooling tools.
+Nov 10 18:24:37 VM_0_16_centos systemd[1]: Started Job spooling tools.
+</code></pre>
+</li>
+<li>
+<p>at运作方式</p>
+<pre><code class="language-bash">使用at这个指令来产生所要运作的工作，并将这个工作以文本文件的方式写入/var/spool/at/ 目录内，该工作便能等待atd这个服务的取用与执行了。
+
+at的安全设置：
+1.先找寻 /tatallw这个文件，写在这个文件中的使用者才能使用at ，没有在这个文件中的使用者则不能使用at (即使没有写在at.deny 当中);
+2.如果/etc/atallow不存在，就寻找/etc/at.deny这个文件，若写在这个at.deny 的使用者则不能使用at，而没有在这个at.deny文件中的使用者，就可以使用at咯;
+3.如果两个文件 都不存在，那么只有root可以使用at这个指令。
+
+</code></pre>
+</li>
+</ul>
+<h4 id="实际运用单次定时任务">实际运用单次定时任务</h4>
+<pre><code class="language-bash">at [-mldv] TINE
+at -c 工作号码
+-m :当at的工作完成后，即使没有输出讯息，亦以cmail 通知使用者该工作己完成。
+-1: at -1相当于atq, 列出目前系统上面的所有该用户的at排程:
+-d：at -d 相当于atr可以取消一个在at排程中的工作:
+-V :可以使用较明显的时间格式栏出at排程中的任务栏表:
+-C：可以列出后面接的该项工作的实际指令内容。
+TIME: 时间格式，这里可以定义出「什么时候要进行at这项工作」的时间，格式有:
+HH:MM           ex&gt; 04:00
+在今日的H:N时刻进行，若该时刻已超过，则明天的HH:M进行此工作。
+    H:MM YYYY -MM-DD    ex&gt; 04:00 2015-07-30
+强制规定在某年某月的某一天的特殊时刻进行该工作!
+H:MM[am|pm] [Month] [Date]  ex&gt; 04pm July 30
+也是一样，强制在某年某月某日的某时刻进行!
+H:MM[ am|pm] + number [ minutes |hours |days |wccks ]
+ex&gt; now + 5 minutes     ex&gt; 04pm + 3 days
+就是说，在某个时间点再加几个时间后」 才进行。
+
+范例一：5分钟后打印出'hello'
+at now +1 minutes
+at&gt; echo &quot;hello&quot;
+at&gt; &lt;EOT&gt;  ##ctrl +d 表示结束
+job 1 at Mon Nov 11 00:37:00 2019
+[root@izvk0hbkynfxqzz ~]# date
+Mon Nov 11 00:37:00 CST 2019
+
+范例二：将范例一的详细信息列出来：
+at -c 2
+cd /root || {
+         echo 'Execution directory inaccessible' &gt;&amp;2
+         exit 1
+}
+${SHELL:-/bin/sh} &lt;&lt; 'marcinDELIMITER1d72961a'
+/bin/mail -s &quot;resting at job&quot; root &lt;/root/.bashrc
+
+marcinDELIMITER1d72961a
+
+范例三：定时关机
+# at 23:00 2019-11-04
+at&gt; /bin/sync
+at&gt; /bin/sync
+at&gt; /sbin/ shutdown -h now
+at&gt; &lt;E0T&gt;
+job 3 at Tue Aug 23:00:00 2019
+
+注意：
+    使用绝对路径下达指令
+    at的执行与终端机环境无关，而所有standard output/standard error output 都会传送到执行者的mailbox去
+    由于at工作排程的使用上，系统会将该项at工作独立出你的bash 环境中，直接交给 系统的atd程序来接管
+</code></pre>
+<ul>
+<li>
+<p>at工作管理「atq查询atrm删除」</p>
+<pre><code class="language-bash">atq：查询主机有多少at计划任务
+[root@izvk0hbkynfxqzz ~]# atq
+3       Mon Nov 11 01:05:00 2019 a root
+
+atrm ：移除计划任务
+[root@izvk0hbkynfxqzz ~]#atrm 3
+[root@izvk0hbkynfxqzz ~]# atq
+</code></pre>
+</li>
+<li>
+<p>batch系统空闲时执行</p>
+<pre><code class="language-bash">他会在CPU的工作负载小于0.8的时候，才进行你所下达的工作任务
+crontab每分钟检测一次系统负载。
+
+# batch
+at&gt; curl www.baidu.com &gt; /home/test
+at&gt;
+at&gt; &lt;EOT&gt;
+
+#atq
+5       Mon Nov 11 01:14:00 2019 b root
+1       Mon Nov 11 01:11:00 2019 b zhang123
+</code></pre>
+</li>
+</ul>
+<h3 id="循环执行的定时任务">循环执行的定时任务</h3>
+<h4 id="循环执行设定">循环执行设定</h4>
+<ul>
+<li>/etc/cron.allow:将可以使用crontab 的账号写入其中,若不在这个文件内的使用者则不可使用crontab;</li>
+<li>/etc/cron.deny:将不可以使用crontab 的账号写入其中,若未记录到这个文件当中的使用者，就可以使用crontab .</li>
+<li>/var/spool/cron/用户/ :当用户使用crontab建立计划任务，会被记录到此目录</li>
+<li>/var/log/cron:crontab工作记录日志</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1586799302154&amp;di=892852bc8302e0b24693fff7be197767&amp;imgtype=0&amp;src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20180802%2F3ffd05bb58e943aa8f69b0321b4e40ad.jpeg" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3932465753,89006885&amp;fm=26&amp;gp=0.jpg" alt="img" loading="lazy"></figure>
+<p>crontab 语法:</p>
+<pre><code class="language-bash">crontab [-u username] [-1｜- e ｜ -r]
+选项与参数:
+-u：只有root 才能进行这个任务，亦即帮其他使用者建立/移除crontab工作排程:
+-e：编辑crontab 的工作内容
+-l：查阅crontab的工作内容
+-r：移除所有的crontab 的工作内容，若仅要移除一项，请用-e 去编辑。
+
+[root@VM_0_16_centos cron]# crontab -e
+*   *   *   *   *   /usr/local/qcloud/stargate/admin/start.sh &gt; /dev/null 2&gt;&amp;1 &amp;
+分  时   日  月  周  （指令串）
+
+crontab [-u username] [-1｜- e ｜ -r]
+选项与参数:
+-u：只有root 才能进行这个任务，亦即帮其他使用者建立/移除crontab工作排程:
+-e：编辑crontab 的工作内容
+-l：查阅crontab的工作内容
+-r：移除所有的crontab 的工作内容，若仅要移除一项，请用-e 去编辑。
+
+[root@VM_0_16_centos cron]# crontab -e
+*   *   *   *   *   /usr/local/qcloud/stargate/admin/start.sh &gt; /dev/null 2&gt;&amp;1 &amp;
+分  时   日  月  周  （指令串）
+
+范例一：5月1日23：59发邮件
+59 23 1 5 * 指令
+范例二：每五分钟执行一次
+* /5* * * *  指令
+范例三：每星期五4：30执行脚本
+30 16 * * 5  指令
+
+crontab -l  查看当前使用者所有脚本
+cron每分钟检测一次脚本
+
+</code></pre>
+<h4 id="系统配置文件etccrontab-etccrond">系统配置文件/etc/crontab、/etc/cron.d/*</h4>
+<p>cron 会每分钟去读取一次/etc/crontab 与/var/spool/cron里面的数据内容</p>
+<pre><code class="language-bash"># cat /etc/crontab 
+SHELL=/bin/bash             #使用那种shell接口
+PATH=/sbin:/bin:/usr/sbin:/usr/bin  #执行文件搜索路径
+MAILTO=root                 #额外STDOUT，以email将数据送给谁
+
+
+# For details see man 4 crontabs
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name  command to be executed
+
+MAILTO=root ：当计划任务发生错误时，将信息以email发给谁
+PATH=/sbin:/bin:/usr/sbin:/usr/bin  #执行文件搜索路径
+「分 时 日 月 周 身份  指令」 七个字段设定 ##与crontab不同当地方在于需要指定执行命令当
+</code></pre>
+<p>crond服务读取配置文件位置</p>
+<pre><code class="language-bash">crond预设脚本配置文件：
+    /etc/crontab        #系统运作有关
+    /etc/cron.d/*       #系统运作有关
+    /var/spool/cron/*   #用户运作有关
+个人化的行为使用「crontab-e 」: 
+    如果你是依据个人需求来建立的例行工作排程，建议直接使用crontab -e来建立你的工作排程较佳!这样 也能保障你的指令行为不会被大家看到(/etc/crontab 是大家都能读取的权限喔! );
+
+系统维护管理使用「vim /etc/crontab」:
+    如果你这个例行工作排程是系统的重要工作，为了让自己管理方便，同时容易追踪，建议直接写入/etc/crontab 较佳!
+
+自己开发软件使用「vim /etc/cron.d/newfile J: 
+如果你是想要自己开发软件，那当然最好就是使用全新的配置文件，并且放置于/etc/cron.d/ 目录内即可。
+
+固定每小时、每日、每周、每天执行的特别工作:
+如果与系统维护有关，还是建议放置到/etc/crontab 中来集中管理较好。如果想要偷懒， 或者是一-定要再某个周期内进行的任务，也可以放置到上面谈到的几个目录中，直接写入指令即可!
+
+</code></pre>
+<p><em><strong>注意：</strong></em></p>
+<p>资源分配不匀：同一时间不要运行多个任务，可以用「,」间隔开来</p>
+<p>取消不要的输出项目：/dev/null</p>
+<p>安全的检验：</p>
+<p>/var/log/cron 检测计划任务执行情况</p>
+<p>周与日月不能同时并存</p>
+<h3 id="重启后的定时任务">重启后的定时任务</h3>
+<h4 id="什么是anacron">什么是anacron</h4>
+<p>当系统正常关机时，一些定时任务在关机时无法执行，anacron在系统开启后anacron读取时间记录文件（timestamps），anacron分析现在的时间与记录文件记载的上次执行时间，发现异常后执行crontab任务</p>
+<blockquote>
+<p>/etc/cron.hourly/0anacron 执行时间戳检测，运行anacron -s</p>
+</blockquote>
+<h4 id="anacron与etcanacrontab">anacron与/etc/anacrontab</h4>
+<p>/etc/anacrontab ：anacron配置文件anacron每小时检测一次</p>
+<pre><code class="language-bash"># cat /etc/anacrontab 
+# /etc/anacrontab: configuration file for anacron
+
+# See anacron(8) and anacrontab(5) for details.
+
+SHELL=/bin/sh
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+# the maximal random delay added to the base delay of the jobs
+RANDOM_DELAY=45             #随机给予的最大延迟时间、单位是分钟
+# the jobs will be started during the following hours only
+START_HOURS_RANGE=3-22      #执行多少个小时内应该要执行的任务时间
+
+#period in days   delay in minutes   job-identifier   command
+1       5       cron.daily              nice run-parts /etc/cron.daily
+7       25      cron.weekly             nice run-parts /etc/cron.weekly
+@monthly 45     cron.monthly            nice run-parts /etc/cron.monthly
+
+天数    延迟时间   工作名称定义             实际要进行的指令串
+
+天数: anacron 执行当下与时间戳(/var/spool/anacron/ 内的时间纪录文件)相差的天数，若超过此天数，就准备开始执行，若没有超过此天数，则不予执行后续的指令。
+延迟时间:若确定超过天数导致要执行排程工作了，那么请延迟执行的时间，因为担心立即启动会有其他资源冲突的问题吧!
+工作名称定义:这个没啥意义，就只是会在/ar/log/cron 里头记载该项任务的名称这样!通常与后续的目录资源名称相同即可。
+实际要进行的指令串:有没有跟0hourly 很像啊!没错!相同的作法啊!透过run-parts 来处理的!
+
+cron.daily 为例：
+1. 由/etc/anacrontab分析到cron.daily 这项工作名称的天数为1天;
+2.由/var/spool/anacron/cron.daily 取出最近一次执行anacron 的时间戳;
+3.由上个步骤与目前的时间比较，若差异天数为1天以上(含1天)，就准备进行指令;
+4. 若准备进行指令，根据/etc/anacrontab 的设定，将延迟5分钟+3小时(看START_ HOURS_ RANGE的设定); .
+5.延迟时间过后， 开始执行后续指令，亦即「run-parts /etc/cron.daily」这串指令;
+6. 执行完毕后，anacron程序结束。
+
+anacron [-sfn] [job]..
+anacron -u [job]..
+选项与参数:
+-s:开始一连续的执行各项工作(job)，会依据时间记录文件的数据判断是否进行:
+-f:强制进行，而不去判断时间记录文件的时间戳
+-n:立刻进行未进行的任务，而不延迟(delay) 等待时间:
+-u:仅更新时间记录文件的时间戳，不进行任何工作。
+job :由/etc/anacrontab 定义的各项工作名称。
+
+总结配置文件和目录关系：
+crond会主动去读取/etc/crontab, /varspoo/cron/*, /etc/cron.d/*等配置文件，并依据[分、时、日、月、周」的时间设定去各项工作排程;
+根据/etc/cron.d/0hourly 的设定，主动去/etc/cron.hourly/ 目录下，执行所有在该目录下的执行文件;
+因为/etc/cron.hourly/0anacron 这个脚本文件的缘故，主动的每小时执行anacron ，并呼叫/etc/anacrontab的配置文件;
+根据/etc/anacrontab 的设定,依据每天、每周、每月去分析/etc/cron.dailyl, /etc/cron.weeklyl, /etc/cron.monthly/
+内的执行文件，以进行固定周期需要执行的指令。
+
+注意：carontab与at 设定的指令过期就过期并不会在重新执行
+</code></pre>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div id="vlaine-comment"></div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Powered by <a href="http://zhang-blog.github.io/" target="_blank">Gridea</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1">什么是定时任务</a>
+<ul>
+<li><a href="#linux%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E6%80%BB%E7%B1%BB">Linux定时任务总类</a></li>
+<li><a href="#centos-linux%E7%B3%BB%E7%BB%9F%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1">Centos Linux系统常见的定时任务</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8D%95%E6%AC%A1%E7%9A%84%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1">单次的定时任务</a>
+<ul>
+<li><a href="#atd%E7%9A%84%E5%90%AF%E5%8A%A8%E4%B8%8Eat%E8%BF%90%E4%BD%9C%E7%9A%84%E6%96%B9%E5%BC%8F">atd的启动与at运作的方式</a></li>
+<li><a href="#%E5%AE%9E%E9%99%85%E8%BF%90%E7%94%A8%E5%8D%95%E6%AC%A1%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1">实际运用单次定时任务</a></li>
+</ul>
+</li>
+<li><a href="#%E5%BE%AA%E7%8E%AF%E6%89%A7%E8%A1%8C%E7%9A%84%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1">循环执行的定时任务</a>
+<ul>
+<li><a href="#%E5%BE%AA%E7%8E%AF%E6%89%A7%E8%A1%8C%E8%AE%BE%E5%AE%9A">循环执行设定</a></li>
+<li><a href="#%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6etccrontab-etccrond">系统配置文件/etc/crontab、/etc/cron.d/*</a></li>
+</ul>
+</li>
+<li><a href="#%E9%87%8D%E5%90%AF%E5%90%8E%E7%9A%84%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1">重启后的定时任务</a>
+<ul>
+<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFanacron">什么是anacron</a></li>
+<li><a href="#anacron%E4%B8%8Eetcanacrontab">anacron与/etc/anacrontab</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zhanghaibin-a.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://zhanghaibin-a.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  <script type="application/javascript" src="https://zhanghaibin-a.github.io/media/scripts/valine.min.js"></script>
+  <script type="application/javascript">
+  
+    // var valine = new Valine();
+    // valine.init({
+    //   el: '#vlaine-comment',
+    //   appId: '',
+    //   appKey: '',
+    //   notify: false,
+    //   avatar: 'mp',
+    //   verify: true,
+    //   placeholder: '来都来了，不妨评论一下',
+    //   visitor: false,
+    //   highlight: false,
+    //   recordIP: false,
+    // })
+  
+    var valine = new Valine();
+    valine.init({
+      el: '#vlaine-comment',
+      appId: '',
+      appKey: '',
+      notify: false,
+      verify: false,
+      visitor: true,
+      avatar: 'mp',
+      placeholder: '加入讨论...'
+    })
+  </script>
+</body>
+
+</html>
