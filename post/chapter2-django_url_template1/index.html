@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>【chapter3】Django_template-DTL「1」 - 温故而知新</title>
+<title>【chapter3】Django_template-DTL - 温故而知新</title>
 <link rel="shortcut icon" href="https://zhanghaibin-a.github.io/favicon.ico">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
 <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"> -->
 <link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/tailwind.css">
 <link rel="stylesheet" href="https://zhanghaibin-a.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="【chapter3】Django_template-DTL「1」 - 温故而知新 - Atom Feed" href="https://zhanghaibin-a.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="【chapter3】Django_template-DTL - 温故而知新 - Atom Feed" href="https://zhanghaibin-a.github.io/atom.xml">
 
     
 
   <meta name="description" content="模版介绍
 在之前的章节中，视图函数只是直接返回文本，而在实际生产环境中其实很少这样用，因为实际的页面大多是带有样式的HTML代码，这可以让浏览器渲染出非常漂亮的页面。目前市面上有非常多的模板系统，其中最知名最好用的就是DTL和Jinja2。..." />
-  <meta property="og:title" content="【chapter3】Django_template-DTL「1」 - 温故而知新">
+  <meta property="og:title" content="【chapter3】Django_template-DTL - 温故而知新">
   <meta property="og:description" content="模版介绍
 在之前的章节中，视图函数只是直接返回文本，而在实际生产环境中其实很少这样用，因为实际的页面大多是带有样式的HTML代码，这可以让浏览器渲染出非常漂亮的页面。目前市面上有非常多的模板系统，其中最知名最好用的就是DTL和Jinja2。..." />
   <meta property="og:type" content="articles">
@@ -24,7 +24,7 @@
   <meta property="og:image" content="https://cn.bing.com/th?id=OIP.GQNaruTLdv6ZkYl_iUeuXQHaEK&amp;pid=Api&amp;rs=1">
   <meta property="og:image:height" content="630">
   <meta property="og:image:width" content="1200">
-  <meta name="twitter:title" content="【chapter3】Django_template-DTL「1」 - 温故而知新">
+  <meta name="twitter:title" content="【chapter3】Django_template-DTL - 温故而知新">
   <meta name="twitter:description" content="模版介绍
 在之前的章节中，视图函数只是直接返回文本，而在实际生产环境中其实很少这样用，因为实际的页面大多是带有样式的HTML代码，这可以让浏览器渲染出非常漂亮的页面。目前市面上有非常多的模板系统，其中最知名最好用的就是DTL和Jinja2。...">
   <meta name="twitter:card" content="summary_large_image">
@@ -50,13 +50,13 @@
     <div class="max-w-4xl w-full mx-auto">
       <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
         <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
-          【chapter3】Django_template-DTL「1」
+          【chapter3】Django_template-DTL
         </h1>
         
-          <img src="https://cn.bing.com/th?id=OIP.GQNaruTLdv6ZkYl_iUeuXQHaEK&amp;pid=Api&amp;rs=1" alt="【chapter3】Django_template-DTL「1」" class="block w-full mb-8">
+          <img src="https://cn.bing.com/th?id=OIP.GQNaruTLdv6ZkYl_iUeuXQHaEK&amp;pid=Api&amp;rs=1" alt="【chapter3】Django_template-DTL" class="block w-full mb-8">
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2020-03-24 · 11 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2020-03-24 · 21 min read</div>
           
             <a href="https://zhanghaibin-a.github.io/tag/J5VyRjnnf/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
               <i class="ri-hashtag"></i>
@@ -82,7 +82,7 @@
  def book_list(request):
      return render(request,'list.html')
 </code></pre>
-<h3 id="模版查找路径配置">模版查找路径配置</h3>
+<h4 id="模版查找路径配置">模版查找路径配置</h4>
 <p>在项目的<code>settings.py</code>文件中。有一个<code>TEMPLATES</code>配置，这个配置包含了模板引擎的配置，模板查找路径的配置，模板上下文的配置等。模板路径可以在两个地方配置。</p>
 <ol>
 <li>者<code>render_to_string</code>渲染模板的时候，会在这个列表的路径中查找模板。</li>
@@ -108,7 +108,8 @@ def profile(request):
 <p>不能通过中括号的形式访问字典和列表中的值，比如dict['key']和list[1]是不支持的！</p>
 <p>因为使用点（.）语法获取对象值的时候，可以获取这个对象的属性，如果这个对象是一个字典，也可以获取这个字典的值。所以在给这个字典添加key的时候，千万不能和字典中的一些属性重复。比如items，items是字典的方法，那么如果给这个字典添加一个items作为key，那么以后就不能再通过item来访问这个字典的键值对了。</p>
 </blockquote>
-<h3 id="if标签使用">if标签使用</h3>
+<h3 id="常用标签">常用标签</h3>
+<h4 id="if标签使用">if标签使用</h4>
 <p><code>if</code>标签：<code>if</code>标签相当于<code>Python</code>中的<code>if</code>语句，有<code>elif</code>和<code>else</code>相对应，但是所有的标签都需要用标签符号（<code>{%%}</code>）进行包裹。<code>if</code>标签中可以使用<code>==、!=、&lt;、&lt;=、&gt;、&gt;=、in、not in、is、is not</code>等判断运算符。示例代码如下：</p>
 <pre><code class="language-django"> {% if &quot;张三&quot; in persons %}
      &lt;p&gt;张三&lt;/p&gt;
@@ -116,7 +117,7 @@ def profile(request):
      &lt;p&gt;李四&lt;/p&gt;
  {% endif %}
 </code></pre>
-<h3 id="for标签使用">for标签使用</h3>
+<h4 id="for标签使用">for标签使用</h4>
 <p><code>for...in...</code>标签：<code>for...in...</code>类似于<code>Python</code>中的<code>for...in...</code>。可以遍历列表、元组、字符串、字典等一切可以遍历的对象。示例代码如下：</p>
 <pre><code class="language-django"> {% for person in persons %}
      &lt;p&gt;{{ person.name }}&lt;/p&gt;
@@ -150,7 +151,7 @@ def profile(request):
      暂时还没有任何人
  {% endfor %}
 </code></pre>
-<h3 id="with标签使用">with标签使用</h3>
+<h4 id="with标签使用">with标签使用</h4>
 <p><code>with</code>标签：在模版中定义变量。有时候一个变量访问的时候比较复杂，那么可以先把这个复杂的变量缓存到一个变量上，以后就可以直接使用这个变量就可以了。</p>
 <pre><code class="language-django"> context = {
      &quot;persons&quot;: [&quot;张三&quot;,&quot;李四&quot;]
@@ -176,7 +177,7 @@ def profile(request):
 </code></pre>
 </li>
 </ul>
-<h3 id="url标签使用">url标签使用</h3>
+<h4 id="url标签使用">url标签使用</h4>
 <p><code>url</code>标签：在模版中，我们经常要写一些<code>url</code>，比如某个<code>a</code>标签中需要定义<code>href</code>属性。当然如果通过硬编码的方式直接将这个<code>url</code>写死在里面也是可以的。但是这样对于以后项目维护可能不是一件好事。因此建议使用这种反转的方式来实现，类似于<code>django</code>中的<code>reverse</code>一样。示例代码如下：</p>
 <pre><code class="language-django"> &lt;a href=&quot;{% url 'book:list' %}&quot;&gt;图书列表页面&lt;/a&gt;
 </code></pre>
@@ -196,7 +197,7 @@ def profile(request):
 <p>如果需要传递多个参数，那么通过空格的方式进行分隔。示例代码如下：</p>
 <pre><code class="language-django">     &lt;a href=&quot;{% url 'book:detail' book_id=1 page=2 %}&quot;&gt;图书详情页面&lt;/a&gt;
 </code></pre>
-<h3 id="spaceless标签">spaceless标签</h3>
+<h4 id="spaceless标签">spaceless标签</h4>
 <p>移除html标签中的空白字符。包括空格、tab键、换行等。示例代码如下：</p>
 <pre><code class="language-html"> {% spaceless %}
      &lt;p&gt;
@@ -215,7 +216,7 @@ def profile(request):
  {% endspaceless %}
 </code></pre>
 <p>这个将不会移除<code>strong</code>中的空白字符。</p>
-<h3 id="autoescape标签">autoescape标签</h3>
+<h4 id="autoescape标签">autoescape标签</h4>
 <p>开启和关闭这个标签内元素的自动转义功能。自动转义是可以将一些特殊的字符。比如<code>&lt;</code>转义成<code>html</code>语法能识别的字符，比如<code>&lt;</code>会被转义成<code>&lt;</code>，而<code>&gt;</code>会被自动转义成<code>&gt;</code>。模板中默认是已经开启了自动转义的。<code>autoescape</code>的示例代码如下：</p>
 <pre><code class="language-django"> # 传递的上下文信息
  context = {
@@ -232,13 +233,226 @@ def profile(request):
      {{ info }}
  {% endautoescape %}
 </code></pre>
-<h3 id="verbatim标签">verbatim标签</h3>
+<h4 id="verbatim标签">verbatim标签</h4>
 <p>默认在<code>DTL</code>模板中是会去解析那些特殊字符的。比如<code>{%</code>和<code>%}</code>以及<code>{{</code>等。如果你在某个代码片段中不想使用<code>DTL</code>的解析引擎。那么你可以把这个代码片段放在<code>verbatim</code>标签中。示例代码下：</p>
 <pre><code class="language-django"> {% verbatim %}
      {{if dying}}Still alive.{{/if}}
  {% endverbatim %}
 </code></pre>
 <p>更多标签请参考官方文档：<code>https://docs.djangoproject.com/en/2.0/ref/templates/builtins/</code></p>
+<h3 id="自定义过滤器">自定义过滤器</h3>
+<p><code>DTL</code>给我们内置了许多好用的过滤器。但是有些时候还是不能满足我们的需求。因此<code>Django</code>给我们提供了一个接口，可以让我们自定义过滤器，实现自己的需求。</p>
+<p>模版过滤器必须要放在<code>app</code>中，并且这个<code>app</code>必须要在<code>INSTALLED_APPS</code>中进行安装。然后再在这个<code>app</code>下面创建一个<code>Python包</code>叫做<code>templatetags</code>。再在这个包下面创建一个<code>python文件</code>。比如<code>app</code>的名字叫做<code>book</code>，那么项目结构如下：</p>
+<pre><code class="language-bash">- book
+    - views.py
+    - urls.py
+    - models.py
+    - templatetags
+        - my_filter.py
+</code></pre>
+<p>在创建了存储过滤器的文件后，接下来就是在这个文件中写过滤器了。过滤器实际上就是python中的一个函数，只不过是把这个函数注册到模板库中，以后在模板中就可以使用这个函数了。但是这个函数的参数有限制，第一个参数必须是这个过滤器需要处理的值，第二个参数可有可无，如果有，那么就意味着在模板中可以传递参数。<strong>并且过滤器的函数最多只能有两个参数</strong>。在写完过滤器后，再使用<code>django.template.Library</code>对象注册进去。示例代码如下：</p>
+<pre><code class="language-python">from django import template
+
+# 创建模板库对象
+register = template.Library()
+
+# 过滤器函数
+def mycut(value,mystr):
+    return value.replace(mystr)
+
+# 将函数注册到模板库中
+register.filter(&quot;mycut&quot;,mycut)
+</code></pre>
+<p>以后想要在模板中使用这个过滤器，就要在模板中<code>load</code>一下这个过滤器所在的模块的名字（也就是这个python文件的名字）。示例代码如下：</p>
+<pre><code class="language-html">{% load my_filter %}
+</code></pre>
+<p>*** 自定义过滤器笔记：***</p>
+<ol>
+<li>
+<p>首先在某个app中，创建一个python包，叫做<code>templatetags</code>，注意，这个包的名字必须为<code>templatetags</code>，不然就找不到。</p>
+</li>
+<li>
+<p>在这个<code>templatetags</code>包下面，创建一个python文件用来存储过滤器。</p>
+</li>
+<li>
+<p>在新建的python文件中，定义过滤器（也就是函数），这个函数的第一个参数永远是被过滤的那个值，并且如果在使用过滤器的时候传递参数，那么还可以定义另外一个参数。但是过滤器最多只能有2个参数。</p>
+</li>
+<li>
+<p>在写完过滤器（函数）后，要使用<code>django.template.Library.filter</code>进行注册。</p>
+</li>
+<li>
+<p>还要把这个过滤器所在的这个app添加到<code>settings.INSTALLED_APS</code>中，不然Django也找不到这个过滤器。</p>
+</li>
+<li>
+<p>在模板中使用<code>load</code>标签加载过滤器所在的python包。</p>
+</li>
+<li>
+<p>可以使用过滤器了。</p>
+</li>
+<li>
+<p><code>django.template.Library.filter</code>还可以当作装饰器来使用。如果<code>filter</code>函数没有传递任何参数，那么将会使用这个函数的名字来作为过滤器的名字。当然如果你不想使用函数的名字来作为过滤器的名字，也可以传递一个<code>name</code>参数。示例代码如下：</p>
+<pre><code class="language-python">@register.filter('my_greet')
+def greet(value,word):
+    return value + word
+</code></pre>
+</li>
+</ol>
+<p><em><strong>自定义时间计算过滤器</strong></em></p>
+<p>有时候经常会在朋友圈、微博中可以看到一条信息发表的时间，并不是具体的时间，而是距离现在多久。比如<code>刚刚</code>，<code>1分钟前</code>等。这个功能<code>DTL</code>是没有内置这样的过滤器的，因此我们可以自定义一个这样的过滤器。示例代码如下：</p>
+<pre><code class="language-python"># time_filter.py文件
+
+from datetime import datetime
+from django import template
+
+register = template.Library()
+
+def time_since(value):
+    &quot;&quot;&quot;
+    time距离现在的时间间隔
+    1. 如果时间间隔小于1分钟以内，那么就显示“刚刚”
+    2. 如果是大于1分钟小于1小时，那么就显示“xx分钟前”
+    3. 如果是大于1小时小于24小时，那么就显示“xx小时前”
+    4. 如果是大于24小时小于30天以内，那么就显示“xx天前”
+    5. 否则就是显示具体的时间 2017/10/20 16:15
+    &quot;&quot;&quot;
+    if isinstance(value,datetime):
+        now = datetime.now()
+        timestamp = (now - value).total_seconds()
+        if timestamp &lt; 60:
+            return &quot;刚刚&quot;
+        elif timestamp &gt;= 60 and timestamp &lt; 60*60:
+            minutes = int(timestamp / 60)
+            return &quot;%s分钟前&quot; % minutes
+        elif timestamp &gt;= 60*60 and timestamp &lt; 60*60*24:
+            hours = int(timestamp / (60*60))
+            return &quot;%s小时前&quot; % hours
+        elif timestamp &gt;= 60*60*24 and timestamp &lt; 60*60*24*30:
+            days = int(timestamp / (60*60*24))
+            return &quot;%s天前&quot; % days
+        else:
+            return value.strftime(&quot;%Y/%m/%d %H:%M&quot;)
+    else:
+        return value
+
+
+register.filter(&quot;time_since&quot;,time_since)
+</code></pre>
+<p>在模版中使用的示例代码如下：</p>
+<pre><code class="language-html">{% load time_filter %}
+...
+{% value|time_since %}
+...
+</code></pre>
+<p>为了更加方便的将函数注册到模版库中当作过滤器。也可以使用装饰器来将一个函数包装成过滤器。示例代码如下：</p>
+<pre><code class="language-python">from django import template
+register = template.Library()
+
+@register.filter(name='mycut')
+def mycut(value,mystr):
+    return value.replace(mystr,&quot;&quot;)
+</code></pre>
+<h3 id="模版结构优化">模版结构优化</h3>
+<h4 id="引入模版">引入模版</h4>
+<p>有时候一些代码是在许多模版中都用到的。如果我们每次都重复的去拷贝代码那肯定不符合项目的规范。一般我们可以把这些重复性的代码抽取出来，就类似于Python中的函数一样，以后想要使用这些代码的时候，就通过<code>include</code>包含进来。这个标签就是<code>include</code>。示例代码如下：</p>
+<pre><code class="language-html"># header.html
+&lt;p&gt;我是header&lt;/p&gt;
+
+# footer.html
+&lt;p&gt;我是footer&lt;/p&gt;
+
+# main.html
+{% include 'header.html' %}
+&lt;p&gt;我是main内容&lt;/p&gt;
+{% include 'footer.html' %}
+</code></pre>
+<p><code>include</code>标签寻找路径的方式。也是跟<code>render</code>渲染模板的函数是一样的。</p>
+<p>默认<code>include</code>标签包含模版，会自动的使用主模版中的上下文，也即可以自动的使用主模版中的变量。如果想传入一些其他的参数，那么可以使用<code>with</code>语句。示例代码如下：</p>
+<pre><code class="language-html"># header.html
+&lt;p&gt;用户名：{{ username }}&lt;/p&gt;
+
+# main.html
+{% include &quot;header.html&quot; with username='huangyong' %}
+</code></pre>
+<h4 id="模版继承">模版继承</h4>
+<p>在前端页面开发中。有些代码是需要重复使用的。这种情况可以使用<code>include</code>标签来实现。也可以使用另外一个比较强大的方式来实现，那就是模版继承。模版继承类似于<code>Python</code>中的类，在父类中可以先定义好一些变量和方法，然后在子类中实现。模版继承也可以在父模版中先定义好一些子模版需要用到的代码，然后子模版直接继承就可以了。并且因为子模版肯定有自己的不同代码，因此可以在父模版中定义一个block接口，然后子模版再去实现。以下是父模版的代码：</p>
+<pre><code class="language-html">{% load static %}
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;{% static 'style.css' %}&quot; /&gt;
+    &lt;title&gt;{% block title %}我的站点{% endblock %}&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;div id=&quot;sidebar&quot;&gt;
+        {% block sidebar %}
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;/&quot;&gt;首页&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;/blog/&quot;&gt;博客&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+        {% endblock %}
+    &lt;/div&gt;
+    &lt;div id=&quot;content&quot;&gt;
+        {% block content %}{% endblock %}
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>这个模版，我们取名叫做<code>base.html</code>，定义好一个简单的<code>html</code>骨架，然后定义好两个<code>block</code>接口，让子模版来根据具体需求来实现。子模板然后通过<code>extends</code>标签来实现，示例代码如下：</p>
+<pre><code class="language-html">{% extends &quot;base.html&quot; %}
+
+{% block title %}博客列表{% endblock %}
+
+{% block content %}
+    {% for entry in blog_entries %}
+        &lt;h2&gt;{{ entry.title }}&lt;/h2&gt;
+        &lt;p&gt;{{ entry.body }}&lt;/p&gt;
+    {% endfor %}
+{% endblock %}
+</code></pre>
+<p><strong>需要注意的是：extends标签必须放在模版的第一行。</strong><br>
+<strong>子模板中的代码必须放在block中，否则将不会被渲染。</strong><br>
+如果在某个<code>block</code>中需要使用父模版的内容，那么可以使用<code>{{block.super}}</code>来继承。比如上例，<code>{%block title%}</code>，如果想要使用父模版的<code>title</code>，那么可以在子模版的<code>title block</code>中使用<code>{{ block.super }}</code>来实现。</p>
+<p>在定义<code>block</code>的时候，除了在<code>block</code>开始的地方定义这个<code>block</code>的名字，还可以在<code>block</code>结束的时候定义名字。比如<code>{% block title %}{% endblock title %}</code>。这在大型模版中显得尤其有用，能让你快速的看到<code>block</code>包含在哪里。</p>
+<h3 id="加载静态文件">加载静态文件</h3>
+<p>在一个网页中，不仅仅只有一个<code>html</code>骨架，还需要<code>css</code>样式文件，<code>js</code>执行文件以及一些图片等。因此在<code>DTL</code>中加载静态文件是一个必须要解决的问题。在<code>DTL</code>中，使用<code>static</code>标签来加载静态文件。要使用<code>static</code>标签，首先需要<code>{% load static %}</code>。加载静态文件的步骤如下：</p>
+<ol>
+<li>
+<p>首先确保<code>django.contrib.staticfiles</code>已经添加到<code>settings.INSTALLED_APPS</code>中。</p>
+</li>
+<li>
+<p>确保在<code>settings.py</code>中设置了<code>STATIC_URL</code>。</p>
+</li>
+<li>
+<p>在已经安装了的<code>app</code>下创建一个文件夹叫做<code>static</code>，然后再在这个<code>static</code>文件夹下创建一个当前<code>app</code>的名字的文件夹，再把静态文件放到这个文件夹下。例如你的<code>app</code>叫做<code>book</code>，有一个静态文件叫做<code>zhiliao.jpg</code>，那么路径为<code>book/static/book/zhiliao.jpg</code>。（为什么在<code>app</code>下创建一个<code>static</code>文件夹，还需要在这个<code>static</code>下创建一个同<code>app</code>名字的文件夹呢？原因是如果直接把静态文件放在<code>static</code>文件夹下，那么在模版加载静态文件的时候就是使用<code>zhiliao.jpg</code>，如果在多个<code>app</code>之间有同名的静态文件，这时候可能就会产生混淆。而在<code>static</code>文件夹下加了一个同名<code>app</code>文件夹，在模版中加载的时候就是使用<code>app/zhiliao.jpg</code>，这样就可以避免产生混淆。）</p>
+</li>
+<li>
+<p>如果有一些静态文件是不和任何<code>app</code>挂钩的。那么可以在<code>settings.py</code>中添加<code>STATICFILES_DIRS</code>，以后<code>DTL</code>就会在这个列表的路径中查找静态文件。比如可以设置为:</p>
+<pre><code class="language-python"> STATICFILES_DIRS = [
+     os.path.join(BASE_DIR,&quot;static&quot;)
+ ]
+</code></pre>
+</li>
+<li>
+<p>在模版中使用<code>load</code>标签加载<code>static</code>标签。比如要加载在项目的<code>static</code>文件夹下的<code>style.css</code>的文件。那么示例代码如下：</p>
+<pre><code class="language-html"> {% load static %}
+ &lt;link rel=&quot;stylesheet&quot; href=&quot;{% static 'style.css' %}&quot;&gt;
+</code></pre>
+</li>
+<li>
+<p>如果不想每次在模版中加载静态文件都使用<code>load</code>加载<code>static</code>标签，那么可以在<code>settings.py</code>中的<code>TEMPLATES/OPTIONS</code>添加<code>'builtins':['django.templatetags.static']</code>，这样以后在模版中就可以直接使用<code>static</code>标签，而不用手动的<code>load</code>了。</p>
+</li>
+<li>
+<p>如果没有在<code>settings.INSTALLED_APPS</code>中添加<code>django.contrib.staticfiles</code>。那么我们就需要手动的将请求静态文件的<code>url</code>与静态文件的路径进行映射了。示例代码如下：</p>
+<pre><code class="language-python">from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    # 其他的url映射
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+</code></pre>
+</li>
+</ol>
 
         </div>
         <!-- Share to Twitter, Weibo, Telegram -->
@@ -284,9 +498,14 @@ def profile(request):
 <ul>
 <li>
 <ul>
-<li><a href="#%E6%A8%A1%E7%89%88%E4%BB%8B%E7%BB%8D">模版介绍</a></li>
+<li><a href="#%E6%A8%A1%E7%89%88%E4%BB%8B%E7%BB%8D">模版介绍</a>
+<ul>
 <li><a href="#%E6%A8%A1%E7%89%88%E6%9F%A5%E6%89%BE%E8%B7%AF%E5%BE%84%E9%85%8D%E7%BD%AE">模版查找路径配置</a></li>
+</ul>
+</li>
 <li><a href="#%E6%A8%A1%E7%89%88%E5%8F%98%E9%87%8F%E4%BD%BF%E7%94%A8">模版变量使用</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%A0%87%E7%AD%BE">常用标签</a>
+<ul>
 <li><a href="#if%E6%A0%87%E7%AD%BE%E4%BD%BF%E7%94%A8">if标签使用</a></li>
 <li><a href="#for%E6%A0%87%E7%AD%BE%E4%BD%BF%E7%94%A8">for标签使用</a></li>
 <li><a href="#with%E6%A0%87%E7%AD%BE%E4%BD%BF%E7%94%A8">with标签使用</a></li>
@@ -294,6 +513,16 @@ def profile(request):
 <li><a href="#spaceless%E6%A0%87%E7%AD%BE">spaceless标签</a></li>
 <li><a href="#autoescape%E6%A0%87%E7%AD%BE">autoescape标签</a></li>
 <li><a href="#verbatim%E6%A0%87%E7%AD%BE">verbatim标签</a></li>
+</ul>
+</li>
+<li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%87%E6%BB%A4%E5%99%A8">自定义过滤器</a></li>
+<li><a href="#%E6%A8%A1%E7%89%88%E7%BB%93%E6%9E%84%E4%BC%98%E5%8C%96">模版结构优化</a>
+<ul>
+<li><a href="#%E5%BC%95%E5%85%A5%E6%A8%A1%E7%89%88">引入模版</a></li>
+<li><a href="#%E6%A8%A1%E7%89%88%E7%BB%A7%E6%89%BF">模版继承</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8A%A0%E8%BD%BD%E9%9D%99%E6%80%81%E6%96%87%E4%BB%B6">加载静态文件</a></li>
 </ul>
 </li>
 </ul>
