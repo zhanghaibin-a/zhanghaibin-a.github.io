@@ -1,0 +1,608 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>4、实现ansible企业级用法playbook - 温故而知新</title>
+<link rel="shortcut icon" href="https://zhanghaibin-a.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"> -->
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="4、实现ansible企业级用法playbook - 温故而知新 - Atom Feed" href="https://zhanghaibin-a.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="Ansible系列命令
+Ansible-galaxy
+
+
+连接https://galaxy.ansible.com下载相应的roles
+
+
+列出所有已安装的galaxy
+ansible-galaxy list
+
+
+安装galaxy
+ansi..." />
+  <meta property="og:title" content="4、实现ansible企业级用法playbook - 温故而知新">
+  <meta property="og:description" content="Ansible系列命令
+Ansible-galaxy
+
+
+连接https://galaxy.ansible.com下载相应的roles
+
+
+列出所有已安装的galaxy
+ansible-galaxy list
+
+
+安装galaxy
+ansi..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://zhanghaibin-a.github.io/post/4shi-xian-ansible-qi-ye-ji-yong-fa-playbook/" />
+  <meta property="og:image" content="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1586200864499&amp;di=84bfa003e9fa819259cbb0b607369ce8&amp;imgtype=0&amp;src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D118371233%2C1275544235%26fm%3D214%26gp%3D0.jpg">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="4、实现ansible企业级用法playbook - 温故而知新">
+  <meta name="twitter:description" content="Ansible系列命令
+Ansible-galaxy
+
+
+连接https://galaxy.ansible.com下载相应的roles
+
+
+列出所有已安装的galaxy
+ansible-galaxy list
+
+
+安装galaxy
+ansi...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zhanghaibin-a.github.io/post/4shi-xian-ansible-qi-ye-ji-yong-fa-playbook/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://zhanghaibin-a.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      温故而知新
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          4、实现ansible企业级用法playbook
+        </h1>
+        
+          <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1586200864499&amp;di=84bfa003e9fa819259cbb0b607369ce8&amp;imgtype=0&amp;src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D118371233%2C1275544235%26fm%3D214%26gp%3D0.jpg" alt="4、实现ansible企业级用法playbook" class="block w-full mb-8">
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-04-24 · 6 min read</div>
+          
+            <a href="https://zhanghaibin-a.github.io/tag/WwB91kuYD/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              ansible
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <h4 id="ansible系列命令">Ansible系列命令</h4>
+<h5 id="ansible-galaxy">Ansible-galaxy</h5>
+<ul>
+<li>
+<p>连接https://galaxy.ansible.com下载相应的roles</p>
+</li>
+<li>
+<p>列出所有已安装的galaxy</p>
+<p>ansible-galaxy list</p>
+</li>
+<li>
+<p>安装galaxy</p>
+<p>ansible-galaxy install geerlingguy.redis</p>
+</li>
+<li>
+<p>删除galaxy</p>
+<p>ansible-galaxy remove geerlingguy.redis</p>
+</li>
+</ul>
+<h5 id="ansible-pull">Ansible-pull</h5>
+<blockquote>
+<p>推送命令至远程,效率无限提升,对运维要求较高</p>
+</blockquote>
+<h5 id="ansible-playbool">Ansible-playbool</h5>
+<pre><code class="language-bash">[root@ed/]# cat test.yml #playbool脚本
+---
+- hosts : all
+  remote_user: root
+  tasks:
+    - name : hello
+      command: hostname
+[root@ed/]# ansible-playbook test.yml #运行playbool
+</code></pre>
+<h5 id="ansible-vault">Ansible-vault</h5>
+<p>功能:管理加密解密yml文件</p>
+<ul>
+<li>ansible-vault [create|decrypt | edit|encrypt|rekey |view]</li>
+<li>ansible-vault encrypt hello.yml 加密</li>
+<li>ansible-vault decrypt hello.yml 解密</li>
+<li>ansible-vault view hello.yml查看</li>
+<li>ansible-vault edit hello.yml 编辑加密文件</li>
+<li>ansible-vault rekey hello.yml 修改口令</li>
+<li>ansible-vault create new.yml创建新文件</li>
+</ul>
+<h5 id="ansible-console">Ansible-console：</h5>
+<p>2.0+新增,可交互执行命令,支持tab</p>
+<ul>
+<li>
+<p>root@test (2)[f:10] $</p>
+<p>执行用户@当前操作的主机组(当前组的主机数量)[f:并发数]$</p>
+</li>
+<li>
+<p>设置并发数: forksn 例如: forks 10</p>
+</li>
+<li>
+<p>切换组: cd 主机组例如: cd web</p>
+</li>
+<li>
+<p>列出当前组主机列表: list</p>
+</li>
+<li>
+<p>列出所有的内置命令: ?或help</p>
+</li>
+</ul>
+<p><em><strong>示例：</strong></em></p>
+<pre><code class="language-bash">root@all (2)[f:5]$ list
+root@all (2)[f:5]$ cd appsrvs
+root@appsrvs (2)[f:5]$ list
+root@appsrvs (2)[f:5]$ yum name=httpd state=present
+root@appsrvs (2)[f:5]$ service name=httpd state=started
+</code></pre>
+<h4 id="playbook">Playbook</h4>
+<ul>
+<li>playbook是由一个或多个&quot;play,&quot; 组成的列表</li>
+<li>play的主要功能在于将事先归并为-组的主机装扮成事先通过ansible中的task定义好的角色。从根本上来讲,所谓task无非是调用ansible的- -个module.将多个play组织在一个playbook中 ,即可以让它们联同起来按事先编排的机制同唱一台大戏</li>
+<li>Playbook采用YAML语言编写</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1587747995925&amp;di=083d29049e748ba4036c2f2435fcee87&amp;imgtype=0&amp;src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20170101%2Fb9339721c17b428e971860f4dc97bc25_th.jpeg" alt="img" loading="lazy"></figure>
+<h5 id="yaml介绍">YAML介绍</h5>
+<ul>
+<li>
+<p>List：列表，其所有元素均使用“-”打头</p>
+</li>
+<li>
+<p>示例：</p>
+<p>#A list of tasty fruits</p>
+<p>- Apple</p>
+<p>- Orange</p>
+<p>- Stawberry</p>
+</li>
+</ul>
+<h5 id="yaml语法简介">YAML语法简介</h5>
+<ul>
+<li>
+<p>Dictionary :字典,通常由多个key与value构成</p>
+<pre><code class="language-bash">---
+# An employee record
+name:JExample 
+Developerjob: Developer
+skill: Elite
+#也可以将key:value放置于{}中进行表示,用,分隔多个key:value
+{name: Example Developer, job: Developer, skill: Elite}
+</code></pre>
+</li>
+<li>
+<p>YAML的语法和其他高阶语言类似.并且可以简单表达清单、散列表、标量等数据结构。其结构( Structure )通过空格来展示,序列( Sequence )里的项用&quot;- &quot;来代表。Map里的键值对用&quot;:分隔</p>
+</li>
+</ul>
+<h5 id="playbook核心元素">Playbook核心元素</h5>
+<ul>
+<li><em><strong><code>Hosts</code></strong></em>  执行的远程主机列表</li>
+<li><em><strong><code>Tasks</code></strong></em>   任务集</li>
+<li><em><strong><code>Varniables</code></strong></em>  内置变量或自定义变量在playbook中调用</li>
+<li>**<code>Templates</code> **模板,可替换模板文件中的变量并实现一些简单逻辑的文件</li>
+<li><em><strong><code>Handlers</code></strong></em>   和notity结合使用,由特定条件触发的操作,满足条件方才执行,否则不执行</li>
+<li><em><strong><code>tags</code></strong></em>     标签指定某条任务执行,用于选择运行playbook中的部分代码。ansibl具有幕等性,因此会自动跳过没有变化的部分,即便如此,有些代码为测试其确实没有发生变化的时间依然会非常地长。此时,如果确信其没有变化,就可以通过tags跳过此些代码片断</li>
+</ul>
+<pre><code class="language-bash">ansible-playbook -t tagsname useradd.yml
+</code></pre>
+<h6 id="hosts">Hosts:</h6>
+<ul>
+<li>
+<p>playbook中的每一个play的目的都是为 了让某个或某些主机以某个指定的用户身份执行任务。hosts用于指定要执行指定任务的主机，须事先定义在主机清单中</p>
+</li>
+<li>
+<p>可以是如下形式:</p>
+<p>one.example.com</p>
+<p>one.example.com:two.example.com</p>
+<p>192.168.1.50</p>
+<p>192.168.1.*</p>
+</li>
+<li>
+<p>Websrvs:dbsrvs 两个组的并集</p>
+</li>
+<li>
+<p>Websrvs:&amp;dbsrvs两个组的交集</p>
+</li>
+<li>
+<p>webservers:!phoenix在websrvs组,但不在dbsrvs组</p>
+</li>
+</ul>
+<blockquote>
+<p>hosts: websrvs : dbsrvs</p>
+</blockquote>
+<pre><code class="language-bash">[root@mail ansible]# cat file.yml 
+---
+- hosts: all
+  remote_user: root
+  tasks:
+    - name: create new file
+      file: name=/home/aa.txt state=touch
+    - name: create use new
+      user: name=test2 system=yes shell=/sbin/nologin
+    - name: install package
+      yum: name=htop
+    - name: copy html
+      copy: src=/aa.txt dest=/
+</code></pre>
+<h5 id="playbook基础组件">Playbook基础组件</h5>
+<ul>
+<li>
+<p>Tasks:任务列表</p>
+</li>
+<li>
+<p>格式</p>
+<p>(1) action: module arguments</p>
+<p>(2) module: arguments</p>
+<p>#注意: shell和command模块后面跟命令,而非key=value</p>
+</li>
+<li>
+<p>某任务的状态在运行后为changed时,可通过&quot;notify&quot;通知给相应的handlers</p>
+</li>
+<li>
+<p>任务可以通过&quot;tags &quot;打标签,而后可在ansible-playbook命令.上使用-t指定进行调用</p>
+<pre><code class="language-bash">tasks:
+		- name: disable selinux
+		command: /sbin/setenforce 0
+</code></pre>
+</li>
+<li>
+<p>如果命令或脚本的退出码不为零,可以使用如下方式替代</p>
+<pre><code class="language-bash">tasks:
+		- name: run this command and ignore the results
+		hell: /usr/bin/somecommand || /bin/true
+</code></pre>
+</li>
+<li>
+<p>或者使用ignore_ errors来忽略错误信息:</p>
+<pre><code class="language-bash">tasks:
+		- name: run this command and ignore the result
+		shell: /usr/bin/somecommand
+		ignore_errors: True
+</code></pre>
+</li>
+</ul>
+<h5 id="运行playbook">运行Playbook</h5>
+<ul>
+<li>
+<p>运行playbook的方式</p>
+<p>ansible-playbook &lt; filename.yml&gt; ... [options]</p>
+</li>
+<li>
+<p>常见选项</p>
+<p>-- check只检测可能会发生的改变,但不真正执行操作</p>
+<p>--list-hosts列出运行任务的主机</p>
+<p>--limit主机列表只针对主机列表中的主机执行<br>
+-v显示过程-vv -vvv更详细</p>
+</li>
+<li>
+<p>示例</p>
+<p>ansible-playbook file.yml --check 只检测</p>
+<p>ansible-playbook file.yml</p>
+<p>ansible-playbook file.yml --limit websrvs</p>
+</li>
+</ul>
+<h5 id="playbook-vs-shellscripts">Playbook VS ShellScripts</h5>
+<figure data-type="image" tabindex="2"><img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3576794611,2354809461&amp;fm=15&amp;gp=0.jpg" alt="img" loading="lazy"></figure>
+<blockquote>
+<p>Ansible重复执行并不会在客户端重新执行，会跳过执行</p>
+</blockquote>
+<blockquote>
+<p>当ansible copy文件时ansible会自动比对文件是否为新，为新就copy不为新就跳过执行</p>
+</blockquote>
+<h5 id="playbook示例">Playbook示例</h5>
+<pre><code class="language-bash">[root@mail ansible]# cat file.yml 
+---
+- hosts: all
+  remote_user: root
+  tasks:
+    - name: create new file
+      file: name=/home/aa.txt state=touch
+    - name: create use new
+      user: name=test2 system=yes shell=/sbin/nologin
+    - name: install package
+      yum: name=htop
+    - name: copy html
+      copy: src=/aa.txt dest=/
+</code></pre>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div id="vlaine-comment"></div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Powered by <a href="http://zhang-blog.github.io/" target="_blank">Gridea</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#ansible%E7%B3%BB%E5%88%97%E5%91%BD%E4%BB%A4">Ansible系列命令</a>
+<ul>
+<li><a href="#ansible-galaxy">Ansible-galaxy</a></li>
+<li><a href="#ansible-pull">Ansible-pull</a></li>
+<li><a href="#ansible-playbool">Ansible-playbool</a></li>
+<li><a href="#ansible-vault">Ansible-vault</a></li>
+<li><a href="#ansible-console">Ansible-console：</a></li>
+</ul>
+</li>
+<li><a href="#playbook">Playbook</a>
+<ul>
+<li><a href="#yaml%E4%BB%8B%E7%BB%8D">YAML介绍</a></li>
+<li><a href="#yaml%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B">YAML语法简介</a></li>
+<li><a href="#playbook%E6%A0%B8%E5%BF%83%E5%85%83%E7%B4%A0">Playbook核心元素</a>
+<ul>
+<li><a href="#hosts">Hosts:</a></li>
+</ul>
+</li>
+<li><a href="#playbook%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6">Playbook基础组件</a></li>
+<li><a href="#%E8%BF%90%E8%A1%8Cplaybook">运行Playbook</a></li>
+<li><a href="#playbook-vs-shellscripts">Playbook VS ShellScripts</a></li>
+<li><a href="#playbook%E7%A4%BA%E4%BE%8B">Playbook示例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zhanghaibin-a.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://zhanghaibin-a.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  <script type="application/javascript" src="https://zhanghaibin-a.github.io/media/scripts/valine.min.js"></script>
+  <script type="application/javascript">
+  
+    // var valine = new Valine();
+    // valine.init({
+    //   el: '#vlaine-comment',
+    //   appId: '',
+    //   appKey: '',
+    //   notify: false,
+    //   avatar: 'mp',
+    //   verify: true,
+    //   placeholder: '来都来了，不妨评论一下',
+    //   visitor: false,
+    //   highlight: false,
+    //   recordIP: false,
+    // })
+  
+    var valine = new Valine();
+    valine.init({
+      el: '#vlaine-comment',
+      appId: '',
+      appKey: '',
+      notify: false,
+      verify: false,
+      visitor: true,
+      avatar: 'mp',
+      placeholder: '加入讨论...'
+    })
+  </script>
+</body>
+
+</html>
