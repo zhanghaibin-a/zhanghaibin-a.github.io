@@ -1,82 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>http://localhost:4000</id>
+    <id>https://zhanghaibin-a.github.io</id>
     <title>温故而知新</title>
-    <updated>2020-04-26T15:54:06.485Z</updated>
+    <updated>2020-05-28T02:49:30.031Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="http://localhost:4000"/>
-    <link rel="self" href="http://localhost:4000/atom.xml"/>
+    <link rel="alternate" href="https://zhanghaibin-a.github.io"/>
+    <link rel="self" href="https://zhanghaibin-a.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
-    <logo>http://localhost:4000/images/avatar.png</logo>
-    <icon>http://localhost:4000/favicon.ico</icon>
+    <logo>https://zhanghaibin-a.github.io/images/avatar.png</logo>
+    <icon>https://zhanghaibin-a.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 温故而知新</rights>
     <entry>
         <title type="html"><![CDATA[4、实现ansible企业级用法playbook]]></title>
-        <id>http://localhost:4000/post/4shi-xian-ansible-qi-ye-ji-yong-fa-playbook/</id>
-        <link href="http://localhost:4000/post/4shi-xian-ansible-qi-ye-ji-yong-fa-playbook/">
+        <id>https://zhanghaibin-a.github.io/post/4shi-xian-ansible-qi-ye-ji-yong-fa-playbook/</id>
+        <link href="https://zhanghaibin-a.github.io/post/4shi-xian-ansible-qi-ye-ji-yong-fa-playbook/">
         </link>
         <updated>2020-04-24T14:51:10.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[3、Ansible常见企业级应用模块实战]]></title>
-        <id>http://localhost:4000/post/3ansible-chang-jian-qi-ye-ji-ying-yong-mo-kuai-shi-zhan/</id>
-        <link href="http://localhost:4000/post/3ansible-chang-jian-qi-ye-ji-ying-yong-mo-kuai-shi-zhan/">
+        <id>https://zhanghaibin-a.github.io/post/3ansible-chang-jian-qi-ye-ji-ying-yong-mo-kuai-shi-zhan/</id>
+        <link href="https://zhanghaibin-a.github.io/post/3ansible-chang-jian-qi-ye-ji-ying-yong-mo-kuai-shi-zhan/">
         </link>
         <updated>2020-04-24T13:52:53.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[2、Ansible使用模块深入解析]]></title>
-        <id>http://localhost:4000/post/2ansible-shi-yong-mo-kuai-shen-ru-jie-xi/</id>
-        <link href="http://localhost:4000/post/2ansible-shi-yong-mo-kuai-shen-ru-jie-xi/">
+        <id>https://zhanghaibin-a.github.io/post/2ansible-shi-yong-mo-kuai-shen-ru-jie-xi/</id>
+        <link href="https://zhanghaibin-a.github.io/post/2ansible-shi-yong-mo-kuai-shen-ru-jie-xi/">
         </link>
         <updated>2020-04-24T13:39:26.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[鸟哥十五章#Linux定时任务]]></title>
-        <id>http://localhost:4000/post/niao-ge-shi-wu-zhang-linux-ding-shi-ren-wu/</id>
-        <link href="http://localhost:4000/post/niao-ge-shi-wu-zhang-linux-ding-shi-ren-wu/">
+        <id>https://zhanghaibin-a.github.io/post/niao-ge-shi-wu-zhang-linux-ding-shi-ren-wu/</id>
+        <link href="https://zhanghaibin-a.github.io/post/niao-ge-shi-wu-zhang-linux-ding-shi-ren-wu/">
         </link>
         <updated>2020-04-13T14:48:04.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[鸟哥二十二章#软件安装RPM、SRPM、YUM]]></title>
-        <id>http://localhost:4000/post/niao-ge-er-shi-zhang-ruan-jian-an-zhuang-rpmsrpmyum/</id>
-        <link href="http://localhost:4000/post/niao-ge-er-shi-zhang-ruan-jian-an-zhuang-rpmsrpmyum/">
+        <id>https://zhanghaibin-a.github.io/post/niao-ge-er-shi-zhang-ruan-jian-an-zhuang-rpmsrpmyum/</id>
+        <link href="https://zhanghaibin-a.github.io/post/niao-ge-er-shi-zhang-ruan-jian-an-zhuang-rpmsrpmyum/">
         </link>
         <updated>2020-04-12T13:59:06.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[玩转Openstack--3#Openstack架构]]></title>
-        <id>http://localhost:4000/post/wan-zhuan-openstack-3openstack-jia-gou/</id>
-        <link href="http://localhost:4000/post/wan-zhuan-openstack-3openstack-jia-gou/">
+        <id>https://zhanghaibin-a.github.io/post/wan-zhuan-openstack-3openstack-jia-gou/</id>
+        <link href="https://zhanghaibin-a.github.io/post/wan-zhuan-openstack-3openstack-jia-gou/">
         </link>
         <updated>2020-04-09T08:59:46.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[1、Ansible架构和原理]]></title>
-        <id>http://localhost:4000/post/1ansible-jia-gou-he-yuan-li/</id>
-        <link href="http://localhost:4000/post/1ansible-jia-gou-he-yuan-li/">
+        <id>https://zhanghaibin-a.github.io/post/1ansible-jia-gou-he-yuan-li/</id>
+        <link href="https://zhanghaibin-a.github.io/post/1ansible-jia-gou-he-yuan-li/">
         </link>
         <updated>2020-04-06T16:30:18.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[玩转Docker--3#Docker入门]]></title>
-        <id>http://localhost:4000/post/wan-zhuan-docker-3docker-ru-men/</id>
-        <link href="http://localhost:4000/post/wan-zhuan-docker-3docker-ru-men/">
+        <id>https://zhanghaibin-a.github.io/post/wan-zhuan-docker-3docker-ru-men/</id>
+        <link href="https://zhanghaibin-a.github.io/post/wan-zhuan-docker-3docker-ru-men/">
         </link>
         <updated>2020-04-05T15:58:32.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[玩转Openstack--2#云计算]]></title>
-        <id>http://localhost:4000/post/wan-zhuan-openstack-2yun-ji-suan/</id>
-        <link href="http://localhost:4000/post/wan-zhuan-openstack-2yun-ji-suan/">
+        <id>https://zhanghaibin-a.github.io/post/wan-zhuan-openstack-2yun-ji-suan/</id>
+        <link href="https://zhanghaibin-a.github.io/post/wan-zhuan-openstack-2yun-ji-suan/">
         </link>
         <updated>2020-03-31T14:11:17.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[玩转Docker--2#容器核心知识概述]]></title>
-        <id>http://localhost:4000/post/rong-qi-he-xin-zhi-shi-gai-shu/</id>
-        <link href="http://localhost:4000/post/rong-qi-he-xin-zhi-shi-gai-shu/">
+        <id>https://zhanghaibin-a.github.io/post/rong-qi-he-xin-zhi-shi-gai-shu/</id>
+        <link href="https://zhanghaibin-a.github.io/post/rong-qi-he-xin-zhi-shi-gai-shu/">
         </link>
         <updated>2020-03-31T11:47:11.000Z</updated>
     </entry>
