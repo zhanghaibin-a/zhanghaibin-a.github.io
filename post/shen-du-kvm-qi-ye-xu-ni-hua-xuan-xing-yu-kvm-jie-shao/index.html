@@ -1,0 +1,475 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>深度KVM--企业虚拟化选型与KVM介绍 - 温故而知新</title>
+<link rel="shortcut icon" href="https://zhanghaibin-a.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"> -->
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="深度KVM--企业虚拟化选型与KVM介绍 - 温故而知新 - Atom Feed" href="https://zhanghaibin-a.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="KVM的前世今生
+虚拟化技术演变过程
+软件模拟--》虚拟化层翻译--&amp;gt;容器虚拟化--〉
+虚拟化层又可以分为
+
+​	软件捕获翻译,即软件全虚拟化
+​    改造虚拟机系统内核加虚拟化层翻译,半虚拟化
+​    硬件支持的虚拟化层翻译,即..." />
+  <meta property="og:title" content="深度KVM--企业虚拟化选型与KVM介绍 - 温故而知新">
+  <meta property="og:description" content="KVM的前世今生
+虚拟化技术演变过程
+软件模拟--》虚拟化层翻译--&amp;gt;容器虚拟化--〉
+虚拟化层又可以分为
+
+​	软件捕获翻译,即软件全虚拟化
+​    改造虚拟机系统内核加虚拟化层翻译,半虚拟化
+​    硬件支持的虚拟化层翻译,即..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://zhanghaibin-a.github.io/post/shen-du-kvm-qi-ye-xu-ni-hua-xuan-xing-yu-kvm-jie-shao/" />
+  <meta property="og:image" content="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1593347552723&amp;di=0ec5e1d8072beccc4241cf306da6a2c4&amp;imgtype=0&amp;src=http%3A%2F%2Fwww.kfzimg.com%2FG06%2FM00%2F63%2F63%2Fp4YBAFrIFJuAb1zoAAA0BEZEo5s376_n.jpg">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="深度KVM--企业虚拟化选型与KVM介绍 - 温故而知新">
+  <meta name="twitter:description" content="KVM的前世今生
+虚拟化技术演变过程
+软件模拟--》虚拟化层翻译--&amp;gt;容器虚拟化--〉
+虚拟化层又可以分为
+
+​	软件捕获翻译,即软件全虚拟化
+​    改造虚拟机系统内核加虚拟化层翻译,半虚拟化
+​    硬件支持的虚拟化层翻译,即...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zhanghaibin-a.github.io/post/shen-du-kvm-qi-ye-xu-ni-hua-xuan-xing-yu-kvm-jie-shao/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://zhanghaibin-a.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      温故而知新
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          深度KVM--企业虚拟化选型与KVM介绍
+        </h1>
+        
+          <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1593347552723&amp;di=0ec5e1d8072beccc4241cf306da6a2c4&amp;imgtype=0&amp;src=http%3A%2F%2Fwww.kfzimg.com%2FG06%2FM00%2F63%2F63%2Fp4YBAFrIFJuAb1zoAAA0BEZEo5s376_n.jpg" alt="深度KVM--企业虚拟化选型与KVM介绍" class="block w-full mb-8">
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-06-28 · 12 min read</div>
+          
+            <a href="https://zhanghaibin-a.github.io/tag/lx7hofdhN/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              深度实践KVM
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <h3 id="kvm的前世今生">KVM的前世今生</h3>
+<h4 id="虚拟化技术演变过程">虚拟化技术演变过程</h4>
+<p>软件模拟--》虚拟化层翻译--&gt;容器虚拟化--〉</p>
+<p>虚拟化层又可以分为</p>
+<ul>
+<li>​	软件捕获翻译,即软件全虚拟化</li>
+<li>​    改造虚拟机系统内核加虚拟化层翻译,半虚拟化</li>
+<li>​    硬件支持的虚拟化层翻译,即硬件支持的全虚拟化</li>
+</ul>
+<p>***  (1)软件模拟的技术方式 ***</p>
+<ol>
+<li>软件模拟是通过软件完全模拟CPU、芯片组、磁盘、网卡等计算机硬件</li>
+<li>因为是软件模拟,所以理论上可以模拟任何硬件,甚至是不存在的硬件。</li>
+<li>这种方式全部是软件模拟硬件,所以非常低效,一般只用于研究测试的场景。</li>
+<li>采用这种技术的典型产品有 Bochs、QEMU等</li>
+</ol>
+<p>***  (2)虚拟化层翻译 ***</p>
+<p>X86平台的指令集权限划分。</p>
+<p>X86平台指令集划分为4个特权模式:Ring0、Ring1、Ring2、Ring3。</p>
+<p>操作系统一般使用Ring0级别,应用程序使用Ring3级别,驱动程序使用Rng1和Ring2级别。</p>
+<p>X86平台在虚拟化方面的一个难点就是如何将虚拟机越级的指令使用进行隔离。</p>
+<p>注意:通过虚拟化引擎,捕获虚拟机的指令,并进行处理,这也是为什么在虚拟机上虽然使用<br>
+的是物理机一样的指令,但是虚拟机不能对硬件进行操作的原因,比如重启虚拟机不会引起<br>
+宿主机的重启。这种解决方案也叫软件全虚拟化方案</p>
+<p>***  (3)改造虚拟机操作系统的方式 ***</p>
+<p>Xen项目提供了另外一种思路,对虚拟机的操作系统内核进行改造,使虚拟机自已对特殊的指令进行更改,然后和虚拟化层一起配合工作,这也是Xen早期一直要使用一个特殊内核的原因,并且不支持 Windows系统虚拟化。改造的虚拟机虽然使用上有限制,配置比较麻烦,但是这种方式效率非常高,这种方式也被称为半虚拟化方案。</p>
+<p>***  (4)对CPU指令进行改造 ***</p>
+<p>2005年, Intel推出了硬件的方案,对CPU指令进行改造,即VTx,如图1-5所示。VTx增加了两种操作模式: VMX root operation和 VMX non- root operation。MM运行在VMⅹ root operation模式,虚拟机运行在 VMX non-root operation模式。这两种操作模式都支持Ring0~Ring3这4个特权级。</p>
+<p>这种方案因为是基于硬件的,所以效率非常高,这种方案也称为硬件支持的全虚拟化方案,如图1-6所示。现在的一个发展趋势是不仅CPU指令有硬件解决方案,IO通信也有硬件解决方案,称为VTd;网络通信也有硬件解决方案,称为VTc</p>
+<p>注意:</p>
+<blockquote>
+<p>当前的虚拟化引擎,都是使用硬件支持的虚拟化解决方案。并且最新的操作系统一般都支持一些半虚拟化的特性,所以宿主机和虚拟机使用比较新的版本,性能也会好些</p>
+</blockquote>
+<p>***  (5)容器虚拟化 ***</p>
+<p>容器虚拟化的原理是基于 GRoups、 Namespace等技术将进程隔离,每个进程就像一台单独的虚拟机一样,有自已被隔离出来的资源,也有自己的根目录、独立的进程编号、被隔离的内存空间。基于容器的虚拟化可以实现在单一内核上运行多个实例,因此是一个更高效率的虚拟化方式。目前最热的容器虚拟化技术就是 Docker. Docker的优势是可以将一个开发环境进行打包,很方便地在另外一个系统上运行起来,并且有版本的概念,可以在前一个版本的基础上累加。但是 Docker在生产环境的使用还需要一个过程,主要是磁盘、网络性能上还受到很多限制。</p>
+<h4 id="kvm的历史">KVM的历史</h4>
+<ul>
+<li>以色列公司Qumranet开发</li>
+<li>2007年2月合并到Linux 2.6.20内核</li>
+<li>RedHat收购Qumranet,开始在rhel中用KVM替换Xen。rhel6开始,kvm成为默认的虚拟化引擎</li>
+<li>KVM包含一个为处理器提供底层虚拟化、可加载的核心模块 kvm. ko(kwm- intel. ko或kwm- amd.ko),使用QEMU(QEMU-KVM)作为虚拟机上层控制工具。KVM不需要改变</li>
+</ul>
+<h4 id="kvm的架构">KVM的架构</h4>
+<figure data-type="image" tabindex="1"><img src="https://img-blog.csdnimg.cn/20190224084539564.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2dlbmd6aGlrdWkxOTky,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述" loading="lazy"></figure>
+<p>KVM就是内核的一个模块,用户空间通过QEMU模拟硬件提供给虚拟机使用,一台虚拟机就是一个普通的 Linux进程,通过对这个进程的管理,就可以完成对虚拟机的管理。实际上德国有家公司开发了一个管理平台 Promo<br>
+VE,就是通过对KM进程的管理来实现对虚拟机的管理的。</p>
+<p>因为对进程的管理非常麻烦, Redhat发布了一个开源项目 Libvirto libvirt有API,也有一套命令行工具,可以完成对虚拟机的管理,大多数的管理平台都是通过Lbvi来完成对</p>
+<h4 id="qemu与kvm">QEMU与KVM</h4>
+<p>QEMU是一个开源项目,实际就是一台硬件模拟器,可以模拟许多硬件,包括X86架构处理器、AMD64架构处理器、 MIPS R4000、ARMv6/v7( Cortex-A8,A9,A15)、 SPARCsun3与 PowerPC架构,还支持其他架构,可以从QEMU主页获取完整的列表。</p>
+<p>QEMU可以在其他平台上运行Linx的程序,可以存储及还原虚拟机运行状态,还可以虚拟多种设备,包括网卡、多CPU、IE设备、软驱、显卡、声卡、多种并口设备、多种串口设备、多种USB设备、PC喇叭、PS2键盘鼠标(默认)和USB键盘鼠标、蓝牙设备</p>
+<p>QEMU还内建DHCP、DNS、SMB、TFTP服务器。</p>
+<p>QEMU的好处是因为是纯软件模拟,所以可以在支持的平台模拟支持的设备,比如还有人利用QEMU在安卓上安装一个 Windows XP虚拟机出来。</p>
+<p>QEMU的缺点是因为是纯软件模拟,所有非常慢。QMU1.0的时候有一个QEMU和KVM结合的分支。KVM只是一个内核的模块,没有用户空间的管理工具,KWM的虚拟机可以借助QEMU的管理工具来管理。QEMU也可以借助KVM来加速,提升虚拟机的性能。QEMU-KVN的分支版本发布了3个正式的版本11、1.2、1.3,随后和QEM的主版本合并,也就是说现在的QEMU版本默认支持KVM,QEMU和KVM已经紧密地结合起来了。</p>
+<h4 id="libvirt与kvm">Libvirt与KVM</h4>
+<p>Libvirt是一套开源的虚拟化的管理工具,主要由3部分组成</p>
+<ul>
+<li>一套API的ib库,支持主流的编程语言,包括C、 Python、Ruby等。</li>
+<li>Libvirtd服务。</li>
+<li>命令行工具 hirsh。</li>
+</ul>
+<p>Libvirt的设计目标是通过相同的方式管理不同的虚拟化引擎,比如VMware ESX等。但是目前实际上多数场景使用 Libvirt的是KVM,而Xen、 Hyper V、 VMware ESX都有各自的管理工具。</p>
+<p>Libvirt可以实现对虚拟机的管理,比如虚拟机的***创建、启动、关闭、暂停、恢复、迁移、销毁,以及虚拟机网卡、硬盘、CPU、内存等多种设备的热添加***。</p>
+<p>Libvirt还支持远程的宿主机管理,只要在***宿主机上启动 Libvirtd服务并做好配置,就可以通过 Libyan进行虚拟机的配置***。通道可以是以下方式</p>
+<ol>
+<li>SSH</li>
+<li>TCP</li>
+<li>基于TCP的TLS。</li>
+</ol>
+<p>Libvirt将虚拟机的管理分为以下几个方面:</p>
+<p>第一,存储池资源管理,支持本地文件系统目录、裸设备、lvm、nfs、 ISCSi等方式。在<br>
+虚拟机磁盘格式上支持qcow2、wmdk、raw等格式。</p>
+<p>第二,网络资源管理,支持Iinu桥、VLAN、多网卡绑定管理,比较新的版本还支持Open vSwitcho Libvirt还支持nat和路由方式的网络, Libvirt可以通过防火墙让虚拟机通过宿主机建立网络通道,和外部的网络进行通信。</p>
+<h3 id="kvm与常用企业级虚拟化产品的pk">KVM与常用企业级虚拟化产品的PK</h3>
+<h4 id="常用企业级虚拟化产品的比较">常用企业级虚拟化产品的比较</h4>
+<ul>
+<li>
+<p>(1)Vmware</p>
+<p>VMware是最早的ⅹ86平台上的虚拟化引擎,1999年就发布了第一款产品,经过十几年的发展和市场检验,产品成熟、稳定,兼容性也不错。</p>
+</li>
+<li>
+<p>(2)HyperV</p>
+<p>微软虚拟化产品,在Windows Server 2012R2中的HyperV支持许多心虚拟化特性。支持linux虚拟机。HyperV也是一款非开源的收费产品, HyperV的集群管理工具 SCVMM配置非常复杂,需要配置 Windows域、 Windows server集群,然后才能管理多台宿主机。</p>
+</li>
+<li>
+<p>(3)Xen</p>
+<p>Xen是最早的开源虚拟化引擎,由剑桥大学开发,半虚拟化的概念也是Xen最早提出的。Xen后来被思杰收购,推出了一套叫作 Xen Server的管理工具, Xen Server于2013年年底宣布免费。ⅹen因为推出的时间比较长,兼容性、稳定性都不错,目前使用Xen的主要是一些在Xen上面技术积累较多的企业</p>
+</li>
+<li>
+<p>(4)KVM</p>
+<p>KWM比较年轻,所以出生的时候就吸取了其他虚拟化技术的优点,一开始就支持硬件虚拟化技术,没有历史兼容包袱。所以KVM推出来的时候,性能就非常优异。目前,KVM是 Open Stack平台上首选的虚拟化引擎。</p>
+</li>
+</ul>
+<p>KVM优势</p>
+<ul>
+<li>
+<p>(1)开源</p>
+<p>KM是一个开源项目,这就决定了KM一直是开放的姿态;许多虚拟化的新技术都是首先在KVM上应用,再到其他虚拟化引擎上推广。虚拟化一般网络和存储都是难点。网络方面,SROV技术就是最先在KVM上先有应用,然后再推广到其他虚拟化引擎上。再比如SDN、 Open sWtich这些比较新的技术,都是先在KVM上得到应用。</p>
+</li>
+<li>
+<p>(2)性能</p>
+<p>KVM吸引许多人使用的一个动因就是性能,在同样的硬件条件下,能提供更好的虚拟机性能,主要是因为KVM架构简单,代码只有2万行,一开始就支持硬件虚拟化,这些技术特点保证了KVM的性能。</p>
+</li>
+<li>
+<p>(3)免费</p>
+<p>KM因为是开源项目,绝大部分KVM的解决方案都是免费方案,随着KVM的发展,KVM虚拟机越来越稳定,兼容性也越来越好,因而也就得到越来越多的应用。</p>
+</li>
+<li>
+<p>(4)广泛免费的技术支持</p>
+<p>免费并不意味着KVM没有技术支持。在KVM的开源社区,数量巨大的KVM技术支持者都可以提供KVM技术支持。另外,如果需要商业级支持,也可以购买红帽公司的服务。</p>
+</li>
+</ul>
+<h3 id="判断企业是否适合使用kvm的标准">判断企业是否适合使用KVM的标准</h3>
+<h4 id="1-业务类型">1、业务类型</h4>
+<p>目前在互联网行业,KWM虚拟化技术是使用最广泛的,因为互联网行业有对新技术追<br>
+求的冲动。另外中小企业也推荐使用KVM技术,因为使用KVM不需要支付额外的费用。</p>
+<h4 id="2-企业对成本关注度">2、企业对成本关注度</h4>
+<p>随着虚拟化这几年的快速发展,在企业的环境中,虚拟化已经是一个标配的技术。虚拟化带来的好处是巨大的,虚拟化真正实现了资源池化,通过虚拟化可以将服务器资源进行切割,做到资源随取随用,有效节省成本,提高资源利用率。</p>
+<h4 id="3-企业对快速部署对关注度">3、企业对快速部署对关注度</h4>
+<p>虚拟化还有一个重要的功能就是快速部署。在宿主机层面看,虚拟机就是一个镜像文件,要得到另外一台虚拟机,只需要将镜像文件复制一份就可以了,通常只有几分钟。而按照传统方式部署一台物理机,最起码都要一个小时。通过磁盘差量的技术,甚至可以做到秒级生成虚拟机。通过虚拟化技术,还可以实现在虚拟化层做高可用和在线迁移。虚拟化层的高可用是系统层面的高可用,比基于应用层的高可用配置要简单很多。虚拟机的在线迁移,更是虚拟化技术的独有手段。通过在线迁移,物理机的维护、系统的维护、网络的维护,都可以做到不<br>
+中断服务,进一步提高了业务应用的可用性</p>
+<p>因为所有的虚拟机都是相同的虚拟硬件,实现了硬件层级的标准化,降低了自动化的难度,很容易搭建私有或者公有的云平台,所以通过虚拟机技术,很容易实现以下功能:</p>
+<ul>
+<li>资源使用自动化和自助服务。</li>
+<li>资源池可随时扩展。</li>
+<li>资源使用标准化。</li>
+<li>资源使用保持了很好的兼容性。</li>
+</ul>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div id="vlaine-comment"></div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Powered by <a href="http://zhang-blog.github.io/" target="_blank">Gridea</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#kvm%E7%9A%84%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F">KVM的前世今生</a>
+<ul>
+<li><a href="#%E8%99%9A%E6%8B%9F%E5%8C%96%E6%8A%80%E6%9C%AF%E6%BC%94%E5%8F%98%E8%BF%87%E7%A8%8B">虚拟化技术演变过程</a></li>
+<li><a href="#kvm%E7%9A%84%E5%8E%86%E5%8F%B2">KVM的历史</a></li>
+<li><a href="#kvm%E7%9A%84%E6%9E%B6%E6%9E%84">KVM的架构</a></li>
+<li><a href="#qemu%E4%B8%8Ekvm">QEMU与KVM</a></li>
+<li><a href="#libvirt%E4%B8%8Ekvm">Libvirt与KVM</a></li>
+</ul>
+</li>
+<li><a href="#kvm%E4%B8%8E%E5%B8%B8%E7%94%A8%E4%BC%81%E4%B8%9A%E7%BA%A7%E8%99%9A%E6%8B%9F%E5%8C%96%E4%BA%A7%E5%93%81%E7%9A%84pk">KVM与常用企业级虚拟化产品的PK</a>
+<ul>
+<li><a href="#%E5%B8%B8%E7%94%A8%E4%BC%81%E4%B8%9A%E7%BA%A7%E8%99%9A%E6%8B%9F%E5%8C%96%E4%BA%A7%E5%93%81%E7%9A%84%E6%AF%94%E8%BE%83">常用企业级虚拟化产品的比较</a></li>
+</ul>
+</li>
+<li><a href="#%E5%88%A4%E6%96%AD%E4%BC%81%E4%B8%9A%E6%98%AF%E5%90%A6%E9%80%82%E5%90%88%E4%BD%BF%E7%94%A8kvm%E7%9A%84%E6%A0%87%E5%87%86">判断企业是否适合使用KVM的标准</a>
+<ul>
+<li><a href="#1-%E4%B8%9A%E5%8A%A1%E7%B1%BB%E5%9E%8B">1、业务类型</a></li>
+<li><a href="#2-%E4%BC%81%E4%B8%9A%E5%AF%B9%E6%88%90%E6%9C%AC%E5%85%B3%E6%B3%A8%E5%BA%A6">2、企业对成本关注度</a></li>
+<li><a href="#3-%E4%BC%81%E4%B8%9A%E5%AF%B9%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%E5%AF%B9%E5%85%B3%E6%B3%A8%E5%BA%A6">3、企业对快速部署对关注度</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zhanghaibin-a.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://zhanghaibin-a.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  <script type="application/javascript" src="https://zhanghaibin-a.github.io/media/scripts/valine.min.js"></script>
+  <script type="application/javascript">
+  
+    // var valine = new Valine();
+    // valine.init({
+    //   el: '#vlaine-comment',
+    //   appId: '',
+    //   appKey: '',
+    //   notify: false,
+    //   avatar: 'mp',
+    //   verify: true,
+    //   placeholder: '来都来了，不妨评论一下',
+    //   visitor: false,
+    //   highlight: false,
+    //   recordIP: false,
+    // })
+  
+    var valine = new Valine();
+    valine.init({
+      el: '#vlaine-comment',
+      appId: '',
+      appKey: '',
+      notify: false,
+      verify: false,
+      visitor: true,
+      avatar: 'mp',
+      placeholder: '加入讨论...'
+    })
+  </script>
+</body>
+
+</html>

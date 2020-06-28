@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zhanghaibin-a.github.io</id>
     <title>温故而知新</title>
-    <updated>2020-06-28T09:41:35.970Z</updated>
+    <updated>2020-06-28T09:44:54.458Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zhanghaibin-a.github.io"/>
     <link rel="self" href="https://zhanghaibin-a.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://zhanghaibin-a.github.io/images/avatar.png</logo>
     <icon>https://zhanghaibin-a.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 温故而知新</rights>
+    <entry>
+        <title type="html"><![CDATA[深度KVM--企业虚拟化选型与KVM介绍]]></title>
+        <id>https://zhanghaibin-a.github.io/post/shen-du-kvm-qi-ye-xu-ni-hua-xuan-xing-yu-kvm-jie-shao/</id>
+        <link href="https://zhanghaibin-a.github.io/post/shen-du-kvm-qi-ye-xu-ni-hua-xuan-xing-yu-kvm-jie-shao/">
+        </link>
+        <updated>2020-06-28T09:42:08.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[360架构师学shell编程-1、课程介绍]]></title>
         <id>https://zhanghaibin-a.github.io/post/360-jia-gou-shi-xue-shell-bian-cheng-ke-cheng-jie-shao/</id>
@@ -72,12 +79,5 @@
         <link href="https://zhanghaibin-a.github.io/post/wan-zhuan-openstack-3openstack-jia-gou/">
         </link>
         <updated>2020-04-09T08:59:46.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[1、Ansible架构和原理]]></title>
-        <id>https://zhanghaibin-a.github.io/post/1ansible-jia-gou-he-yuan-li/</id>
-        <link href="https://zhanghaibin-a.github.io/post/1ansible-jia-gou-he-yuan-li/">
-        </link>
-        <updated>2020-04-06T16:30:18.000Z</updated>
     </entry>
 </feed>
