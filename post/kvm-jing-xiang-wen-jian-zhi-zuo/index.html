@@ -1,0 +1,631 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>KVM镜像文件制作 - 温故而知新</title>
+<link rel="shortcut icon" href="https://zhanghaibin-a.github.io/favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"> -->
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/tailwind.css">
+<link rel="stylesheet" href="https://zhanghaibin-a.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="KVM镜像文件制作 - 温故而知新 - Atom Feed" href="https://zhanghaibin-a.github.io/atom.xml">
+
+    
+
+  <meta name="description" content="这边镜像系统为deepin20_Desktop,其中创建虚拟机采用公司开发的平台创建。也可以采用xml或virt-instll命令创建虚拟机。制作完的镜像当虚要在使用时复制一份就可以啦～～
+一、在计算节点创建硬盘（50G）
+宿主机创建硬盘
+..." />
+  <meta property="og:title" content="KVM镜像文件制作 - 温故而知新">
+  <meta property="og:description" content="这边镜像系统为deepin20_Desktop,其中创建虚拟机采用公司开发的平台创建。也可以采用xml或virt-instll命令创建虚拟机。制作完的镜像当虚要在使用时复制一份就可以啦～～
+一、在计算节点创建硬盘（50G）
+宿主机创建硬盘
+..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://zhanghaibin-a.github.io/post/kvm-jing-xiang-wen-jian-zhi-zuo/" />
+  <meta property="og:image" content="https://zhanghaibin-a.github.io/images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="KVM镜像文件制作 - 温故而知新">
+  <meta name="twitter:description" content="这边镜像系统为deepin20_Desktop,其中创建虚拟机采用公司开发的平台创建。也可以采用xml或virt-instll命令创建虚拟机。制作完的镜像当虚要在使用时复制一份就可以啦～～
+一、在计算节点创建硬盘（50G）
+宿主机创建硬盘
+...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zhanghaibin-a.github.io/post/kvm-jing-xiang-wen-jian-zhi-zuo/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+    <link rel="stylesheet" href="https://zhanghaibin-a.github.io/media/css/prism-atom-dark.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://zhanghaibin-a.github.io" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      温故而知新
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          KVM镜像文件制作
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-06-30 · 6 min read</div>
+          
+            <a href="https://zhanghaibin-a.github.io/tag/8ZhOV--2i/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              Job summary
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p>这边镜像系统为deepin20_Desktop,其中创建虚拟机采用公司开发的平台创建。也可以采用xml或virt-instll命令创建虚拟机。制作完的镜像当虚要在使用时复制一份就可以啦～～</p>
+<h3 id="一-在计算节点创建硬盘50g">一、在计算节点创建硬盘（50G）</h3>
+<p>宿主机创建硬盘</p>
+<pre><code class="language-bash">cd /opt/image #进入镜像目录
+qemu-img create -f qcow2 deepin20-beta-desktop-6_19.qcow2 50G
+</code></pre>
+<h3 id="二-创建云主机使用刚手动创建的硬盘替换系统盘">二、创建云主机，使用刚手动创建的硬盘替换系统盘</h3>
+<p><em><strong>UI界面创建云主机</strong></em></p>
+<ul>
+<li>创建云主机</li>
+<li>宿主机手动分配(选择创建硬盘的宿主机)</li>
+<li>剩下的看着选</li>
+<li>创建完主机后记住实例名称(例: 81vmg8t2.vm)</li>
+</ul>
+<h3 id="三-在宿主上virsh-edit添加系统盘iso并设置启动项">三、在宿主上virsh edit添加系统盘iso并设置启动项：</h3>
+<p>SSH至计算节点,更改磁盘位置和修改ISO启动</p>
+<p>virsh edit 81vmg8t2.vm</p>
+<pre><code class="language-xml">添加
+
+  &lt;disk type='file' device='cdrom'&gt;
+
+   &lt;driver name='qemu'cache='raw'/&gt;
+
+   &lt;source file='ISO文件位置'/&gt;
+
+   &lt;target dev='hdb' bus='ide'/&gt;
+
+   &lt;readonly/&gt;
+
+  &lt;/disk&gt;
+
+修改:
+
+&lt;boot dev='cdrom'/&gt;
+
+修改:
+
+  &lt;disk type='file' device='disk'&gt;
+
+   &lt;driver name='qemu' type='qcow2' cache='writeback'/&gt;
+
+   &lt;source file='创建的硬盘路径'/&gt;
+
+   &lt;target dev='vda' bus='virtio'/&gt;
+
+   &lt;serial&gt;vda&lt;/serial&gt;
+
+   &lt;address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x0'/&gt;
+
+&lt;/disk&gt;
+
+修改:
+
+&lt;clock offset='utc'/&gt; 
+
+###配置vnc方便连接
+    &lt;graphics type='vnc' port='5905' autoport='no' listen='0.0.0.0' passwd='Khrbz6vhWcI'&gt;
+      &lt;listen type='address' address='0.0.0.0'/&gt;
+    &lt;/graphics&gt;
+#port：指定vnc端口
+#autoport：关闭自动端口分配
+#listen：指定0.0.0.0 默认映射到宿主机的所有IP
+#address:指定0.0.0.0 默认映射到宿主机的所有IP
+</code></pre>
+<h3 id="四-启动虚拟机">四、启动虚拟机</h3>
+<h4 id="系统安装">系统安装</h4>
+<blockquote>
+<ol>
+<li>
+<p>Install CentOS 7</p>
+</li>
+<li>
+<p>语言：默认，English-&gt;English(United States)</p>
+</li>
+<li>
+<p>时区：DATE&amp;TIME里选择Asia Shanghai，并确认时间是安装时候当前时间</p>
+</li>
+<li>
+<p>软件包：SOFTWARE SELECTION选择Minimal Install</p>
+</li>
+<li>
+<p>磁盘分区配置：</p>
+<blockquote>
+<ul>
+<li>分区类型为Standard Partition，</li>
+<li>文件系统为xfs</li>
+<li>Boot--1G</li>
+<li>swap--2G</li>
+<li>/分区，占满剩余空间，即Desired Capacity不填</li>
+</ul>
+</blockquote>
+</li>
+<li>
+<p>Begin Installation</p>
+</li>
+<li>
+<p>Root密码</p>
+</li>
+<li>
+<p>安装完成后修改启动项后重启</p>
+</li>
+</ol>
+<blockquote>
+<p><code>virsh edit 81vmg8t2.vm</code></p>
+<p><code>&lt;boot dev='hd'/&gt;</code></p>
+</blockquote>
+</blockquote>
+<h4 id="初始化配置">初始化配置</h4>
+<p>系统服务配置, 内核优化</p>
+<pre><code class="language-bash">Apt-get -y install chrony ntpdate acpid qemu-guest-agent `rpm -qa | egrep &quot;^kernel-|^(python-)?perf-(debuginfo)?&quot; | sed &quot;s/-[0-9].*//&quot;`
+
+systemctl enable acpid
+
+systemctl start acpid
+
+sed -i '/^UUID/ s/1 1/0 0/' /etc/fstab
+
+systemctl enable chronyd
+
+ntpdate cn.pool.ntp.org
+
+rm -f /etc/sysconfig/network-scripts/ifcfg-e*
+
+sed -i &quot;s/^SELINUX=enforcing/SELINUX=disabled/&quot; /etc/selinux/config
+
+echo &quot;NETWORKING_IPV6=no&quot; &gt;&gt; /etc/sysconfig/network
+
+systemctl disable firewalld
+
+rm -f /etc/security/limits.d/20-nproc.conf
+
+echo -e &quot;* soft nofile 65535\n* hard nofile 65535&quot; &gt;&gt; /etc/security/limits.conf
+
+systemctl disable tuned（这个会影响vm.swappiness内核参数，使得sysctl.conf里改了不生效，可能顺序在sysctl.conf之后）
+
+ 
+
+at &gt;&gt; /etc/sysctl.conf &lt;&lt;EOF
+
+vm.swappiness = 0
+
+net.ipv4.neigh.default.gc_stale_time=120
+
+net.ipv4.conf.all.rp_filter=0
+
+net.ipv4.conf.default.rp_filter=0
+
+net.ipv4.conf.default.arp_announce = 2
+
+net.ipv4.conf.all.arp_announce=2
+
+net.ipv4.tcp_max_tw_buckets = 5000
+
+net.ipv4.tcp_syncookies = 1
+
+net.ipv4.tcp_max_syn_backlog = 1024
+
+net.ipv4.tcp_synack_retries = 2
+
+net.ipv4.conf.lo.arp_announce=2
+
+EOF
+
+ 
+
+cat &gt;&gt; /etc/chrony.conf &lt;&lt;EOF
+
+\# Use public servers from the pool.ntp.org project.
+
+\# Please consider joining the pool (http://www.pool.ntp.org/join.html).
+
+server cn.pool.ntp.org prefer
+
+server ntp1.aliyun.com prefer
+
+server ntp2.aliyun.com prefer
+
+server ntp3.aliyun.com prefer
+
+server ntp4.aliyun.com prefer
+
+server ntp5.aliyun.com prefer
+
+server ntp6.aliyun.com prefer
+
+ 
+
+\# Ignore stratum in source selection
+
+stratumweight 0
+
+ 
+
+\# Record the rate at which the system clock gains/losses time.
+
+driftfile /var/lib/chrony/drift
+
+ 
+
+\# Enable kernel RTC synchronization.
+
+rtcsync
+
+ 
+
+\# In first three updates step the system clock instead of slew
+
+\# if the adjustment is larger than 10 seconds.
+
+makestep 10 3
+
+ 
+
+\# Allow NTP client access from local network.
+
+\#allow 192.168/16
+
+ 
+
+\# Listen for commands only on localhost.
+
+bindcmdaddress 127.0.0.1
+
+bindcmdaddress ::1
+
+ 
+
+\# Serve time even if not synchronized to any NTP server.
+
+\#local stratum 10
+
+ 
+
+keyfile /etc/chrony.keys
+
+ 
+
+ 
+
+\# Specify the key used as password for chronyc.
+
+commandkey 1
+
+ 
+
+\# Generate command key if missing.
+
+generatecommandkey
+
+ 
+
+\# Disable logging of client accesses.
+
+noclientlog
+
+ 
+
+\# Send a message to syslog if a clock adjustment is larger than 0.5 seconds.
+
+logchange 0.5
+
+ 
+
+logdir /var/log/chrony
+
+\#log measurements statistics tracking
+
+EOF
+</code></pre>
+<h4 id="配置kstack自动修改密码">配置Kstack自动修改密码</h4>
+<p>Deepin为底层为ubuntu,默认不支持Kstack平台自动修改密码需安装相关服务</p>
+<pre><code class="language-bash">Apt-get install qemu-guest-agent 
+
+systemctl enable qemu-guest-agent 
+
+systemctl start qemu-guest-agent 
+</code></pre>
+<p>重启服务器后测试Kstack是否能修改密码</p>
+<p>关机前（包括之后维护镜像）必做：</p>
+<pre><code class="language-bash">rm -f /var/lib/NetworkManager/*
+
+\&gt;/etc/resolv.conf
+</code></pre>
+<p>#要注意/etc/fstab里只有第一块盘vda，不能有vdb等其他盘，否则虚拟机会启动失败</p>
+<h3 id="五-可以删除原来的虚拟机了做镜像用的">五、可以删除原来的虚拟机了（做镜像用的）</h3>
+<h3 id="六-在ui添加镜像">六、在UI添加镜像</h3>
+<ol>
+<li>
+<p>云资源池</p>
+</li>
+<li>
+<p>镜像管理</p>
+</li>
+<li>
+<p>创建镜像</p>
+<blockquote>
+<p>本地盘存储</p>
+<p>选项名称: deepin20-beta-desktop-6_19.qcow2(创建的硬盘名称)</p>
+<p>镜像路径: deepin20-beta-desktop-6_19.qcow2(创建的硬盘名称)</p>
+<p>描述：deepin20-beta-desktop-6_19(创建的硬盘名称)</p>
+</blockquote>
+</li>
+<li>
+<p>创建一台虚拟机选择镜像进行测试</p>
+</li>
+</ol>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div id="vlaine-comment"></div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  Powered by <a href="http://zhang-blog.github.io/" target="_blank">Gridea</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E4%B8%80-%E5%9C%A8%E8%AE%A1%E7%AE%97%E8%8A%82%E7%82%B9%E5%88%9B%E5%BB%BA%E7%A1%AC%E7%9B%9850g">一、在计算节点创建硬盘（50G）</a></li>
+<li><a href="#%E4%BA%8C-%E5%88%9B%E5%BB%BA%E4%BA%91%E4%B8%BB%E6%9C%BA%E4%BD%BF%E7%94%A8%E5%88%9A%E6%89%8B%E5%8A%A8%E5%88%9B%E5%BB%BA%E7%9A%84%E7%A1%AC%E7%9B%98%E6%9B%BF%E6%8D%A2%E7%B3%BB%E7%BB%9F%E7%9B%98">二、创建云主机，使用刚手动创建的硬盘替换系统盘</a></li>
+<li><a href="#%E4%B8%89-%E5%9C%A8%E5%AE%BF%E4%B8%BB%E4%B8%8Avirsh-edit%E6%B7%BB%E5%8A%A0%E7%B3%BB%E7%BB%9F%E7%9B%98iso%E5%B9%B6%E8%AE%BE%E7%BD%AE%E5%90%AF%E5%8A%A8%E9%A1%B9">三、在宿主上virsh edit添加系统盘iso并设置启动项：</a></li>
+<li><a href="#%E5%9B%9B-%E5%90%AF%E5%8A%A8%E8%99%9A%E6%8B%9F%E6%9C%BA">四、启动虚拟机</a>
+<ul>
+<li><a href="#%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85">系统安装</a></li>
+<li><a href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE">初始化配置</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AEkstack%E8%87%AA%E5%8A%A8%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81">配置Kstack自动修改密码</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%94-%E5%8F%AF%E4%BB%A5%E5%88%A0%E9%99%A4%E5%8E%9F%E6%9D%A5%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%86%E5%81%9A%E9%95%9C%E5%83%8F%E7%94%A8%E7%9A%84">五、可以删除原来的虚拟机了（做镜像用的）</a></li>
+<li><a href="#%E5%85%AD-%E5%9C%A8ui%E6%B7%BB%E5%8A%A0%E9%95%9C%E5%83%8F">六、在UI添加镜像</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zhanghaibin-a.github.io/media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+    <script src="https://zhanghaibin-a.github.io/media/prism.js"></script>
+    <script>
+      Prism.highlightAll()
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  <script type="application/javascript" src="https://zhanghaibin-a.github.io/media/scripts/valine.min.js"></script>
+  <script type="application/javascript">
+  
+    // var valine = new Valine();
+    // valine.init({
+    //   el: '#vlaine-comment',
+    //   appId: '',
+    //   appKey: '',
+    //   notify: false,
+    //   avatar: 'mp',
+    //   verify: true,
+    //   placeholder: '来都来了，不妨评论一下',
+    //   visitor: false,
+    //   highlight: false,
+    //   recordIP: false,
+    // })
+  
+    var valine = new Valine();
+    valine.init({
+      el: '#vlaine-comment',
+      appId: '',
+      appKey: '',
+      notify: false,
+      verify: false,
+      visitor: true,
+      avatar: 'mp',
+      placeholder: '加入讨论...'
+    })
+  </script>
+</body>
+
+</html>
