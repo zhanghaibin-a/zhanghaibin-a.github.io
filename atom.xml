@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zhanghaibin-a.github.io</id>
     <title>温故而知新</title>
-    <updated>2020-06-30T01:53:58.923Z</updated>
+    <updated>2020-06-30T01:56:53.228Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zhanghaibin-a.github.io"/>
     <link rel="self" href="https://zhanghaibin-a.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://zhanghaibin-a.github.io/images/avatar.png</logo>
     <icon>https://zhanghaibin-a.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 温故而知新</rights>
+    <entry>
+        <title type="html"><![CDATA[virsh define xx.xml文件创建kvm虚拟机]]></title>
+        <id>https://zhanghaibin-a.github.io/post/virsh-define-xxxml-wen-jian-chuang-jian-kvm-xu-ni-ji/</id>
+        <link href="https://zhanghaibin-a.github.io/post/virsh-define-xxxml-wen-jian-chuang-jian-kvm-xu-ni-ji/">
+        </link>
+        <updated>2020-06-30T01:54:26.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[深度KVM--企业虚拟化选型与KVM介绍]]></title>
         <id>https://zhanghaibin-a.github.io/post/shen-du-kvm-qi-ye-xu-ni-hua-xuan-xing-yu-kvm-jie-shao/</id>
@@ -72,12 +79,5 @@
         <link href="https://zhanghaibin-a.github.io/post/niao-ge-er-shi-zhang-ruan-jian-an-zhuang-rpmsrpmyum/">
         </link>
         <updated>2020-04-12T13:59:06.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[玩转Openstack--3#Openstack架构]]></title>
-        <id>https://zhanghaibin-a.github.io/post/wan-zhuan-openstack-3openstack-jia-gou/</id>
-        <link href="https://zhanghaibin-a.github.io/post/wan-zhuan-openstack-3openstack-jia-gou/">
-        </link>
-        <updated>2020-04-09T08:59:46.000Z</updated>
     </entry>
 </feed>
