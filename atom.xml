@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://zhanghaibin-a.github.io</id>
     <title>温故而知新</title>
-    <updated>2020-07-06T16:02:16.438Z</updated>
+    <updated>2020-07-14T07:34:04.075Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://zhanghaibin-a.github.io"/>
     <link rel="self" href="https://zhanghaibin-a.github.io/atom.xml"/>
@@ -10,6 +10,20 @@
     <logo>https://zhanghaibin-a.github.io/images/avatar.png</logo>
     <icon>https://zhanghaibin-a.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 温故而知新</rights>
+    <entry>
+        <title type="html"><![CDATA[KVM虚拟化网卡SR-IOVpps测试]]></title>
+        <id>https://zhanghaibin-a.github.io/post/kvm-xu-ni-hua-wang-qia-sr-iovpps-ce-shi/</id>
+        <link href="https://zhanghaibin-a.github.io/post/kvm-xu-ni-hua-wang-qia-sr-iovpps-ce-shi/">
+        </link>
+        <updated>2020-07-14T07:33:37.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[8、ansible实现role运维自动化高级用法]]></title>
+        <id>https://zhanghaibin-a.github.io/post/8ansible-shi-xian-role-yun-wei-zi-dong-hua-gao-ji-yong-fa/</id>
+        <link href="https://zhanghaibin-a.github.io/post/8ansible-shi-xian-role-yun-wei-zi-dong-hua-gao-ji-yong-fa/">
+        </link>
+        <updated>2020-07-06T16:02:19.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[7、ansible高级进阶-role详解]]></title>
         <id>https://zhanghaibin-a.github.io/post/7ansible-gao-ji-jin-jie-role-xiang-jie/</id>
@@ -65,19 +79,5 @@
         <link href="https://zhanghaibin-a.github.io/post/5shi-xian-playbook-gao-ji-ying-yong-he-qi-ye-ji-shi-zhan/">
         </link>
         <updated>2020-05-28T07:31:33.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[4、实现ansible企业级用法playbook]]></title>
-        <id>https://zhanghaibin-a.github.io/post/4shi-xian-ansible-qi-ye-ji-yong-fa-playbook/</id>
-        <link href="https://zhanghaibin-a.github.io/post/4shi-xian-ansible-qi-ye-ji-yong-fa-playbook/">
-        </link>
-        <updated>2020-04-24T14:51:10.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[3、Ansible常见企业级应用模块实战]]></title>
-        <id>https://zhanghaibin-a.github.io/post/3ansible-chang-jian-qi-ye-ji-ying-yong-mo-kuai-shi-zhan/</id>
-        <link href="https://zhanghaibin-a.github.io/post/3ansible-chang-jian-qi-ye-ji-ying-yong-mo-kuai-shi-zhan/">
-        </link>
-        <updated>2020-04-24T13:52:53.000Z</updated>
     </entry>
 </feed>

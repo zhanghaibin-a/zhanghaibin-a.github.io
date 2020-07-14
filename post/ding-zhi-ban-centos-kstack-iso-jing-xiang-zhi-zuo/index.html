@@ -16,13 +16,15 @@
 
   <meta name="description" content="
 背景：公司Kstack 专有云产品在部署的时候在内网环境没法访问外网,故无法下载和安装Kstack底层软件软件如“virtsh wget等kvm环境”。所以需要重新制作iso将相关软件集成在一起
+===
 
-一、CentOS 7.6 Mini 原版..." />
+一、CentOS 7.6 Min..." />
   <meta property="og:title" content="定制版centos——Kstack ISO镜像制作 - 温故而知新">
   <meta property="og:description" content="
 背景：公司Kstack 专有云产品在部署的时候在内网环境没法访问外网,故无法下载和安装Kstack底层软件软件如“virtsh wget等kvm环境”。所以需要重新制作iso将相关软件集成在一起
+===
 
-一、CentOS 7.6 Mini 原版..." />
+一、CentOS 7.6 Min..." />
   <meta property="og:type" content="articles">
   <meta property="og:url" content="https://zhanghaibin-a.github.io/post/ding-zhi-ban-centos-kstack-iso-jing-xiang-zhi-zuo/" />
   <meta property="og:image" content="https://zhanghaibin-a.github.io/images/avatar.png">
@@ -31,8 +33,9 @@
   <meta name="twitter:title" content="定制版centos——Kstack ISO镜像制作 - 温故而知新">
   <meta name="twitter:description" content="
 背景：公司Kstack 专有云产品在部署的时候在内网环境没法访问外网,故无法下载和安装Kstack底层软件软件如“virtsh wget等kvm环境”。所以需要重新制作iso将相关软件集成在一起
+===
 
-一、CentOS 7.6 Mini 原版...">
+一、CentOS 7.6 Min...">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://zhanghaibin-a.github.io/post/ding-zhi-ban-centos-kstack-iso-jing-xiang-zhi-zuo/">
 
@@ -60,7 +63,7 @@
         </h1>
         
         <div class="mb-8 flex flex-wrap">
-          <div class="text-gray-400 text-sm mr-4">2020-07-06 · 9 min read</div>
+          <div class="text-gray-400 text-sm mr-4">2020-07-06 · 10 min read</div>
           
             <a href="https://zhanghaibin-a.github.io/tag/8ZhOV--2i/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
               <i class="ri-hashtag"></i>
@@ -70,10 +73,12 @@
         </div>
         <div class="markdown mb-8" v-pre>
           <blockquote>
-<p>背景：公司Kstack 专有云产品在部署的时候在内网环境没法访问外网,故无法下载和安装Kstack底层软件软件如“virtsh wget等kvm环境”。所以需要重新制作iso将相关软件集成在一起</p>
+<p>背景：公司Kstack 专有云产品在部署的时候在内网环境没法访问外网,故无法下载和安装Kstack底层软件软件如“virtsh wget等kvm环境”。所以需要重新制作iso将相关软件集成在一起<br>
+===</p>
 </blockquote>
 <h3 id="一-centos-76-mini-原版镜像下载并安装">一、CentOS 7.6 Mini 原版镜像下载并安装</h3>
 <p>从CentOS 官网，或者阿里镜像网站下载原版镜像并安装操作系统。</p>
+<p>注意:</p>
 <blockquote>
 <p>注意：</p>
 <blockquote>
@@ -114,15 +119,25 @@ yum -y  install docker-ce docker-compose etcd nginx --downloadonly --downloaddir
 yum -y install mtr rsync gdb gcc gcc-c++ make imake cmake automake autoconf tar gzip zip unzip bzip2 bzip2-devel wget curl vsftpd --downloadonly --downloaddir=/opt/data/yum
 
 yum -y install ntpdate lrzsz sysstat vim-enhanced openssl openssl-devel python python-devel iftop htop ncdu lsof dstat iotop dmidecode bind-utils traceroute libaio libaio-devel telnet libselinux-python net-tools ipmitool nethogs tree openssh openssh-clients traceroute psmisc iptables-services --downloadonly --downloaddir=/opt/data/yum
+
+检测方法：
+	iaas-depoly-v3.0.4/ansible/roles/common/tasks/main.yml(- name: ensure packages installed)脚本检测的包都需要下载。
 </code></pre>
 <p>拷贝上面下载的软件到/opt/kstack/Packages目录下</p>
 <h4 id="2-修改相关配置文件">2、修改相关配置文件</h4>
 <p>修改kstack/isolinux/isolinux.cfg 文件,可以把原来的centos7的修改如下：</p>
 <pre><code class="language-bash">label linux
-  menu label ^Install Kstack
+  menu label ^Install Kstack-3.04
   kernel vmlinuz
-  append initrd=initrd.img inst.stage2=hd:LABEL=Kstack inst.ks=cdrom:/isolinux/ks.cfg quiet
+  menu default
+  append initrd=initrd.img inst.stage2=hd:LABEL=Kstack inst.ks=hd:LABEL=Kstack:/isolinux/ks.cfg quiet
 
+label check
+  menu label Test this ^media &amp; install Kstack-3.04
+  kernel vmlinuz
+  append initrd=initrd.img  inst.stage2=hd:LABEL=Kstack inst.ks=hd:LABEL=Kstack:/isolinux/ks.cfg rd.live.check  quiet
+
+注意:inst.ks和inst.stage2的标签需要一致
 </code></pre>
 <blockquote>
 <p>inst.ks为ks.cfg文件位置；<br>
